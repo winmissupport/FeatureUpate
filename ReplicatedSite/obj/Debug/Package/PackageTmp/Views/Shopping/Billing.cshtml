@@ -1,0 +1,159 @@
+﻿@model CheckoutViewModel
+@{
+    ViewBag.Title = "Enter Billing Address";
+    var contextID = Guid.NewGuid();
+    Layout = "~/Views/Shopping/_CheckoutLayout.cshtml";
+}
+
+
+<div id="view-orderbilling" class="checkout view-checkout margin-15 row">
+    <div class="panel-group" role="tablist">
+        @*@if (Model.Items.Where(c => c.Type == ShoppingCartItemType.AutoOrder).Count() > 0)
+        {
+            <div class="panel">
+                <div class="panel-heading" role="tab" id="autoOrderHeading">
+                    <a href="@Url.Action("AutoOrder", "Shopping")">
+                        <div class="checkout-section">
+                            <span><i class="fa-refresh"></i></span> @Resources.Common.AutoOrderSettings
+                            <strong><i class="fa fa-edit"></i>@Resources.Common.Edit</strong>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="panel-body">
+                    <h5>@Resources.Common.AutoOrderStartDate</h5>
+                    @Model.PropertyBag.AutoOrderStartDate
+                </div>
+            </div>
+        }*@
+
+        <div class="panel">
+            <div class="panel-heading" role="tab" id="addressesHeading">
+                <a href="@Url.Action("Shipping", "Shopping")">
+                    <div class="checkout-section">
+                        <span>1</span> @Resources.Common.ShippingAddress
+                        <strong><i class="fa fa-edit"></i>@Resources.Common.Edit</strong>
+                    </div>
+                </a>
+            </div>
+
+            <div class="panel-body">
+
+                @if (Model.Addresses != null && Model.Addresses.Count() > 0)
+                {
+                    <h3>@Resources.Common.ShippingAddress</h3>
+
+                    <div class="row">
+
+                        <div class="col-sm-6 address-on-file-@contextID">
+                            @Html.DisplayFor(c => Model.PropertyBag.ShippingAddress)
+
+                        </div>
+
+                    </div>
+                }
+                
+            </div>
+        </div>
+        <div class="panel">
+
+            <div class="panel-body">
+                <a href="@Url.Action("Billing", "Shopping")">
+                    <div class="checkout-section active">
+                        <span>2</span> @Resources.Common.Billing
+                    </div>
+                </a>
+
+                @if (Model.Addresses != null && Model.Addresses.Count() > 0)
+                {
+                    <h3>@Resources.Common.SelectBillingAddress</h3>
+
+                    <div class="row">
+                        @foreach (var address in Model.Addresses)
+                        {
+                            <div class="col-sm-6 address-on-file-@contextID">
+                                @Html.DisplayFor(c => address)
+
+                                <div class="space-15"></div>
+                                @using (Html.BeginForm(new { novalidate = "novalidate" }))
+                                {
+                                    using (Html.BeginHtmlFieldPrefixScope("Address"))
+                                    {
+
+                                        @Html.Partial("~/Views/Shared/EditorTemplates/ShippingAddressOnFile.cshtml", address)
+                                    }
+
+                                    @Html.AntiForgeryToken()
+
+                                    <button type="submit" class="btn button">@Resources.Common.UseThisAddress</button>
+
+
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+                
+                <div class="text-center" style="border-bottom: 1px groove; width: 200px; margin-bottom: 10px;">@Resources.Common.Or</div>
+
+                <h3>@Resources.Common.AddBillingAddress</h3>
+
+                <div class="row">
+
+
+                    @using (Html.BeginForm())
+                    {
+
+                        <div class="checkbox billingsameasshipping">
+                            <label>
+                                <input type="checkbox" name="@Html.NameFor(c => Model.BillingSameAsShipping)" value="true" checked /> @Resources.Common.BillingAddressSameAsShipping
+                                <input type="hidden" name="@Html.NameFor(c => Model.BillingSameAsShipping)" />
+                            </label>
+                        </div>
+                        <div class=".view-address" id="billing-address-form" style="position: relative;">
+
+                            @{
+                        Model.BillingAddress = new Address();
+                        Model.BillingAddress.AddressType = AddressType.New;
+
+                            }
+
+                            <label for="@Model.BillingName" class="control-label">@Resources.Common.BillingName</label>
+                            @Html.EditorFor(c => Model.BillingName)
+
+                            @Html.EditorFor(c => Model.BillingAddress, Model.BillingAddress)
+
+
+                        </div>
+
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit" class="continue button color">@Resources.Common.Continue</button>
+
+                    }
+                </div>
+            </div>
+
+        </div>
+        <div class="panel">
+
+            <div class="panel-body">
+                <a href="@Url.Action("Checkout", "Shopping")">
+                    <div class="checkout-section">
+                        <span>3</span> @Resources.Common.Delivery
+                    </div>
+                </a>
+            </div>
+
+        </div>
+
+        <div class="panel">
+            <div class="panel-body">
+                <a href="@Url.Action("checkout", "shopping")"><div class="checkout-section"><span>4</span> @Resources.Common.PaymentOrderReview</div></a>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>

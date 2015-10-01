@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Thank You";
+}
+<div class="container cart complete shop padded-container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="space-20"></div>
+            <h2>@Resources.Common.ThankYou!</h2>
+            <p>@Resources.Common.WeHaveRecieved</p>
+
+            @if (Identity.Customer != null)
+            {
+                <p>@Resources.Common.Click <a href="@Url.Action("OrderList", "account")">@Resources.Common.OrderHistory</a> @Resources.Common.ToView</p>
+            }
+            
+        </div>
+    </div>
+</div>
+

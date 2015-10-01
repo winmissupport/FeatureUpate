@@ -1,0 +1,81 @@
+﻿@{
+    var shoppingCart = new ShoppingCartItemsPropertyBag();
+}
+
+<div id="cart">
+
+    <!-- Button -->
+    <div class="cart-btn">
+        <a href="#" class="button adc">@ViewBag.CartTotal.ToString("C")</a>
+    </div>
+
+    <div class="cart-list">
+
+        <div class="arrow"></div>
+
+        <div class="cart-amount">
+
+                <span>@ViewBag.ItemsCount items in the shopping cart</span>
+
+
+        </div>
+        <div id="cart-preview-items">
+            <ul>
+                @if (ViewBag.ItemsCount > 0)
+                {
+                    foreach (var cartItem in ViewBag.Items)
+                    {
+                        //var cartItem = new Item();
+                        //cartItem.ItemCode = item.ItemCode;
+                        //cartItem.Quantity = item.Quantity;
+                        foreach (var item in shoppingCart.Items) {
+                            cartItem.Quantity = item.Quantity;
+                        }
+                        
+                        <li>
+                            <a href="@Url.Action("ItemDetail", "Shopping")"><img src="@cartItem.SmallImageUrl" alt="" /></a>
+                            <a href="@Url.Action("ItemDetail", "Shopping")">@cartItem.ItemDescription</a>
+                            <span>@cartItem.Quantity x @cartItem.Price.ToString("C")</span>
+                            <div class="clearfix"></div>
+                        </li>
+                    }
+                }
+
+                @*<li>
+                <a href="#"><img src="~/Content/images/placeholders/small_product_list_08.jpg" alt="" /></a>
+                <a href="#">Greens Jar</a>
+                <span>1 x $60.00</span>
+                <div class="clearfix"></div>
+            </li>
+
+            <li>
+                <a href="#"><img src="~/Content/images/placeholders/small_product_list_09.jpg" alt="" /></a>
+                <a href="#">Berry Jar</a>
+                <span>1 x $60.00</span>
+                <div class="clearfix"></div>
+            </li>*@
+            </ul>
+        </div>
+
+
+        <div class="cart-buttons button">
+            <a href="@Url.Action("cart", "shopping")" class="view-cart"><span data-hover="View Cart"><span>View Cart</span></span></a>
+            <a href="@Url.Action("checkout", "shopping")" class="checkout"><span data-hover="Checkout">Checkout</span></a>
+        </div>
+        <div class="clearfix">
+        </div>
+    </div>
+
+</div>
+
+@using (Html.BeginPartialScript()) {
+    <script>
+        var getCartInfo = function () {
+            // Settings
+            var context = $('#cart-preview'),
+            $context = context;
+
+
+        }
+    </script>
+}

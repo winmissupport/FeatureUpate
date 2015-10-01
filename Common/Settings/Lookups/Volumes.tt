@@ -1,0 +1,69 @@
+﻿<#@ template hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="$(SolutionDir)Common\bin\Common.dll" #>
+<#@ import namespace="Common" #>
+<#@ import namespace="Common.Api.ExigoOData" #>
+<#@ import namespace="ExigoService" #>
+<#@ assembly name="$(SolutionDir)Common\bin\Microsoft.Data.Services.Client.dll" #>
+<#@ assembly name="System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" #>
+<#@ import namespace="System.Data.Services.Client" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+using System;
+
+namespace Common
+{
+	public static class Volumes
+    {
+	<#
+	var count = 0;
+	try
+	{
+		var connection = Exigo.Sql();
+		var command = new SqlCommand(); 
+		SqlDataReader reader;
+
+		command.Connection = connection;
+		command.CommandText = "select * from CommissionVolumeTypes where CommissionRunID = (select max(CommissionRunID) from CommissionVolumeTypes) order by VolumeTypeID";
+		connection.Open();
+		reader = command.ExecuteReader();
+		while(reader.Read())
+		{
+			count++;
+			var id = Convert.ToInt32(reader["VolumeTypeID"]);
+			var description = reader["VolumeTypeDescription"].ToString(); 
+			var defaultValue = "Volume";
+			var numericPrefix = "V";
+
+			if(string.IsNullOrEmpty(description)) {
+				description = defaultValue + id;
+			}
+			if (Regex.IsMatch(description, @"^\d")) {
+				description = numericPrefix + description;
+			}
+
+			description = new Regex("[^a-zA-Z0-9_]").Replace(description, ""); 
+	#>
+	/// <summary>
+		///	Volume <#=id#>
+		/// </summary>
+		public const int <#=description#> = <#=id#>;
+
+	<# } #>
+
+	<# if(count == 0) {#>
+[Obsolete("No volumes were found in Exigo.")]
+		public const int UNDEFINED = 0;
+	<# } #>
+	<# }
+	catch(Exception ex) { #>
+	<# if(count == 0) {#>
+[Obsolete("No volumes were found in Exigo.")]
+		public const int UNDEFINED = 0;
+	<# }} #>}
+}

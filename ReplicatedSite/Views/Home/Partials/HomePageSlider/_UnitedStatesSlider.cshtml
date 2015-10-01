@@ -1,0 +1,23 @@
+﻿
+        <ul>
+            @*Slide 1*@
+            <li data-transition="fade" data-slotamount="7" data-masterspeed="1000" style="cursor:pointer" onclick="window.location.href='@Url.Action("Index", "Enrollment")'">
+                <img src="@Url.Content("~/Content/images/HomePageSlider/slider.jpg")" alt="Experience the Lift" data-bgfit="cover" data-bgposition="left top" data-bgrepeat="no-repeat">
+            </li>
+
+            @*Slide 2*@
+            <li data-transition="zoomout" data-slotamount="7" data-masterspeed="1000" style="cursor:pointer" onclick="window.location.href = '@Url.Action("itemdetail", "shopping", new { itemcode = "dailyliftmint" })'">
+                <img src="@Url.Content("~/Content/images/HomePageSlider/slider2.jpg")" alt="Daily Lift - Cool Mint" data-bgfit="cover" data-bgposition="left top" data-bgrepeat="no-repeat">
+            </li>
+
+            @*Slide 3*@
+            <li data-transition="fade" data-slotamount="7" data-masterspeed="1000" style="cursor:pointer" onclick="window.location.href = '@Url.Action("Index", "Enrollment")'">
+                <img src="@Url.Content("~/Content/images/HomePageSlider/slider3.jpg")" alt="Family" data-bgfit="cover" data-bgposition="left top" data-bgrepeat="no-repeat">
+            </li>
+
+            @*Slide 4*@
+            <li data-transition="zoomout" data-slotamount="7" data-masterspeed="1000" style="cursor:pointer" onclick="window.location.href = '@Url.Action("itemdetail", "shopping", new { itemcode = "dailyliftmixedberry" })'">
+
+                <img src="@Url.Content("~/Content/images/HomePageSlider/slider4.jpg")" alt="Daily Lift - Mixed Berry" data-bgfit="cover" data-bgposition="left top" data-bgrepeat="no-repeat">
+            </li>
+        </ul>

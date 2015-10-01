@@ -1,0 +1,128 @@
+﻿@model ItemDetailViewModel
+
+@{
+    var modalItem = new Item();
+    var contextID = Guid.NewGuid();
+
+}
+
+<div class="view-item row margin-5">
+    <div class="col-sm-12">
+        <h3 class="headline">@Resources.Common.RelatedProducts</h3>
+        <span class="line margin-bottom-0"></span>
+    </div>
+
+    @if (Model.RelatedItems.Count() > 0)
+    {
+        foreach (var item in Model.RelatedItems)
+        {
+            modalItem.ItemCode = item.ItemCode;
+
+            <div class="overflowholder col-sm-3">
+
+
+
+                <div data-itemcode="@item.ItemCode" class="item-list-item margin-0">
+
+
+                    @Html.Partial("../Shopping/Partials/Items/Cards/SingleItem_RelatedItemList", item)
+
+
+                </div>
+
+            </div>
+
+            //Quick shop doesn't work on item detail page right now
+
+
+        }
+    }
+
+</div>
+
+@using (Html.BeginPartialScript())
+{
+    <script>
+        require(['custom', 'pubsub', 'ajax', 'shopping', 'cookies'], function (custom, ajax, pubsub, shopping, cookies) {
+
+            var itemContext = $('#view-item-@contextID');
+            shopping.bind('#view-item-@contextID');
+
+            var itemDescription = $("#quick-shop-item-description").val();
+
+            @*window.on('item.addtoorder', itemContext, function (item) {
+                ajax.json({
+                    url: '@Url.Action("additemtocart", "shopping")',
+                    data: {
+                        item: item
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            toastr.success("<strong>{0}</strong> has been added to your order!".format(itemDescription));
+
+                            window.trigger('cart.cartupdated', {
+                                item: item,
+                                items: response.items
+                            });
+                        }
+                    }
+                });
+            });
+            window.on('item.addtoautoorder', itemContext, function (item) {
+                ajax.json({
+                    url: '@Url.Action("additemtocart", "shopping")',
+                    data: {
+                        item: item
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            toastr.success("<strong>{0}</strong> has been added to your autoship!".format(itemDescription));
+
+                            window.trigger('cart.cartupdated', {
+                                item: item,
+                                items: response.items
+                            });
+                        }
+                    }
+                });
+            });*@
+
+            var $Filter = $('.share-buttons');
+            var FilterTimeOut;
+            $Filter.find('ul li:first').addClass('active');
+            $Filter.find('ul li:not(.active)').hide();
+            $Filter.hover(function () {
+                clearTimeout(FilterTimeOut);
+                if ($(window).width() < 959) {
+                    return;
+                }
+                FilterTimeOut = setTimeout(function () {
+                    $Filter.find('ul li:not(.active)').stop(true, true).animate({ width: 'show' }, 250, 'swing');
+                    $Filter.find('ul li:first-child a').addClass('share-hovered');
+                }, 100);
+
+            }, function () {
+                if ($(window).width() < 960) {
+                    return;
+                }
+                clearTimeout(FilterTimeOut);
+                FilterTimeOut = setTimeout(function () {
+                    $Filter.find('ul li:not(.active)').stop(true, true).animate({ width: 'hide' }, 250, 'swing');
+                    $Filter.find('ul li:first-child a').removeClass('share-hovered');
+
+                }, 250);
+            });
+            $(window).resize(function () {
+                if ($(window).width() < 960) {
+                    $Filter.find('ul li:not(.active)').show();
+                }
+                else {
+                    $Filter.find('ul li:not(.active)').hide();
+                }
+            });
+            $(window).resize();
+
+        });
+    </script>
+
+}

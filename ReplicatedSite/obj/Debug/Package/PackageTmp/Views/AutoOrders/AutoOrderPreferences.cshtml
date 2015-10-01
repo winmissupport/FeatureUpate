@@ -1,0 +1,256 @@
+﻿@model IEnumerable<AutoOrder>
+@{
+    ViewBag.Title = Resources.Common.ManageAutoShip;
+}
+
+<style>
+    .auto-order-cart-buttons { margin: 20px 0; }
+        .auto-order-cart-buttons a, .auto-order-cart-buttons button { margin-right: 5px; font-size: 14px !important; }
+</style>
+
+@*Titlebar*@
+<div class="titlebar">
+    <section class="container">
+
+        <h2>@ViewBag.Title</h2>
+
+        <nav id="breadcrumbs">
+            <ul>
+                <li><a href="@Url.Action("Index", "Account")">@Resources.Common.Account</a></li>
+                <li><a href="@Url.Action("AutoOrderPreferences", "AutoOrders")">@Resources.Common.ManageAutoShip</a></li>
+
+            </ul>
+        </nav>
+    </section>
+</div>
+<div id="auto-order-manager" class="container">
+
+    @if (Model.Any())
+    {
+        foreach (var autoorder in Model)
+        {
+            @Html.Partial("displaytemplates/autoorderrow", autoorder)
+        }
+    }
+    else
+    {
+        <p>You do not currently have any active auto ships.</p>
+    }
+
+</div>
+
+<div id="editAutoOrder" style="position: fixed; z-index: 9999;">
+    <div id="modalPlaceholder"></div>
+</div>
+
+<div class="space-40"></div>
+@section scripts
+{
+
+    <script type="text/javascript">
+
+        function autoOrderPreferences(init) {
+            require(["pubsub", "ajax", "enquire"], function (pubsub, ajax, enquire) {
+
+                var tabsClicked = false;
+
+                var context = "#auto-order-manager",
+                    $context = $("#auto-order-manager"),
+                    sections = ["cart", "shipping", "payment", "date", "shipmethod"],
+                    isLoadingModule = false,
+                    autoorderModalUrl = "@Url.Action("GetAutoOrderModal", "AutoOrders")",
+                    updateItemsUrl = "@Url.Action("UpdateAutoOrderItems")",
+                    moduleUrl = "@Url.Action("fetchautoordermodule")";
+
+                function _init() {
+                    registerEventHandlers();
+
+                    if (init == true) {
+                        actions.bindModuleToggleActions(true);
+                    }
+                }
+
+                function registerEventHandlers() {
+                    // Pub Sub binding for toastr alerts
+                    window.on("shippingaddressalert", function (response) {
+                        actions.throwAlert(response);
+                    });
+                    window.on("shipmethodalert", function (response) {
+                        actions.throwAlert(response);
+                    });
+                    window.on("datealert", function (response) {
+                        actions.throwAlert(response);
+                    });
+                    window.on("cartalert", function (response) {
+                        actions.throwAlert(response);
+                    });
+                    window.on("paymentalert", function (response) {
+                        actions.throwAlert(response);
+                    });
+
+                    // Cancel button binding
+                    $context.on('click', '.auto-order-module .btn-cancel', function (e) {
+                        var $target = $(e.target);
+                        var $moduleToggleButton = $target.parents(".panel-collapse").first().siblings(".auto-order-module-btn").first();
+
+                        var $panel = $target.parents('.panel-collapse').first();
+                        $panel.collapse('hide');
+                        console.log($panel);
+                    });
+
+                    // Cart Tabs
+                    $context.on('click', '#cart-tabs a', function (e) {
+                        e.preventDefault();
+                        var $this = jQuery(this);
+                        $this.tab('show');
+                        if (!tabsClicked) {
+                            tabsClicked = true;
+                            if (!$this.hasClass('active')) {
+                                var className = $this.attr("href");
+                                className = className.replace("#", ".") + "-table";
+                            }
+                        }
+                    });
+
+                    $context.on("click", '[data-role="edit-order"]', function () {
+                        var $this = $(this),
+                            orderid = $this.data("orderid"),
+                            $autoorderModal = $("#editAutoOrder .modal");
+
+                        console.log(orderid);
+                        // Clear the auto order modal first thing
+                        //$autoorderModal.html("");
+
+                        // Then we make an ajax call to get the modal and call itself
+                        ajax.json({
+                            url: autoorderModalUrl,
+                            data: { orderid: orderid },
+                            dataType: 'JSON',
+                            success: function (response) {
+                                console.log("response: ", response);
+                                $("#modalPlaceholder").replaceWith(response.html);
+                                $("#editAutoOrder").find("#editAutoOrderModal").modal('show');
+                            },
+
+                            error: function (xhr, error, data) {
+                                console.error("An unexpected error has occurred.", xhr.responseText);
+                            }
+                        });
+
+                    });
+
+                    enquire.register("screen and (max-width:767px)", {
+
+                        // If supplied, triggered when a media query matches.
+                        match: function () {
+                            $('.collapse').collapse('hide');
+                        },
+
+                        // If supplied, triggered when the media query transitions
+                        // *from a matched state to an unmatched state*.
+                        unmatch: function () {
+                            $('.collapse').collapse('show');
+                        },
+
+                        // If set to true, defers execution of the setup function
+                        // until the first time the media query is matched
+                        deferSetup: true
+                    });
+                }
+
+                var actions = {
+                    bindModuleToggleActions: function (toggleModules) {
+
+                        // Cycle through the sidebar sections
+                        for (var i = 0; i < sections.length; i++) {
+                            if (toggleModules == true) {
+                                var $module = $(".auto-order-" + sections[i]);
+                                $module.hide();
+                            }
+
+                            // Identifies the button used to open this particular section
+                            var $myBtn = $("[data-module='" + sections[i] + "']");
+
+                            $myBtn.on('click', function () {
+
+                                if (!isLoadingModule) {
+                                    var $this = $(this);
+                                    isLoadingModule = true;
+
+                                    // Hides all sidebar sections
+                                    //for (var k = 0; k < sections.length; k++) {
+                                    //    var $module = jQuery(".auto-order-" + sections[k]);
+                                    //    $module.hide();
+                                    //}
+
+                                    // Determines which module to load
+                                    var moduletoview = ".auto-order-" + $this.data("module");
+
+                                    // Get AutoOrderID from parent's data-autoorderid attribute
+                                    var autoorderid = $this.parents("[data-autoorder-id]").first().data("autoorder-id");
+
+                                    // Get the module that we are going to update
+                                    var $module = $("[data-autoorder-id='" + autoorderid + "'] " + moduletoview);
+                                    console.log("moduletoview: ", moduletoview);
+
+                                    console.log(autoorderid, moduletoview);
+
+                                    if (!$module.hasClass("populated")) {
+                                        $module.addClass("populated");
+
+                                        ajax.json({
+                                            url: moduleUrl,
+                                            data: { autoorderid: autoorderid, module: moduletoview },
+                                            success: function (response) {
+                                                console.log("module: ", moduletoview);
+                                                if (response.success) {
+
+                                                    $module.html(response.module);
+                                                    $('.alert').hide();
+                                                    $module.slideDown();
+                                                    isLoadingModule = false;
+                                                }
+                                                else {
+                                                    console.error("Unable to load the requested module: " + response.message);
+                                                }
+                                            },
+                                            error: function (xhr, error, data) {
+                                                console.error("An unexpected error has occurred.", xhr.responseText);
+                                            }
+                                        });
+                                    } else {
+                                        isLoadingModule = false;
+
+                                    }
+
+                                }
+                            });
+                        }
+                    },
+                    throwAlert: function (response) {
+
+                        if (response.success == true) {
+                            toastr.success("Autoorder # {0} has been updated.".format(response.autoorderid), "Success");
+
+                            var $row = $("[data-autoorder-id='" + response.autoorderid + "']");
+                            $row.replaceWith(response.html);
+                            actions.bindModuleToggleActions();
+                        } else {
+                            toastr.error("There was a problem updating your Autoorder: {0}".format(response.message), "Error");
+                        }
+                    }
+                }
+
+                _init();
+            })();
+        }
+
+
+        (function () {
+            autoOrderPreferences(true);
+
+
+
+        })();	//ready
+    </script>
+}

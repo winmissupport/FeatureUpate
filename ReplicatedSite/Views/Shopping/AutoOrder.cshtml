@@ -1,0 +1,144 @@
+﻿@model AutoOrderSettingsViewModel
+@{
+    Layout = "~/Views/Shopping/_CheckoutLayout.cshtml";
+    ViewBag.Title = Resources.Common.AutoOrderSettings;
+    var minimumStartDate = GlobalUtilities.GetNextAvailableAutoOrderStartDate(DateTime.Now.AddDays(1)).ToLocalTime();
+    var currentCultureCode = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
+
+}
+
+
+<div id="view-autoordersettings" class="checkout view-checkout margin-15 row">
+
+    <div class="panel-group">
+        <div class="panel">
+            <div class="panel-heading" role="tab" id="autoOrderHeading">
+                <a href="@Url.Action("AutoOrder", "Shopping")">
+                    <div class="checkout-section active">
+                        <span><i class="fa-refresh"></i></span> @ViewBag.Title
+                    </div>
+                </a>
+            </div>
+
+            <div class="panel-body">
+                @using (Html.BeginForm())
+                {
+                    <div class="form">
+                        <div class="form-group">
+
+                            <p>
+                                @Resources.Common.OrdersRecur <strong>@Resources.Common.Monthly</strong> @Resources.Common.Basis.
+                            </p>
+                            <input class="hidden" name="@Html.NameFor(c => c.AutoOrderFrequencyType)" value="@Identity.Customer.Market.Configuration.AutoOrders.DefaultFrequencyType" />
+
+                            <div class="space-10"></div>
+                            <div class="row">
+                                <div class="auto-order-start-selection col-sm-6">
+
+
+                                    <div class="form-group">
+                                        <label for="AutoOrderStartDate">Starting on:</label>
+                                        <input type="text" class="" id="AutoOrderStartDate" name="AutoOrderStartDate" data-type="date" value="@Model.AutoOrderStartDate.ToLocalTime()" />
+                                    </div>
+
+                                   
+                                </div>
+                                <div class="col-sm-6">
+                                    <h6><strong>Your order will recur on this date each following month</strong></h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sapce-15"></div>
+                        <button type="submit" class="continue button color">@Resources.Common.Continue</button>
+
+                        @Html.AntiForgeryToken()
+                    </div>
+                }
+
+            </div>
+            <div class="panel">
+                <div class="panel-body">
+                    <a href="@Url.Action("checkout", "Shopping")">
+                        <div class="checkout-section">
+                            <span>1</span>@Resources.Common.ShippingAddress
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel-body">
+                    <a href="@Url.Action("checkout", "Shopping")">
+                        <div class="checkout-section">
+                            <span>2</span>@Resources.Common.BillingDetails
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="panel">
+
+                <div class="panel-body">
+                    <a href="@Url.Action("checkout", "Shopping")" aria-expanded="false" aria-controls="Delivery">
+                        <div class="checkout-section">
+                            <span>3</span> @Resources.Common.Delivery
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="panel">
+                <div class="panel-body">
+                    <a href="@Url.Action("checkout", "shopping")" class="disabled"><div class="checkout-section"><span>4</span> @Resources.Common.PaymentOrderReview</div></a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+    require(["kendo", "vendor/kendo/scripts/cultures/kendo.culture.@(currentCultureCode).min"], function (kendo) {
+
+        // Settings
+        var autocontext = "#view-autoordersettings",
+            $autocontext = $(autocontext),
+            currentCultureCode = "@currentCultureCode",
+            minimumStartDate = new Date(@minimumStartDate.Year, @minimumStartDate.Month, @minimumStartDate.Day);
+
+
+        // Event Handlers
+        function registerEventHandlers() {
+            $('[data-type="date"]', $autocontext).kendoDatePicker({
+                culture: currentCultureCode,
+                parseFormats: ["MM/dd/yyyy"],
+                min: minimumStartDate
+            }).on("focus click", function () {
+                $(this).data("kendoDatePicker").open();
+            });
+        }
+
+
+        // Actions
+        var actions = {
+        };
+
+
+        // Helpers
+        var helpers = {
+
+        };
+
+
+        // Initialization
+        function init() {
+            registerEventHandlers();
+        }
+        init();
+
+    });
+</script>
+}

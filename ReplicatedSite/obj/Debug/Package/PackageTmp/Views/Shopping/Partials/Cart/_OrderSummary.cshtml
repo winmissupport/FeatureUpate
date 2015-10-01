@@ -1,0 +1,195 @@
+﻿@model CartViewModel
+@{
+    var orderItems = Model.Items;
+    var hasOrder = (orderItems != null && orderItems.Count() > 0);
+
+    var autoOrderItems = Model.AutoOrderItems;
+    var hasAutoOrder = (autoOrderItems != null && autoOrderItems.Count() > 0);
+}
+
+@*
+    SUMMARY:
+    This partial is used for the checkout process. It is rendered thru ajax using the method : ShoppingController > GetOrderSummary
+*@
+
+@*Checkout Cart Summary *@
+<div class="row">
+    @*Order Cart*@
+    @if (hasOrder)
+    {
+        <div class="checkout-section cart">@Resources.Common.ShoppingCart</div>
+
+    <table class="checkout cart-table table-responsive">
+        <tr>
+            <th class="hide-on-mobile">Item</th>
+            <th></th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th>Total</th>
+        </tr>
+        <tr>
+            <td colspan="5">
+                <h5>Today's Order</h5>
+            </td>
+        </tr>
+
+        @foreach (var item in orderItems)
+        {
+            decimal price = new decimal();
+            var priceToDisplay = (Identity.Customer.CustomerTypeID == CustomerTypes.SmartShopper && item.PriceTypeID == PriceTypes.Wholesale) ? item.OtherPrice1 : item.Price;
+
+            if (Model.OrderTotals != null)
+            {
+                
+                var vatSubtractedPrice = priceToDisplay - Model.OrderTotals.Tax;
+                price = (GlobalUtilities.GetMarketConfigurationByCountry().MarketName == MarketName.Netherlands) ? vatSubtractedPrice : item.Price;
+
+            }
+            else
+            {
+                price = priceToDisplay;
+            }
+
+            
+
+            <tr>
+                <td class="hide-on-mobile"><img src="@item.SmallImageUrl" alt="@item.ItemDescription" style="width: 50px; height: 50px;" /></td>
+                <td class="cart-title"><a href="@Url.Action("ItemDetail", "Shopping", new { itemcode = item.ItemCode })">@item.ItemDescription</a></td>
+                <td>@price.ToString("C")</td>
+                <td class="qty-checkout">@item.Quantity.ToString("0")</td>
+                <td class="cart-total">
+                    @{var subtotal = (price * item.Quantity).ToString("C");}
+                    <span>@subtotal</span>
+                </td>
+            </tr>
+        }
+
+    </table>
+    <table class="cart-table bottom">
+
+
+        @if (Model.OrderTotals != null)
+        {
+            <tr>
+                <td class="checkout-totals">
+                    <div class="checkout-subtotal">
+                        <strong>@Resources.Common.Subtotal</strong> <span>@Model.OrderTotals.Subtotal.ToString("C")</span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="checkout-totals">
+                    <div class="checkout-subtotal">
+                        <strong>@Resources.Common.Shipping</strong> <span>@Model.OrderTotals.Shipping.ToString("C")</span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="checkout-totals">
+                    <div class="checkout-subtotal">
+                        <strong>@Resources.Common.Tax</strong> <span>@Model.OrderTotals.Tax.ToString("C")</span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="checkout-totals">
+                    <div class="checkout-subtotal">
+                        <strong>@Resources.Common.Total</strong> <span>@Model.OrderTotals.Total.ToString("C")</span>
+                    </div>
+                </td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td class="checkout-totals">
+                    <div class="checkout-subtotal">
+                        <strong>@Resources.Common.Subtotal</strong> <span>@orderItems.Sum(c => c.Quantity * c.Price).ToString("C")</span>
+                    </div>
+                </td>
+            </tr>
+        }
+
+    </table>
+
+        <div class="space-15"></div>
+    }
+
+    @*@if (hasAutoOrder)                                                                        //Hidden Per Customer Request 65931 JWJ 28May2015
+    {
+        <div class="checkout-section cart">@Resources.Common.AutoOrderCartTotals </div>
+        <table class="checkout cart-table table-responsive">
+            <tr>
+                <th class="hide-on-mobile">Item</th>
+                <th></th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Total</th>
+            </tr>
+            <tr>
+            <td colspan="5">
+                <h5>Recurring Order Item(s)</h5>
+            </td>
+        </tr>
+
+        @foreach (var item in autoOrderItems)
+        {
+            <tr>
+                <td class="hide-on-mobile"><img src="@item.SmallImageUrl" alt="@item.ItemDescription" style="width: 50px; height: 50px;" /></td>
+                <td class="cart-title"><a href="@Url.Action("ItemDetail", "Shopping", new { itemcode = item.ItemCode })">@item.ItemDescription</a></td>
+                <td>@item.Price.ToString("C")</td>
+                <td class="qty-checkout">@item.Quantity.ToString("0")</td>
+                <td class="cart-total">
+                    @{var subtotal = (item.Price * item.Quantity).ToString("C");}
+                    <span>@subtotal</span>
+                </td>
+            </tr>
+        }
+    </table>
+
+
+        <table class="cart-table bottom">
+            <tr>
+                <td class="checkout-totals">
+                    <div class="checkout-subtotal">
+                        <strong>@Resources.Common.Subtotal</strong> <span>@autoOrderItems.Sum(c => c.Quantity * c.Price).ToString("C")</span>
+                    </div>
+                </td>
+            </tr>
+            @if (Model.AutoOrderTotals != null)
+            {
+                <tr>
+                    <td class="checkout-totals">
+                        <div class="checkout-subtotal">
+                            <strong>@Resources.Common.Shipping</strong> <span>@Model.AutoOrderTotals.Shipping.ToString("C")</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="checkout-totals">
+                        <div class="checkout-subtotal">
+                            <strong>@Resources.Common.Tax</strong> <span>@Model.AutoOrderTotals.Tax.ToString("C")</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="checkout-totals">
+                        <div class="checkout-subtotal">
+                            <strong>@Resources.Common.Total</strong> <span>@Model.AutoOrderTotals.Total.ToString("C")</span>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </table>
+    }*@
+</div>
+
+<style>
+    .cart-table tr, table { border-bottom: none; box-shadow: none; border-spacing: 0; }
+
+    .bottom tr td { padding: 6px 10px; }
+
+    .checkout tr td { padding: 7px 10px; }
+
+    .checkout { margin-top: 10px; }
+</style>

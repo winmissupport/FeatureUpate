@@ -1,0 +1,47 @@
+﻿@model CheckoutViewModel
+
+<div class="checkout-delivery active">
+    <div class="delivery-options">
+        <h5><strong>Choose delivery option below</strong></h5>
+        <div id="shipmethods">
+            @using (Html.BeginForm("setshipmethodid"))
+            {
+                foreach (var shipMethod in Model.ShipMethods.OrderBy(c => c.Price))
+                {
+                    <div class="radio">
+                        <label for="shipping-address" class="checkbox">
+                            @Html.RadioButton("ShipMethodID", shipMethod.ShipMethodID, shipMethod.Selected)
+                            @shipMethod.ShipMethodDescription <small class="text-muted">@shipMethod.Price.ToString("C")</small>
+                        </label>
+                    </div>
+                    <div class="space-20"></div>
+                }
+            }
+        </div>
+        <div class="clearfix"></div>
+        <div class="space-20"></div>
+        <a href="@Url.Action("Continue", "Shopping", new { step = "review" })" class="continue button color">Continue</a>
+
+
+
+
+
+        @*<form action="#">
+                <div class="delivery-option">
+                    <input id="shipping-address" type="radio" name="shipping-address" value="1" />
+                    <label for="shipping-address" class="checkbox">Smart Shopper Delivery <span>FREE! <abbr class="sep">|</abbr> Delivery in 5 to 10 Business Days</span></label>
+                </div>
+                <div class="delivery-option">
+                    <input id="shipping-address" type="radio" name="shipping-address" value="1" />
+                    <label for="shipping-address" class="checkbox">Express Delivery <span>$7.99 <abbr class="sep">|</abbr> Delivery in 3 to 5 Business Days</span></label>
+                </div>
+                <div class="delivery-option">
+                    <input id="shipping-address-2" type="radio" name="shipping-address-2" value="1" />
+                    <label for="shipping-address-2" class="checkbox">2-Day Delivery <span>$14.99 <abbr class="sep">|</abbr> Delivery in 2 Business Days</span></label>
+                </div>
+                <div class="clearfix"></div>
+            </form>*@
+
+    </div>
+
+</div>

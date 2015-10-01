@@ -1,0 +1,249 @@
+﻿@import "../settings/_colors";
+@import "../mixins/_mixins";
+
+a { text-decoration: none;
+
+    &:hover { text-decoration: none; }
+}
+
+.container { padding-right: 15px; padding-left: 15px; width: 95%; 
+    /*@media (max-width: 768px) {
+        padding: 0 30px; width: 90%;
+    }*/
+}
+
+body { /*Class = boxed #wrapper { // Applies gray area to right and left of main content container */ padding: 0;
+
+    header { padding: 0; z-index: 90; margin: 0; position: relative; width: 100%;
+
+        #top-bar { margin: 0; padding: 0; background-color: #0071ce; width: 100%; 
+                   @media (min-width: 768px) {
+                       height: 36px;
+                   }
+                   @media (max-width: 767px) {
+                       min-height: 36px;
+                   }
+                .left-side { padding: 0; margin: 0;
+                    ul { margin: 0; padding: 0;
+                        li { margin: 0; padding: 0;
+                            span { padding: 7px 10px; display: inline-block; height: 36px;
+                                @media (max-screen: 768px) { padding: 3px 1px; font-size: 11px; }
+                            }
+
+                            .owner-name { color: #FFFFFF; font-weight: bold; font-size: 13px; 
+                                @media (max-screen: 768px) { font-size: 11px; margin-left: -10px; }
+                            }
+
+                            .dropdown { margin: 0;
+                                ul.dropdown-menu { border-radius: 0;
+                                    li { padding: 0; height: 25px; margin: 0; display: block;
+                                        a { padding: 2px 15px; height: 25px; }
+                                    }
+                                }
+                            }
+                            a { padding: 8px 10px; margin: 0; color: #d5d5d5; display: inline-block; height: 36px; 
+
+                                @media (max-screen: 768px) { padding: 5px; font-size: 11px; }
+
+                                &:hover, &:active { color: #FFFFFF; text-decoration: none; }
+                            }
+                            
+                        }
+                    }
+
+                    .navbar-btn { padding: 0; }
+                }
+                .pull-right { @media (max-screen: 768px) { float: none; }
+                    .social-icons { @media (max-screen: 768px) { position: relative; margin: 0; padding: 0; }
+                        li { font-family: 'fontello';
+                            a { background-color: #0071ce; 
+                                
+                            }
+                            .twitter:hover { background-color: #3bc1ed; }
+                            .facebook:hover { background-color: #4a6d9d; }
+                            .gplus:hover { background-color: #d53824; }
+                            .pinterest:hover { background-color: #cb1f25; }
+                            .youtube:hover { background-color: #cb1f25; }
+                        }
+                    }
+                }
+
+        }
+
+        .logo-and-cart { position: relative; 
+            .logo-container { padding: 0; margin: -15px 0 0 0; }
+
+            #additional-menu { padding: 0; margin: 10px 0 0 0; max-height: 95px;
+
+                ul { padding: 0; margin: 0; max-height: 95px;
+                    li { padding: 5px 10px; margin: 0; max-height: 95px; }
+                }
+            }
+
+            #shopping-cart-preview {
+                padding: 0;
+                margin: 0;
+
+                @media (min-width: 768px) { position: absolute; top: 0; right: 0; }
+
+                .cart-btn { min-width: 80px;
+                    /*@media (min-width: 480px) and (max-width: 768px) { float: left; margin-left: -400px; }
+                    @media (max-width: 479px) { margin-left: -300px; }*/
+                    a { min-width: 130px; text-align: right; }
+                }
+
+                #cart-list {
+                    position: absolute;
+                    padding: 10px;
+                    top: 50px;
+                    /*/*left: -50px;**/
+                    /*@media (min-width: 480px) and (max-width: 768px) {  }*/
+                }
+            }
+
+            .main-logo { margin: 30px 0 0 0; max-height: 96px; min-height: 51px; min-width: 300px; }
+        }
+
+        .button {
+            &:hover { background-color: $blue; }
+        }
+
+
+            .main-nav { border: 0; padding: 0; margin: 0 auto 25px auto; height: 50px; background-color: #606060; border-radius: 0;
+
+                .navbar-header { background-color: #606060; padding: 0; margin: 0;
+
+                    .navbar-toggle { color: #FFFFFF; padding: 0; margin: 0; background-color: #606060; width: 100%; text-transform: uppercase;
+
+                        i { display: inline-block; font-size: 20px; margin: 0 5px 0 0; padding: 12px 15px; height: 50px; width: 50px; background: rgba(0, 0, 0, 0.1); color: #FFFFFF; }
+
+                        &:hover, &:active  { background-color: #0071CE; }
+                    }
+
+                    .home { background: rgba(0, 0, 0, 0.1); display: block; border: 0; height: 50px; width: 50px; padding: 0; margin: 0;
+
+                            &:hover, &:active { background-color: #0071CE; }
+                            
+                        }
+
+                        a.current { display: block; border: 0; height: 50px; width: 50px; padding: 17px;
+                        }
+                }
+
+                .navbar-collapse {
+                    .navbar-nav {
+                        border: none;
+                        padding: 0;
+                        background-color: #606060;
+                        margin: 0;
+                        z-index: 20;
+                        /*position: absolute;*/
+
+                        /*@media (max-width: 768px) { margin-top: 50px; }*/
+
+                        a.current { display: block; border: 0; height: 50px; padding: 18px 30px; background-color:rgba(0, 0, 0, 0.1) ;
+                            &:hover, &:active { background-color: #0071CE; }
+                        }
+
+                        a { color: #FFFFFF; background-color: #606060; display: block; padding: 15px 30px; margin: 0; text-transform: uppercase; font-family: 'Open Sans', HelveticaNeue, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-stretch: normal; font-style: normal; font-variant: normal; font-weight: 600;
+                            &:hover, &:active { background-color: #0071CE; }
+                            
+                        }
+
+                        .home {
+                            background: rgba(0, 0, 0, 0.1); display: block; border: 0; height: 50px; width: 100%; margin: 0; padding: 0;
+
+                            &:hover, &:active { background-color: #0071CE; }
+                            @media (max-width: 768px) { width: 100%; }
+
+                            img { margin: 0 10px -5px 0; position: relative; top: 3px; }
+                        }
+
+                        li {
+                            padding: 0;
+                            margin: 0;
+                            @media (max-width: 768px) { display: block;
+
+                                ul {
+                                    @media (max-width: 768px) { border: 0; padding: 0; margin: 0; }
+
+                                    li {
+                                        @media (max-width: 768px) { border: 0; padding: 0; }
+
+                                        a {
+                                            @media (max-width: 768px) { font-size: 14px; font-stretch: normal; font-style: normal; font-variant: normal; font-weight: 600; border: 1px solid #505050; display: block; padding: 10px 15px; background-color: #FFFFFF; color: #505050;
+                                                &:hover, &:active { background-color: #0071CE; color: #FFFFFF; }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+    }
+
+    .sb-navigation-right, .sb-navigation-left {
+        &:hover, &:active { background-color: #0071ce; }
+    }
+
+    .featured-marketing-section {
+        figcaption {
+            &:hover, &:active { background-color: #0071ce; }
+        }
+    }
+
+    footer {
+        #footer { padding: 5px; }
+
+        #footer-bottom { background-color: #0071ce; 
+            .row { margin: 5px auto; padding: inherit 20px inherit 20px; width: 90%;
+                .payment-icons { padding: 0;
+                    li { margin: 0 1px; padding: 0; }
+                }
+            }
+        }
+    }
+}
+
+.modal-content { margin-top: 100px; }
+
+#site-content { min-height: 500px; }
+
+div.showbiz-container {
+    div.showbiz-navigation { width: 65px;
+        span { width: 24px; margin: 0; }
+    }
+}
+
+select.form-control { 
+  padding: 5px 12px;
+  outline: none;
+  font-size: 13px;
+  color: #999;
+  margin: 0;
+  max-width: 100%;
+  display: block;
+  background: #ffffff;
+  border: 1px solid #c0c0c0;
+  font-weight: 600; 
+}
+
+.tooltip-inner { background-color: #0071ce; color: #FFFFFF; text-align: left;
+}
+
+.tooltip.top .tooltip-arrow { border-top-color: #0071ce; }
+
+
+
+
+.label-primary { background-color: #0071ce; color: #FFFFFF;
+    input { margin: 5px; position: relative; top: 3px; }
+    a:link, a:visited { color: #FFFFFF; font-size: 12px; }
+}
+
+.btn, .btn-primary, .btn-info {
+    font-family: "Open Sans", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}

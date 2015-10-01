@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = Resources.Common.TermsOfAgreement;
+}
+<div class="container">
+    <div class="space-30"></div>
+    <div class="row">
+        <div class="col-sm-12">
+
+
+            @if (Request.Cookies[GlobalSettings.Globalization.CountryCookieName].Value == "US")
+            {
+                @Html.Raw(Resources.Common.TermsOfAgreementContentUS)
+            }
+            else if (Request.Cookies[GlobalSettings.Globalization.CountryCookieName].Value == "BE")
+            {
+                @Html.Raw(Resources.Common.TermsOfAgreementContentBE)
+            }
+            else if (Request.Cookies[GlobalSettings.Globalization.CountryCookieName].Value == "NL")
+            {
+                @Html.Raw(Resources.Common.TermsOfAgreementContentNL)
+            }
+            else if (Request.Cookies[GlobalSettings.Globalization.CountryCookieName].Value == "DE")
+            {
+                @Html.Raw(Resources.Common.TermsOfAgreementContentDE)
+            }
+            @*else if (Request.Cookies[GlobalSettings.Globalization.CountryCookieName].Value == "MX")
+            {
+                @Html.Raw(Resources.Common.TermsOfAgreementContentMX)
+            }*@
+            else if (Request.Cookies[GlobalSettings.Globalization.CountryCookieName].Value == "GB")
+            {
+                @Html.Raw(Resources.Common.TermsOfAgreementContentUK)
+            }
+            else {@Html.Raw(Resources.Common.TermsOfAgreementContentUS) }
+        </div>
+    </div>
+    <div class="space-30"></div>
+</div>

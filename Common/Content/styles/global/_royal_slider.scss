@@ -1,0 +1,455 @@
+﻿/* ------------------------------------------------------------------- */
+/* Royal Slider
+---------------------------------------------------------------------- */
+#basic-slider,
+#product-slider,
+#product-slider-vertical {
+	width: 100%;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+.slider-padding {
+	padding-right: 20px;
+	margin-bottom: 50px;
+}
+
+.royalSlider {
+	width: 560px;
+	height: 632px;
+	position: relative;
+	direction: ltr;
+}
+
+.royalSlider > * {
+	float: left;
+}
+
+.rsWebkit3d .rsSlide {
+	-webkit-transform: translateZ(0);
+}
+
+.royal-caption {
+	position: absolute;
+	bottom:0;
+	left:0;
+	background: rgba(0,0,0,0.3);
+	color: #fff;
+	font-size: 14px;
+	text-transform: uppercase;
+	font-weight: 700;
+	padding: 8px 16px;
+	text-align: center;
+}
+
+
+.rsWebkit3d .rsSlide,
+.rsWebkit3d .rsContainer,
+.rsWebkit3d .rsThumbs,
+.rsWebkit3d .rsPreloader,
+.rsWebkit3d img,
+.rsWebkit3d .rsOverflow,
+.rsWebkit3d .rsBtnCenterer,
+.rsWebkit3d .rsAbsoluteEl,
+.rsWebkit3d .rsABlock,
+.rsWebkit3d .rsLink {
+	-webkit-backface-visibility: hidden;
+}
+
+.rsFade.rsWebkit3d .rsSlide,
+.rsFade.rsWebkit3d img,
+.rsFade.rsWebkit3d .rsContainer {
+    -webkit-transform: none;
+}
+
+.rsOverflow {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+	float: left;
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+}
+.rsVisibleNearbyWrap {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+	left: 0;
+	top: 0;
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+}
+.rsVisibleNearbyWrap .rsOverflow {
+	position: absolute;
+	left: 0;
+	top: 0;
+
+}
+.rsContainer {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+}
+
+.rsArrow,
+.rsThumbsArrow {
+	cursor: pointer;
+}
+
+.rsThumb {
+	float: left;
+	position: relative;
+}
+
+.rsArrow,
+.rsNav,
+.rsThumbsArrow {
+	opacity: 1;
+	-webkit-transition:opacity 0.3s linear;
+	-moz-transition:opacity 0.3s linear;
+	-o-transition:opacity 0.3s linear;
+	transition:opacity 0.3s linear;
+}
+.rsHidden {
+	opacity: 0;
+	visibility: hidden;
+	-webkit-transition:visibility 0s linear 0.3s,opacity 0.3s linear;
+	-moz-transition:visibility 0s linear 0.3s,opacity 0.3s linear;
+	-o-transition:visibility 0s linear 0.3s,opacity 0.3s linear;
+	transition:visibility 0s linear 0.3s,opacity 0.3s linear;
+}
+
+.rsGCaption {
+	width: 100%;
+	float: left;
+	text-align: center;
+}
+
+.royalSlider .rsSlide.rsFakePreloader {
+	opacity: 1 !important;
+	-webkit-transition: 0s;
+	-moz-transition: 0s;
+	-o-transition:  0s;
+	transition:  0s;
+	display: none;
+}
+
+.rsSlide {
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: block;
+	overflow: hidden;
+	height: 100%;
+	width: 100%;
+}
+
+.royalSlider.rsAutoHeight,
+.rsAutoHeight .rsSlide {
+	height: auto;
+}
+
+.rsContent {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+.rsPreloader {
+	position:absolute;
+	z-index: 0;
+}
+
+.rsNav {
+	-moz-user-select: -moz-none;
+	-webkit-user-select: none;
+	user-select: none;
+}
+.rsNavItem {
+	-webkit-tap-highlight-color:rgba(0,0,0,0.25);
+}
+
+.rsThumbs {
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+	float: left;
+	z-index: 22;
+}
+.rsTabs {
+	float: left;
+	background: none !important;
+}
+.rsTabs,
+.rsThumbs {
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+}
+
+.rsVideoContainer {
+	width: auto;
+	height: auto;
+	line-height: 0;
+	position: relative;
+}
+
+.rsVideoFrameHolder {
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: #141414;
+	opacity: 0;
+	-webkit-transition: .3s;
+}
+
+.rsVideoFrameHolder.rsVideoActive {
+	opacity: 1;
+}
+
+.rsVideoContainer iframe,
+.rsVideoContainer video,
+.rsVideoContainer embed,
+.rsVideoContainer .rsVideoObj {
+	position: absolute;
+	z-index: 50;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.rsVideoContainer.rsIOSVideo iframe,
+.rsVideoContainer.rsIOSVideo video,
+.rsVideoContainer.rsIOSVideo embed {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding-right: 44px;
+}
+
+.rsABlock {
+	left: 0;
+	top: 0;
+	position: absolute;
+	z-index: 15;
+}
+
+img.rsImg {
+	max-width: none;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	-ms-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+/*.grab-cursor {
+	cursor:url(grab.png) 8 8, move;
+}*/
+
+/*.grabbing-cursor{
+	cursor:url(grabbing.png) 8 8, move;
+}*/
+
+.rsNoDrag {
+	cursor: auto;
+}
+
+.rsLink {
+	left:0;
+	top:0;
+	position:absolute;
+	width:100%;
+	height:100%;
+	display:block;
+	z-index: 20;
+	background: url(blank.gif);
+}
+
+
+/* Directional Navigation (Next/Prev)
+------------------------------------- */
+
+.rsDefault .rsArrow {
+	height: 100%;
+	width: 36px;
+	position: absolute;
+	display: block;
+	cursor: pointer;
+	z-index: 21;
+}
+
+.rsDefault.rsHor .rsArrowLeft { bottom: 0; right: 37px; }
+.rsDefault.rsHor .rsArrowRight { bottom: 0; right: 0; }
+
+.rsDefault .rsArrowIcn {
+	width: 36px;
+	height: 36px;
+	position: absolute;
+	cursor: pointer;
+	color: #fff;
+	bottom: 0;
+	font-family: "FontAwesome";
+	font-size: 13px;
+	background-color: #c0c0c0;
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+	-ms-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+}
+
+.rsDefault .rsArrowIcn:hover {
+	background-color: #808080;
+}
+
+.rsDefault.rsHor .rsArrowLeft .rsArrowIcn:before,
+.rsDefault.rsHor .rsArrowRight .rsArrowIcn:before {
+	position: relative;
+	top: 6px;
+	left: 14px;
+}
+
+.post-img .rsDefault.rsHor .rsArrowLeft .rsArrowIcn:before,
+.post-img .rsDefault.rsHor .rsArrowRight .rsArrowIcn:before {
+	top: 7px;
+	left: 14px;
+}
+
+.rsDefault.rsHor .rsArrowLeft .rsArrowIcn:before { content: ""; }
+.rsDefault.rsHor .rsArrowRight .rsArrowIcn:before { content: ""; }
+
+
+/* Thumbnails
+------------------------------------- */
+
+.rsDefault .rsThumbsHor {
+	width: 100%;
+	height: 105px;
+}
+
+.rsDefault .rsThumbsVer {
+	width: 96px;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+.rsDefault.rsWithThumbsHor .rsThumbsContainer {
+	position: relative;
+	height: 100%;
+}
+
+.rsDefault.rsWithThumbsVer .rsThumbsContainer {
+	position: relative;
+	width: 100%;
+}
+
+.rsDefault .rsThumb {
+	float: left;
+	overflow: hidden;
+	width: 96px;
+	height: 105px;
+}
+
+.rsDefault .rsThumb img {
+	width: 100%;
+	height: 100%;
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+	-ms-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	-ms-backface-visibility: hidden;
+	backface-visibility: hidden;
+	opacity: 0.5;
+	filter: alpha(opacity=50);
+}
+
+.rsDefault .rsThumb.rsNavSelected img,
+.rsDefault .rsThumb:hover img {
+	opacity: 1;
+	filter: alpha(opacity=100);
+}
+
+.rsDefault .rsTmb {
+	display: block;
+}
+
+
+/* Thumbnails Arrow Icons */
+.rsDefault .rsThumbsArrow {
+	height: 100%;
+	width: 30px;
+	margin-top: 10px;
+	position: absolute;
+	display: block;
+	cursor: pointer;
+	z-index: 21;
+	background: #c0c0c0;
+	color: #fff;
+	font-family: "FontAwesome";
+	font-size: 13px;
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+	-ms-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+	opacity: 1;
+	visibility: visible;
+}
+
+.rsThumbsVer .rsThumbArrow {
+	top:0 !important;
+}
+
+.rsDefault .rsThumbsArrow:hover {
+	background: #808080;
+}
+
+.rsDefault.rsWithThumbsVer .rsThumbsArrow {
+	width: 100%;
+	height: 20px;
+}
+
+.rsDefault.rsWithThumbsHor .rsThumbsArrowLeft { left: 0; top: 0; }
+.rsDefault.rsWithThumbsHor .rsThumbsArrowRight { right: 0; top:0; }
+
+.rsDefault.rsWithThumbsHor .rsThumbsArrowLeft .rsThumbsArrowIcn:before,
+.rsDefault.rsWithThumbsHor .rsThumbsArrowRight .rsThumbsArrowIcn:before {
+	top: 0;
+	left: 0;
+}
+
+.rsDefault.rsWithThumbsHor .rsThumbsArrowLeft .rsThumbsArrowIcn:before { content: ""; }
+.rsDefault.rsWithThumbsHor .rsThumbsArrowRight .rsThumbsArrowIcn:before { content: ""; }
+
+.rsDefault .rsThumbsArrowIcn {
+	top: 47%;
+	left: 50%;
+	position: absolute;
+	cursor: pointer;
+	margin-top: -12px;
+	margin-left: -4px;
+}
+
+.rsDefault .rsThumbsArrowDisabled {
+	opacity:0;
+	visibility: hidden;
+}
+
+
+/* Preloader */
+.rsDefault .rsPreloader {
+	width:20px;
+	height:20px;
+	background-image:url(/Content/images/icons/loader.gif);
+	left:50%;
+	top:50%;
+	margin-left:-10px;
+	margin-top:-10px;
+}

@@ -1,0 +1,70 @@
+﻿@{
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+@section header { @RenderSection("header", required: false) }
+
+
+<div class="space-15 hidden-xs"></div>
+<div class="space-65 visible-xs"></div>
+
+@if (Request.IsAuthenticated)
+{
+    <div class="container">
+        <header id="site-header">
+            <div class="row">
+                <div class="col-sm-12 col-xs-4">
+                    <button type="button" class="btn btn-default hidden-xs" style="position: absolute; top: 10px; right: 15px;" data-toggle="container"><i class="fa-expand"></i></button>
+                    <a href="@Url.Action("index", "overview")" id="site-logo" class="ajaxify"><img src="http://placehold.it/300x100&text=Logo" class="img-responsive" /></a>
+                </div>
+            </div>
+        </header>
+        <div class="space-15 hidden-xs"></div>
+
+        <nav class="navbar navbar-default navbar-mobile-fixed-top" role="navigation" id="site-main-navigation">
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#site-navigation-navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+
+            <div class="collapse navbar-collapse" id="site-navigation-navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="@Url.Action("index", "overview")" class="ajaxify">
+                            <i class="fa-home hidden-xs"></i>
+                            <span class="visible-xs">Dashboard</span>
+                        </a>
+                    </li>
+                    <li><a href="@Url.Action("index", "enrollments")" class="ajaxify">Enrollments</a></li>
+                    <li><a href="@Url.Action("index", "sales")" class="ajaxify">Sales</a></li>
+                    <li><a href="@Url.Action("index", "revenue")" class="ajaxify">Revenue</a></li>
+                    <li><a href="@Url.Action("index", "autoorders")" class="ajaxify">Auto-orders</a></li>
+                    <li><a href="@Url.Action("index", "commissions")" class="ajaxify">Commissions</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="@Url.Action("logout", "authentication")"><i class="fa-power-off"></i> Sign out</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+}
+
+<div class="container container-expandable">
+    <div id="site-content-wrapper">
+        <div id="_loadingmask"></div>
+        <main id="site-content">
+            @RenderBody()
+        </main>
+    </div>
+</div>
+
+
+@section scripts
+{
+    @RenderSection("scripts", required: false)
+}

@@ -1,0 +1,67 @@
+@import "../mixins/_mixins";
+$btn-circle-3d-size: 85px;
+$btn-circle-3d-size-mobile: 50px;
+$btn-circle-3d-border: 8px;
+
+.btn-circle-3d {
+    position: relative;
+    display: inline-block;
+    width: $btn-circle-3d-size;
+    height: $btn-circle-3d-size;
+    line-height: $btn-circle-3d-size;
+    text-align: center;
+    color: #a7a7a7;
+    @include transition(all 0.1s linear);
+    @include border-radius(50%);
+    @include gradient-vertical(#f7f7f7, #e7e7e7);
+    @include box-shadow(0px 3px 8px #aaa, inset 0px 2px 3px #fff);
+
+    &:before {
+        content: "";
+        display: inline-block;
+        background: #fff;
+        border-top: 2px solid #ddd;
+        position: absolute;
+        top: -$btn-circle-3d-border;
+        left: -$btn-circle-3d-border;
+        bottom: -$btn-circle-3d-border;
+        right: -$btn-circle-3d-border;
+        z-index: -1;
+        @include border-radius(50%);
+        @include box-shadow(inset 0px 8px 28px #ddd);
+    }
+
+    &:not(.active):hover {
+        text-decoration: none;
+        color: #F02558;
+        background: #f5f5f5;
+        @include box-shadow(0px 1px 2px #aaa, inset 0px 2px 3px #fff);
+
+        [class^="fa-"],
+        [class*=" fa-"] { font-size: ($btn-circle-3d-size/2) - 2; height: $btn-circle-3d-size + 2px; }
+    }
+
+    &.active,
+    &.active:hover {
+        color: #fff;
+        cursor: default;
+        @include gradient-vertical(#F02558, darken(#F02558, 15));
+        @include box-shadow(0px 1px 2px lighten(#F02558, 5), inset 0px 2px 3px darken(#F02558, 10));
+    }
+
+    [class^="fa-"],
+    [class*=" fa-"] { position: absolute; width: $btn-circle-3d-size; height: $btn-circle-3d-size; top: 0; left: 0; line-height: $btn-circle-3d-size; font-size: $btn-circle-3d-size/2; }
+}
+
+
+@media (max-width: 767px) {
+    .btn-circle-3d { width: $btn-circle-3d-size-mobile; height: $btn-circle-3d-size-mobile; line-height: $btn-circle-3d-size-mobile; 
+        &:not(.active):hover {
+            [class^="fa-"], 
+            [class*=" fa-"] { font-size: ($btn-circle-3d-size-mobile/2) - 2; height: $btn-circle-3d-size-mobile + 2px; }
+        }
+
+        [class^="fa-"],
+        [class*=" fa-"] { width: $btn-circle-3d-size-mobile; height: $btn-circle-3d-size-mobile; line-height: $btn-circle-3d-size-mobile; font-size: $btn-circle-3d-size-mobile/2; }
+    }
+}

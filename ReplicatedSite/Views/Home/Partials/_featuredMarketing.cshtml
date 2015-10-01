@@ -1,0 +1,54 @@
+﻿@*Featured
+    ==================================================*@
+
+        <div class="col-sm-4">
+            <a href="@Url.Action("index", "Shopping")" class="img-caption">
+                <figure>
+                    <img src="@Url.Content("~/content/images/featuredMarketing/featured_img_1.jpg")" alt="" />
+                    <figcaption>
+                        <h3>@Resources.Common.OurProducts</h3>
+                        <span>@Resources.Common.AtTheForefront</span>
+                    </figcaption>
+                </figure>
+            </a>
+        </div>
+
+        <div class="col-sm-4">
+            <a href="http://youtu.be/xTZf5gFU2D8" target="_blank" class="img-caption">
+                <figure>
+                    <img src="@Url.Content("~/content/images/featuredMarketing/featured_img_2.jpg")" alt="" />
+                    <figcaption>
+                        <h3>@Resources.Common.TheBuzz</h3>
+                        <span>@Resources.Common.HearWhatEveryone</span>
+                    </figcaption>
+                </figure>
+            </a>
+        </div>
+        @if (Identity.Owner.WebAlias != GlobalSettings.ReplicatedSites.DefaultWebAlias)
+        {
+            <div class="col-sm-4">
+                <a href="@Url.Action("Index", "Enrollment")" class="img-caption">
+                    <figure>
+                        <img src="@Url.Content("~/Content/images/featuredMarketing/featured_img_3.jpg")" alt="" />
+                        <figcaption>
+                            <h3>@Resources.Common.BecomePartner</h3>
+                            <span>@Resources.Common.StartBusiness</span>
+                        </figcaption>
+                    </figure>
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="col-sm-4">
+                <a href="@Url.Action("Index", "Enrollment")" class="img-caption">
+                    <figure>
+                        <img src="@Url.Content("~/Content/images/featuredMarketing/featured_img_3.jpg")" alt="" />
+                        <figcaption>
+                            <h3>@Resources.Common.TheOpportunity</h3>
+                            <span>@Resources.Common.BecomeBrand </span>
+                        </figcaption>
+                    </figure>
+                </a>
+            </div>
+        }

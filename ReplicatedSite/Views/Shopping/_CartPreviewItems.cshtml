@@ -1,0 +1,37 @@
+﻿@{
+    var contextID = new Guid();
+    var itemList = new List<Item>();
+}
+
+<ul id="item-list-@contextID">
+    @if (itemList.Count() > 0)
+    {
+        foreach (var cartItem in itemList)
+        {
+            <li>
+                <a href="@Url.Action("ItemDetail", "Shopping")"><img src="@cartItem.SmallImageUrl" alt="" /></a>
+                <a href="@Url.Action("ItemDetail", "Shopping")">@cartItem.ItemDescription</a>
+                <span>@cartItem.Quantity x @cartItem.Price.ToString("C")</span>
+                <div class="clearfix"></div>
+            </li>
+        }
+    }
+    else
+    {
+        <li>You have no items in your cart.</li>
+    }
+
+    @*<li>
+            <a href="#"><img src="~/Content/images/placeholders/small_product_list_08.jpg" alt="" /></a>
+            <a href="#">Greens Jar</a>
+            <span>1 x $60.00</span>
+            <div class="clearfix"></div>
+        </li>
+
+        <li>
+            <a href="#"><img src="~/Content/images/placeholders/small_product_list_09.jpg" alt="" /></a>
+            <a href="#">Berry Jar</a>
+            <span>1 x $60.00</span>
+            <div class="clearfix"></div>
+        </li>*@
+</ul>

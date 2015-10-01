@@ -1,0 +1,15 @@
+@media(max-width: 767px) {
+	#site-logo { position: fixed; margin-top: -45px; z-index: 1040;
+		img { height: 30px; margin-bottom:10px; }
+	}
+}
+
+#site-logo { padding:10px !important; }
+
+// Error Modal
+#errorModal { color: #000;
+    .modal-header {
+        &.success { background: #DFF0D8; color: #3c763d; font-weight: bold; }
+        &.failure { background: #F2DEDE; color: #a94442; font-weight: bold; }
+    }
+}

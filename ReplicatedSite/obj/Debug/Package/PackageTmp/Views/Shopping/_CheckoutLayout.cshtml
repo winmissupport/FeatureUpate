@@ -1,0 +1,170 @@
+﻿@{
+    Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+}
+
+
+<div>
+    @Html.Partial("Partials/Navigation/_CheckoutBreadcrumb")
+</div>
+
+
+<div class="container view-checkout">
+    <div class="row">
+        @ViewBag.Errors
+        <div class="col-md-7 margin-15">
+            @RenderBody()
+        </div>
+        <div class="col-md-5 margin-15" style="padding-top: 10px;">
+            <div class="panel" id="order-summary">
+                <p class="text-center"><img src="@Url.Content("~/content/images/loading_clear.gif")" /><strong>@Resources.Common.LoadingSummary...</strong></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        var reviewoverview;
+        require(['ajax', 'shopping', 'pubsub'], function (ajax, shopping, pubsub) {
+
+            // Settings
+            var context = ".view-checkout",
+                $context = $(context),
+                errorMessage = "@Request.QueryString["error"]",
+                orderSummaryUrl = "@Url.Action("GetOrderSummary", "Shopping")",
+                removeItemUrl = '@Url.Action("removeitemfromcart", "shopping")',
+                updateItemUrl = '@Url.Action("updateitemquantity", "shopping")',
+                $container = $('#order-summary');
+
+            // Event Handlers
+            function registerEventHandlers() {
+                $('[name="ShipMethodID"]', $context).on('change', function () {
+                    $(this).parents('form')[0].submit();
+                });
+
+                window.on('cart.updateitemquantity', function (data) {
+                    ajax.json({
+                        url: updateItemUrl,
+                        data: data,
+                        success: function (response) {
+                            if (response.success) {
+                                window.location = window.location;
+                            } else {
+                                toastr.error(response.message, "We were unable to update the items quantity.");
+                            }
+                        }
+                    });
+                });
+                window.on('cart.removeitemfromcart', function (id) {
+                    ajax.json({
+                        url: removeItemUrl,
+                        data: {
+                            id: id
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                window.location = window.location;
+                            } else {
+                                toastr.error(response.message, "We were unable to remove the item from your cart.");
+                            }
+                        }
+                    });
+                });
+                $context.on('change', function () {
+                    actions.getOrderSummary();
+                });
+
+                $('#billing-address-form').hide();
+
+                $('input:checkbox[name="BillingSameAsShipping"]').click(function () {
+                    $('#billing-address-form').slideToggle('fast');
+
+                });
+
+                $('input:checkbox[name="SelectAddress"]').click(function () {
+                    $('#new-shipping').slideToggle('fast');
+
+                });
+            }
+
+
+            // Actions
+            var actions = {
+                onSuccess: function (response) {
+                    console.log("response", response.success);
+                    if (response.success) {
+                        // NOTE TO MIKE
+                        // make sure this is working correctly
+                        window.location = '@Url.Action("ordercomplete", "shopping", new { token = "{0}" })'.format(response.token);
+
+                    } else {
+                        toastr.error(response.message, "We were unable to complete your order at this time.");
+                    }
+                },
+                onBegin: function (xhr) {
+                    var securityToken = $("[name='__RequestVerificationToken']").val();
+                    xhr.setRequestHeader("__RequestVerificationToken", securityToken);
+                },
+                getOrderSummary: function (ajax, pubsub) {
+                    @*var orderSummaryUrl = "@Url.Action("GetOrderSummary", "Shopping")";
+                    var $container = $('#order-summary');*@
+
+                    $.ajax({
+                        url: orderSummaryUrl,
+                        beforeSend: function (xhr) {
+                            var securityToken = $("[name='__RequestVerificationToken']").val();
+                            xhr.setRequestHeader("__RequestVerificationToken", securityToken);
+                        },
+                        success: function (response) {
+
+                            if (response.success) {
+                                $container.html(response.html);
+                            }
+                            else {
+                                console.log("failed");
+                                $container.html("We are sorry but we were unable to load the cart summary. Please refresh the page.");
+                            }
+                        },
+                        error: function (xhr, error, status) {
+                            console.log("Error: ", xhr);
+                            $container.html("We are sorry but we were unable to load the cart summary. Please refresh the page.");
+                        },
+
+                    })
+                }
+            };
+
+
+            // Helpers
+            var helpers = {
+                handleErrors: function () {
+                    if (errorMessage != null && errorMessage.length > 0) {
+                        toastr.error(errorMessage, "Error");
+                    }
+                }
+            };
+
+
+            // Initialization
+            function init() {
+                registerEventHandlers();
+                actions.getOrderSummary();
+                helpers.handleErrors();
+
+                return {
+                    onSuccess: actions.onSuccess,
+                    onBegin: actions.onBegin
+                }
+            }
+            init();
+
+        })();
+    </script>
+}
+
+<!-- Page Scripts -->
+@RenderSection("scripts", required: false)
+@Html.PartialScripts()
+
+@Html.AntiForgeryToken()

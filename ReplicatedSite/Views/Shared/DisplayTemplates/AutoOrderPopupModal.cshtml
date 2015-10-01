@@ -1,0 +1,224 @@
+﻿@model int
+<div id="auto-order-popup-modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="modalLabel">AUTOSHIP CART</h4>
+            </div>
+            <div class="modal-body">
+                Loading...
+            </div>
+            <div class="modal-footer existing-auto-order hide">
+                <div class="input-group pull-right" id="autoOrderCheckBoxContainer">
+                    <input id="updateautoshipcheckbox" type="checkbox" role="checkbox" data-role="none" /> <span class="control-label text-uppercase" style="padding-left: 10px;">Do You Wish To Update Your Existing Auto Order?</span>
+                </div>
+                <div class="space-30"></div>
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-role="autoorder.cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-role="autoorder.update" id="existingAutoOrderSave">Save changes</button>
+            </div>
+            <div class="modal-footer new-auto-order hide">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Continue Shopping</button>
+                <a data-role="checkout" class="btn btn-primary">Checkout</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('#existingAutoOrderSave').addClass("disabled");
+
+        require(["ajax", "pubsub"], function (ajax) {
+            var context = "#auto-order-popup-modal",
+                $context = $(context),
+                getAutoOrderUrl = "@Url.Action("getautoorderdetails")",
+                updateAutoOrderUrl = "@Url.Action("updateautoorder", "shopping")",
+                frequencyTypeID = parseInt("@Model"),
+                cancelupdateUrl = "@Url.Action("cancelautoorderupdate")",
+                checkoutUrl = "@Url.Action("checkout")";
+
+            function registerEventHandlers() {
+                // Ensure auto ship modal bindings only occur once
+                if ($context.parents("#quickshop-container").hasClass("bound") == false) {
+                    $context.parents("#quickshop-container").addClass("bound");
+
+                    window.on("autoordermodal.update", function () {
+                        actions.getautoship();
+                    });
+                }
+
+                $context.on("click", "[data-role='autoorder.update']", function () {
+                    var autoOrderID = $('[name="AutoOrderID"]').val();
+
+                    if (autoOrderID > 0) {
+                        actions.updateautoship(function () {
+                            toastr.success("Auto Ship ID# {0} has been updated.".format(autoOrderID), "Success");
+                            $(".modal").modal("hide");
+
+                            window.trigger("autoorder.updated", autoOrderID);
+                        });
+                    } else {
+                        actions.updateautoship(function() {
+                            actions.getautoship();
+
+                        });
+                    }
+                });
+
+                $context.on("click", "#updateautoshipcheckbox", function () {
+                    $('#existingAutoOrderSave').toggleClass("disabled");
+                });
+
+                $context.on("click", "[data-role='autoorder.cancel']", function () {
+                    actions.cancelupdate();
+                });
+
+                $context.on("change", "[data-price-each]", function () {
+                    var $this = $(this),
+                        quantity = $this.val(),
+                        $parentContainer = $this.parents("[data-item-code]").first(),
+                        itemcode = $parentContainer.data("item-code"),
+                        priceEach = $this.data("price-each"),
+                        $priceDisplayContainer = $parentContainer.find("[data-price-display]");
+
+                    if (quantity < 0) {
+                        $this.val("0");
+                        return;
+                    }
+
+                    var price = priceEach * quantity;
+                    $priceDisplayContainer.html("$" + price.toFixed(2));
+                    console.log(price);
+                });
+
+                $context.on("click", "[data-role='checkout']", function () {
+                    actions.updateautoship(null, function () {
+                        window.location = checkoutUrl;
+                    });
+                });
+
+                $context.on("click", '[data-role="autoorder.load"]', function () {
+                    actions.getautoship();
+                });
+            
+            }
+
+            var actions = {
+                getautoship: function () {
+                    ajax.json({
+                        url: getAutoOrderUrl,
+                        cache: false,
+                        data: { frequency: frequencyTypeID },
+                        success: function (response) {
+                            if (response.success) {
+                                $("#quickshop-container .modal-body").html(response.html);
+
+                                if (response.isExistingAutoOrder) {
+                                    $("#quickshop-container .modal-footer.existing-auto-order").removeClass("hide");
+                                    $('#quickshop-container [data-role="autoorder.update"].update').hide();
+                                } else {
+                                    $("#quickshop-container .modal-footer.new-auto-order").removeClass("hide");
+                                }
+                            } else {
+                                console.log("actions.getautoship failed: ", response.message);
+                            }
+                        }
+                    });
+                },
+                updateautoship: function (onsuccess, oncomplete) {
+                    var model = helpers.getupdatedAutoOrder();
+
+                    // In case we need to add some sort of confirmation before saving the auto order, this has been split into a new function
+                    actions.processUpdate(model, onsuccess, oncomplete);
+                },
+                processUpdate: function (model, onsuccess, oncomplete) {
+
+                    ajax.json({
+                        url: updateAutoOrderUrl,
+                        cache: false,
+                        data: {
+                            frequency: frequencyTypeID,
+                            items: model.items,
+                            runday: model.runDay,
+                            autoorderID: model.autoorderID
+                        },
+                        beforeSend: function () {
+                            $("[data-role='autoorder.update']").loadingbutton('start', function() {
+                                $(this).removeClass("btn-link");
+                                $(this).addClass("btn-success");
+                            });
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                $("#quickshop-container .modal-body").html(response.html);
+                                $("[data-role='autoorder.update']").loadingbutton('stop', function() {
+                                    $(this).addClass("btn-link");
+                                    $(this).removeClass("btn-success");
+                                });
+                                if (onsuccess) onsuccess();
+
+                            } else {
+                                console.log("actions.updateautoship failed: ", response.message);
+                                toastr.error(response.message);
+                            }
+                        },
+                        complete: function () {
+                            if (oncomplete) oncomplete();
+                        }
+                    });
+                },
+                cancelupdate: function () {
+                    ajax.json({
+                        url: cancelupdateUrl,
+                        success: function () {
+                            console.log("successful cancel");
+                        }
+                    });
+                }
+            };
+
+            var helpers = {
+                getupdatedAutoOrder: function () {
+                    var model = {
+                        autoorderID: $("[name='AutoOrderID']").val(),
+                        items: helpers.getitems(),
+                        runDay: helpers.getNextRunDay()
+                    };
+
+                    return model;
+                },
+                getitems: function () {
+                    var $table = $("#auto-order-cart-table tbody");
+                    var items = [];
+                    var itemLength = $table.children("tr").length;
+                    var rawItems = $table.children("tr");
+
+                    for (var i = 0; i < itemLength; i++) {
+                        var itemID = $(rawItems[i]).find("[name='ID']").val();
+                        var itemQuantity = $(rawItems[i]).find("[name='Quantity']").val();
+                        var itemCode = $(rawItems[i]).data("item-code");
+                        items.push({ ID: itemID, Quantity: itemQuantity, ItemCode: itemCode });
+                    }
+
+                    return items;
+                },
+                getNextRunDay: function () {
+                    if (@Model != null) {
+                        return $("#auto-order-start-day option:selected").val();
+                    }
+                    
+                }
+            };
+
+            function _init() {
+                registerEventHandlers();
+
+                actions.getautoship();
+
+            }
+            _init();
+        });
+    </script>
+</div>

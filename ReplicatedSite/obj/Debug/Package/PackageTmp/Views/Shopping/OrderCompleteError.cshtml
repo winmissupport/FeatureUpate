@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "error";
+}
+<div class="container cart complete shop">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>@Resources.Common.Sorry</h2>
+            <br />
+            <p>@Resources.Common.WeCouldntProcess</p>
+            <br />
+            @Resources.Common.CallCustomerService
+            <br />
+            @if (Identity.Customer != null)
+            {
+                <br/>
+                <p>@Resources.Common.Click <a href="@Url.Action("OrderList", "account")">@Resources.Common.OrderHistory</a> @Resources.Common.ToView</p>
+                <div class="space-50"></div>
+
+            }
+        </div>
+    </div>
+</div>
+

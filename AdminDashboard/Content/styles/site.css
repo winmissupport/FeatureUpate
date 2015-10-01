@@ -1,0 +1,190 @@
+﻿@media (max-width: 767px) {
+  #site-logo {
+    position: fixed;
+    margin-top: -61px;
+    z-index: 1040; }
+    #site-logo img {
+      height: 40px; }
+ }
+
+#site-content-wrapper {
+  position: relative; }
+
+body #_loadingmask {
+  display: none;
+  background: url(../images/loading.gif) no-repeat top center #fff; }
+body.loading #site-content {
+  /*@include blur();*/
+  min-height: 100px; }
+body.loading #_loadingmask {
+  display: block;
+  position: absolute;
+  z-index: 1000;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0; }
+body #site-logo img {
+  height: 40px; }
+
+#view-sitelogin {
+  width: 320px;
+  height: 320px;
+  padding: 40px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -160px;
+  margin-top: -160px;
+  background: #fff;
+  border: 1px solid #ccc; }
+  #view-sitelogin::before, #view-sitelogin::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 3.5px;
+    left: 0;
+    background: #fff;
+    z-index: -1;
+    -webkit-transform: rotateZ(4deg);
+    -moz-transform: rotateZ(4deg);
+    -ms-transform: rotateZ(4deg);
+    border: 1px solid #ccc; }
+  #view-sitelogin::after {
+    top: 5px;
+    z-index: -2;
+    -webkit-transform: rotateZ(-2deg);
+    -moz-transform: rotateZ(-2deg);
+    -ms-transform: rotateZ(-2deg); }
+  #view-sitelogin .form-group {
+    margin-bottom: 5px; }
+
+#view-overview #ordersummary {
+  margin: 0 0 20px 0;
+  padding: 0;
+  border-collapse: separate;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 2px 2px -1px #777777;
+  -moz-box-shadow: 0px 2px 2px -1px #777777;
+  box-shadow: 0px 2px 2px -1px #777777; }
+  #view-overview #ordersummary > div {
+    position: relative;
+    padding-top: 20px;
+    height: 252px;
+    border-left: 1px solid #FFF;
+    border-right: 1px solid #FFF;
+    text-align: center;
+    vertical-align: top;
+    text-transform: uppercase;
+    font-weight: bolder; }
+    #view-overview #ordersummary > div .amounts {
+      height: 175px; }
+    #view-overview #ordersummary > div .icon {
+      margin: 0 0 5px 0; }
+    #view-overview #ordersummary > div .title {
+      font-size: 11px;
+      line-height: 11px;
+      white-space: nowrap;
+      margin: 0; }
+    #view-overview #ordersummary > div .value {
+      margin-bottom: 10px;
+      font-size: 24px;
+      line-height: 24px;
+      white-space: nowrap; }
+    #view-overview #ordersummary > div .list {
+      font-size: 11px;
+      line-height: 14px; }
+      #view-overview #ordersummary > div .list .item {
+        text-align: left;
+        white-space: nowrap; }
+        #view-overview #ordersummary > div .list .item strong {
+          width: 25%;
+          display: inline-block;
+          text-align: right;
+          padding-right: 5px;
+          color: white; }
+  #view-overview #ordersummary > .color-green {
+    background: url(../Images/bgOrderSummaryGreen.jpg) repeat-x top center;
+    border-left-color: #e4f3c9;
+    border-right-color: #59a31b;
+    -webkit-border-top-left-radius: 5px;
+    -moz-border-top-left-radius: 5px;
+    border-top-left-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-bottom-top-left-radius: 5px;
+    border-bottom-left-radius: 5px; }
+    #view-overview #ordersummary > .color-green .icon {
+      width: auto;
+      height: 64px;
+      background: url(../Images/accept.png) no-repeat bottom center; }
+    #view-overview #ordersummary > .color-green .title {
+      color: #7fbf27; }
+    #view-overview #ordersummary > .color-green .value, #view-overview #ordersummary > .color-green .list .item strong {
+      color: #3d892d; }
+    #view-overview #ordersummary > .color-green .list .item {
+      color: #f0ffd9; }
+  #view-overview #ordersummary > .color-blue {
+    background: url(../Images/bgOrderSummaryBlue.jpg) repeat-x top center;
+    border-left-color: #d1e8f5;
+    border-right-color: #3779b9; }
+    #view-overview #ordersummary > .color-blue .icon {
+      width: auto;
+      height: 64px;
+      background: url(../Images/help.png) no-repeat bottom center; }
+    #view-overview #ordersummary > .color-blue .title {
+      color: #007cc3; }
+    #view-overview #ordersummary > .color-blue .value, #view-overview #ordersummary > .color-blue .list .item strong {
+      color: #152d65; }
+    #view-overview #ordersummary > .color-blue .list .item {
+      color: #bbdcef; }
+  #view-overview #ordersummary > .color-orange {
+    background: url(../Images/bgOrderSummaryOrange.jpg) repeat-x top center;
+    border-left-color: #f4eac9;
+    border-right-color: #a36816; }
+    #view-overview #ordersummary > .color-orange .icon {
+      width: auto;
+      height: 64px;
+      background: url(../Images/warning.png) no-repeat bottom center; }
+    #view-overview #ordersummary > .color-orange .title {
+      color: #ed920f; }
+    #view-overview #ordersummary > .color-orange .value, #view-overview #ordersummary > .color-orange .list .item strong {
+      color: #a36816; }
+    #view-overview #ordersummary > .color-orange .list .item {
+      color: #f0e1b5; }
+  #view-overview #ordersummary > .color-red {
+    background: url(../Images/bgOrderSummaryRed.jpg) repeat-x top center;
+    border-left-color: #f1cece;
+    border-right-color: #b74a4a;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-top-right-radius: 5px;
+    border-top-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    -moz-bottom-top-right-radius: 5px;
+    border-bottom-right-radius: 5px; }
+    #view-overview #ordersummary > .color-red .icon {
+      width: auto;
+      height: 64px;
+      background: url(../Images/delete.png) no-repeat bottom center; }
+    #view-overview #ordersummary > .color-red .title {
+      color: #cf241c; }
+    #view-overview #ordersummary > .color-red .value, #view-overview #ordersummary > .color-red .list .item strong {
+      color: #7c1e19; }
+    #view-overview #ordersummary > .color-red .list .item {
+      color: #f0c7c7; }
+
+#view-salesbyitem .border-left, #view-salesbycountryitem .border-left {
+  border-left: 1px solid #ccc; }
+#view-salesbyitem .border-right, #view-salesbycountryitem .border-right {
+  border-right: 1px solid #ccc; }
+#view-salesbyitem tbody td, #view-salesbycountryitem tbody td {
+  font-size: 0.85em;
+  min-width: 100px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }

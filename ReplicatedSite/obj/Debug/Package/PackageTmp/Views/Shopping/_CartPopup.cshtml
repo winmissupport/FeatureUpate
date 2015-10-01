@@ -1,0 +1,161 @@
+﻿@model CartViewModel
+@{
+    var orderItems = Model.Items;
+    var autoOrderItems = Model.AutoOrderItems;
+
+    var hasItems = Model.Items != null && Model.Items.Any(); // Must do both or throws null - Alan C
+    var hasOrder = orderItems != null && orderItems.Count() > 0;
+    var hasAutoOrder = autoOrderItems != null && autoOrderItems.Count() > 0;
+
+    var cartOrderItemTotal = (hasOrder) ? orderItems.Sum(i => i.Quantity).ToString("0") : "0";
+    var cartAutoOrderItemTotal = (hasAutoOrder) ? autoOrderItems.Sum(i => i.Quantity).ToString("0") : "0";
+
+
+    var hasOneOrderType = (hasOrder && !hasAutoOrder) || (hasAutoOrder && !hasOrder);
+    var columnWidth = "12";
+}
+
+<div class="arrow"></div>
+@if (hasItems)
+{
+    <div class="row">
+        <div class="col-xs-@columnWidth">
+            @if (hasOrder)
+            {
+
+                <div class="cart-amount">
+                    <span>@cartOrderItemTotal @Resources.Common.ItemsInCart</span>
+                </div>
+
+                <div id="cart-preview-items">
+
+                    <ul class="list-unstyled">
+                        @foreach (var item in Model.Items)
+                        {
+
+                            var price = new decimal();
+
+                            if (Identity.Customer != null && Identity.Customer.CustomerTypeID == CustomerTypes.SmartShopper)
+                            {
+                                price = item.Price;
+                            }
+                            else if (Identity.Customer == null || Identity.Customer.CustomerTypeID == CustomerTypes.RetailCustomer)
+                            {
+                                price = item.Price;
+                            }
+                            else
+                            {
+                                price = item.OtherPrice1;
+                            }
+
+                            <li>
+                                <a href="@Url.Action("itemdetail", "shopping", new { itemcode = item.ItemCode })"><img src="@item.SmallImageUrl" alt="@item.ItemDescription" /></a>
+                                <a href="@Url.Action("itemdetail", "shopping", new { itemcode = item.ItemCode })">@item.ItemDescription</a>
+                                <span data-text="quantity">@item.Quantity.ToString("0") x @price.ToString("C")</span>
+                                <div class="clearfix"></div>
+                            </li>
+                        }
+
+                    </ul>
+
+                </div>
+                <div class="space-20"></div>
+            }
+
+
+        </div>
+    </div>
+    @*<div class="row">                                         Hidden Per Customer Request 65931 JWJ 28May2015
+        <div class="col-xs-@columnWidth">
+            @if (hasAutoOrder)
+            {
+                <div class="cart-amount">
+                    <span>@cartAutoOrderItemTotal @Resources.Common.AutoOrdersInCart</span>
+                </div>
+
+                <div id="cart-preview-items">
+
+                    <ul class="list-unstyled">
+
+                        @foreach (var item in Model.AutoOrderItems)
+                        {
+                            <li>
+                                <a href="@Url.Action("itemdetail", "shopping", new { itemcode = item.ItemCode })"><img src="@item.SmallImageUrl" alt="@item.ItemDescription" /></a>
+                                <a href="@Url.Action("itemdetail", "shopping", new { itemcode = item.ItemCode })">@item.ItemDescription</a>
+                                <span data-text="quantity">@item.Quantity.ToString("0") x @item.Price.ToString("C")</span>
+                                <div class="clearfix"></div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
+    </div>*@
+
+}
+else
+{
+    <div class="order-preview">
+        @Resources.Common.YourCartDoesnt
+    </div>
+}
+
+<div class="cart-buttons">
+    <a href="@Url.Action("cart", "shopping")" class="view-cart"><span data-hover="View Cart"><span>@Resources.Common.ViewCart</span></span></a>
+
+    @if (!hasItems)
+    {
+        <a href="@Url.Action("checkout", "shopping")" class="checkout top" data-toggle="tooltip" data-placement="top" title="@Resources.Common.YourCartDoesnt"><span data-hover="Checkout">@Resources.Common.Checkout</span></a>
+    }
+    else
+    {
+        <a href="@Url.Action("checkout", "shopping")" class="checkout"><span data-hover="Checkout">@Resources.Common.Checkout</span></a>
+    }
+
+</div>
+
+
+<script>
+    (function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })();
+
+    require(["pubsub", "ajax", "shopping"], function (pubsub, ajax, shopping) {
+        // Settings
+        var updatequantityUrl = "@Url.Action("updatecartitems", "shopping")",
+        previewcontext = ".cart-list",
+        $previewcontext = $(previewcontext);
+        @*displayLargeMenu = @((!hasOneOrderType).ToString().ToLower());*@
+
+        window.on('cart.cartupdated', previewcontext, function (data) {
+            var updatedItem = data.item;
+            var items = data.items;
+
+            var quantity = 1;
+            for (var i = 0, max = items.length; i < max; i++) {
+                var item = items[i];
+
+
+                if (item.Type == typeID) {
+                    quantity += item.Quantity;
+                }
+            }
+            if (quantity == 0) {
+                $context.remove();
+            }
+            else {
+                $('[data-text="quantity"]').html(quantity.format("N0"));
+
+                if (updatedItem.Type == typeID) {
+                    $('[data-text="subtotal"]').html(data.totals.Subtotal.format("C"));
+                }
+            }
+        });
+
+        // Handle setting the drop down menu to ensure if there is any auto order, it will have the full width it needs
+        //if(displayLargeMenu) {
+        //    $("#cart-list").css("width", "500px");
+        //    //$("#cart-list").css("left", "-140px");
+        //}
+    });
+</script>

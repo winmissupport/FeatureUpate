@@ -1,0 +1,104 @@
+﻿@model ItemDetailViewModel
+
+<div class="row" id="modal-product-detail" data-widget="item">
+    <div id="left-side" class="col-sm-5">
+        <img class="img-responsive" src="@Model.Item.SmallImageUrl" alt="" />
+    </div>
+
+    <div class="right-side col-xs-7">
+                @*Product Headline*@
+                <section class="title row margin-5">
+                    <h2 class="item-description">@Model.Item.ItemDescription</h2>
+                    @if (Identity.Customer == null)
+                    {
+
+                        <h3 class="product-price-discount">
+                            <span class="activePrice">@Model.Item.Price.ToString("C")</span>
+                            <i style="display: none;">@Model.Item.DiscountedPrice.ToString("C")</i>
+                        </h3>
+                    }
+                    else
+                    {
+                        if (Identity.Customer.CustomerTypeID == CustomerTypes.SmartShopper)
+                        {
+                            <h3 class="product-price-discount">
+                                <span class="strikePrice">@Model.Item.Price.ToString("C")</span>
+                                <i class="activePrice">@Model.Item.DiscountedPrice.ToString("C")</i>
+                            </h3>
+                        }
+
+                        if (Identity.Customer.CustomerTypeID == CustomerTypes.RetailCustomer)
+                        {
+                            <h3 class="product-price-discount">
+                                <span class="activePrice">@Model.Item.Price.ToString("C")</span>
+                            </h3>
+                        }
+                    }
+
+
+                    @*<div class="reviews-counter">
+                            <div class="rating five-stars">
+                                <div class="star-rating"></div>
+                                <div class="star-bg"></div>
+                            </div>
+                            <span>3 Reviews</span>
+                        </div>*@
+
+                </section>
+
+
+
+                <div class="clearfix"></div>
+
+                @*Variables*@
+                <section class="row margin-10 select-product">
+                    <div class="col-xs-8 options">
+                        <div class="space-25"></div>
+
+                        <label for="size">Choose Option</label>
+                        <select id="size" name="size" class="btn btn-group btn-group-lg">
+                            <option>30 oz. Jar</option>
+                            <option>12 Jar Case</option>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
+
+                </section>
+                <section class="linking margin-0" style="max-width: 25vw;">
+                    <input type="hidden" name="ItemCode" value="@Model.Item.ItemCode" />
+                    <input type="hidden" name="Type" value="@Model.Item.Type" />
+                    <input type="hidden" name="ParentItemCode" value="@Model.Item.ParentItemCode" />
+                    <input type="hidden" name="ItemDescription" value="@Model.Item.ItemDescription" />
+
+                    @*<div class="row margin-0">
+                        <div class="col-sm-8 col-sm-offset-4">
+                            <a class="button adc" data-role="item.addtoorder" data-type="order" id="add-to-order-btn"> @Resources.Common.AddToCart</a>
+                        </div>
+                    </div>
+                    <div class="row margin-0">
+
+                        @if (Model.Item.AllowOnAutoOrder && Identity.Customer != null)
+                        {
+                            if (Identity.Customer.CustomerTypeID == CustomerTypes.SmartShopper)
+                            {
+                                <div class="col-sm-8 col-sm-offset-4">
+                                    <a class="button adc" data-role="item.addtoautoorder" id="add-to-auto-order-btn" data-type="autoorder"> @Resources.Common.AddToAutoOrder</a>
+                                </div>
+                            }
+
+
+                        }
+                    </div>*@
+
+                    <div class="clearfix"></div>
+
+                </section>
+
+
+
+        <div class="space-20"></div>
+        <div>
+            <a href="@Url.Action("ItemDetail", "Shopping", new { itemcode = Model.Item.ItemCode })" class="button gray">@Resources.Common.ViewProductDetails <i class="fa-long-arrow-right"></i></a>
+        </div>
+    </div>
+</div>

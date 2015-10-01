@@ -1,0 +1,140 @@
+﻿@model CategoryLandingViewModel
+
+@{
+    ViewBag.Title = "Products";
+    var modalItem = new Item();
+    ViewBag.Meta = "Taste the easiest, most convenient and affordable way to improve your health and overall well-being. Daily Lift™ is the new superfood drink mix, packed with organic and natural fruits and vegetables to boost your energy, rev up your immune system and keep you focused.";
+
+}
+
+@* ------ TitleBar / Breadcrumb ------- *@
+<section class="titlebar">
+    <div class="container">
+
+            <h2>@Resources.Common.Products</h2>
+
+            <nav id="breadcrumbs">
+                <ul>
+                    <li><a href="@Url.Action("Index", "Home")">@Resources.Common.Home</a></li>
+                    <li>@ViewBag.Title</li>
+                </ul>
+            </nav>
+
+
+    </div>
+</section>
+<div class="container">
+    
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="basic-slider" class="royalSlider rsDefault">
+                <a href="@Url.Action("itemlist", "shopping")"><img class="rsImg" src="@Url.Content("~/content/images/shopping/productSplash/products.jpg")" alt="" /><span class="royal-caption">At The forefront of health &amp; Nutrition</span></a>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<div class="shop container" id="view-products">
+    @* ---- Main Container ---- *@
+    <div class="row">
+        <div class="col-sm-12">
+            @*Blockquote ==================================================*@
+
+            <div class="page-content">
+
+                @*Headline*@
+                <h3 class="headline">@Resources.Common.GetYourDelicious</h3>
+                <span class="line margin-bottom-30"></span><div class="clearfix"></div>
+
+                <p>@Resources.Common.TasteTheEasiest<font style="font-size:.6em; vertical-align:super;">*</font></p>
+                <p>@Html.Raw(Resources.Common.ForJustTwo) </p>
+                <div style="padding-left:10%;">
+                    <ul class="list-4 color">
+                        <li>@Html.Raw(Resources.Common.SuperFoodIng)<font style="font-size:.6em; vertical-align:super;">*</font></li>
+                        <li>@Html.Raw(Resources.Common.AntioxidantPower)<font style="font-size:.6em; vertical-align:super;">*</font></li>
+                        <li>@Html.Raw(Resources.Common.NoMSG)</li>
+                        <li>@Html.Raw(Resources.Common.AlkalineNutrients)<font style="font-size:.6em; vertical-align:super;">*</font></li>
+                        <li>@Html.Raw(Resources.Common.GlutenSoy)</li>
+                    </ul>
+                </div>
+
+                <div class="space-10"></div>
+
+                <h3 class="headline">@Resources.Common.ShakeItMixIt</h3>
+                <span class="line margin-bottom-30"></span><div class="clearfix"></div>
+                @Resources.Common.EasyToPrepare
+                <div class="space-10"></div>
+
+                <div class="container">
+                    @* Example Image Gallery - Content in Partial in Home/LandingContent and Images in Home/LandingContent/Images *@
+
+                    @Html.Partial("LandingPageContent/_LandingExampleGallery")
+
+                    @*<strong class="margin-bottom-5">Images Gallery</strong>*@
+
+                </div>
+
+                <div class="space-10"></div>
+
+                <h3 class="headline">@Resources.Common.TheBuzz</h3>
+                <span class="line margin-bottom-30"></span><div class="clearfix"></div>
+
+                @Resources.Common.HeresWhat:<br><br>
+                <blockquote class="new">@Resources.Common.IsAFresh” <font style="font-size:.6em; vertical-align:super;">*</font></blockquote>
+
+                <blockquote class="new">@Resources.Common.ReallyConvenient”</blockquote>
+
+                <blockquote class="new">@Resources.Common.WeHaveASeven”</blockquote>
+
+                <blockquote class="new">@Resources.Common.EveryoneITalkTo” <font style="font-size:.6em; vertical-align:super;">*</font></blockquote>
+
+                <div class="space-10"></div>
+
+                <h3 class="headline">@Resources.Common.ThreeForFree</h3>
+                <span class="line margin-bottom-30"></span><div class="clearfix"></div>
+
+                @Html.Raw(Resources.Common.NeedOneMore)
+                <div class="space-10"></div>
+                <p align="center"><img src="@Url.Content("~/content/images/shopping/productSplash/3forfree.jpg")" /></p>
+                <br>
+                @Resources.Common.TryYourSelf<font style="font-size:.6em; vertical-align:super;">*</font>
+                <div class="space-20"></div>
+                <div>
+                     @Html.Raw(Resources.Common.PlusCustomers) @Html.Raw(Resources.Common.PlusCustomersLinkText)<a href="javascript:;" class="tooltip top" title="@Resources.Common.Guarantee"></a><span class="tooltip top" title="@Resources.Common.Guarantee" style="color: #0071ce;">@Resources.Common.PlusCustomersLinkText</span>!
+                </div>
+                
+                <div class="space-20"></div>
+                <font style="font-size:.6em; vertical-align:super;">†</font><em><font size="1"> @Resources.Common.SpecialAutoShipTerms</font></em>
+                <div class="space-20"></div>
+                <center><table><tr><td class="search" align="center" style="font-size:9pt;color:#666666; padding:2px 5px 2px 5px; border: 1px solid #666666;"><font style="font-size:.6em; vertical-align:super;">*</font>@Resources.Common.TheseStatements</td></tr></table></center>
+            </div>
+        </div>
+    </div>
+</div>       @* ----- End of Main Container ------ *@
+<style>
+    blockquote.new {
+        display: block;
+        background: #fff;
+        padding: 15px 20px 15px 45px;
+        margin: 0 5% 20px 5%;
+        position: relative;
+        text-align: left;
+        border: 0;
+        font-size: 16px;
+    }
+
+        blockquote.new::before {
+            content: "\201C";
+            font-family: Georgia, serif;
+            font-size: 60px;
+            font-weight: bold;
+            color: #0071ce;
+            position: absolute;
+            left: 1%;
+            top: 25px;
+        }
+
+        blockquote.new::after {
+            content: "";
+        }
+</style>

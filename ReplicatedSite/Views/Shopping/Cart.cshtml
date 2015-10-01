@@ -1,0 +1,272 @@
+﻿@model CartViewModel
+@{
+    ViewBag.Title = Resources.Common.Cart;
+    var orderItems = Model.Items;
+    var autoOrderItems = Model.AutoOrderItems;
+    var hasOrderItems = orderItems != null && orderItems.Count() > 0; // Must meet both conditions to avoid any errors beign thrown
+    var hasAutoOrderItems = autoOrderItems != null && autoOrderItems.Count() > 0; // Must meet both conditions to avoid any errors beign thrown
+}
+
+@*<h2>@ViewBag.Title</h2>*@
+
+@*Titlebar
+    ==================================================*@
+<section class="titlebar">
+    <div class="container">
+        <h2>Shopping Cart</h2>
+
+        <nav id="breadcrumbs">
+            <ul>
+                <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+                <li>@Resources.Common.ShoppingCart</li>
+            </ul>
+        </nav>
+    </div>
+</section>
+<div id="view-cart" class="container">
+    @if (!hasOrderItems && !hasAutoOrderItems)
+    {
+        <div id="defaultMessage">
+            <h2 class="text-uppercase">@ViewBag.Title</h2>
+            <div class="space-20"></div>
+            <p>@Resources.Common.NoItemsInCart</p>
+            <div class="space-20"></div>
+            <a href="@Url.Action("index", "shopping")" class="btn btn-continue">@Resources.Common.ContinueShopping</a>
+        </div>
+
+    }
+    else
+    {
+
+        <div class="cart-body">
+            @if (hasOrderItems)
+            {
+                <div class="row margin-5">
+                    
+
+                    @if (orderItems.Count() > 0)
+                    {
+                        @Html.Partial("Partials/Cart/PaneledCart", orderItems, new ViewDataDictionary {
+                                        { "PanelTitle", GlobalUtilities.Capitalize(Resources.Common.TodaysOrder) },
+                                        { "Type", ShoppingCartItemType.Order }
+                                    })
+                    }
+                </div>
+            }
+        </div>
+        <div class="row cart-footer">
+            <table class="cart-table bottom">
+                <tr>
+                    <th>                    
+                        <div class="cart-btns">
+                            <a href="@Url.Action("checkout")" class="button color cart-btns proceed">Proceed to Checkout</a>
+                            <button data-ordertype="@ShoppingCartItemType.Order" class="update button gray cart-btns">Update</button>
+                        </div>
+                    </th>
+                </tr>
+            </table>
+
+            <div class="space-30"></div>
+
+            <div class="col-sm-6 col-sm-offset-6 cart-totals">
+                <h3 class="headline">@Resources.Common.TodaysOrderTotal</h3><span class="line"></span><div class="clearfix"></div>
+                <table class="cart-table margin-top-5">
+                    @if (hasOrderItems)
+                    {
+                        <tr>
+                            <th>@Resources.Common.OrderSubtotal:</th>
+                            <td><strong><span data-text="ordersubtotal">@orderItems.Sum(c => c.Quantity * c.Price).ToString("C")</span></strong></td>
+                        </tr>
+                    }
+                </table>
+            </div><div class="clearfix"></div>
+
+            <div class="space-30"></div>
+
+            <div class="cart-body">
+                @if (hasAutoOrderItems)
+                {
+                    <div class="row margin-5">
+                        
+
+                        @if (autoOrderItems.Count() > 0)
+                        {
+
+                            @Html.Partial("Partials/Cart/PaneledCart", autoOrderItems, new ViewDataDictionary {
+                                        { "PanelTitle", GlobalUtilities.Capitalize(Resources.Common.RecurringOrder)},
+                                        { "Type", ShoppingCartItemType.AutoOrder }
+                                    })
+                        }
+                    </div>
+                }
+            </div>
+
+            <div class="col-sm-6 col-sm-offset-6 cart-totals">
+                <h3 class="headline">@Resources.Common.RecurringOrderTotal</h3><span class="line"></span><div class="clearfix"></div>
+                <table class="cart-table margin-top-5">
+                    @if (hasAutoOrderItems)
+                    {
+                        <tr>
+                            <th>@Resources.Common.RecurringOrder @Resources.Common.Subtotal:</th>
+                            <td><strong><span data-text="autoordersubtotal">@autoOrderItems.Sum(c => c.Quantity * c.Price).ToString("C")</span></strong></td>
+                        </tr>
+                    }
+
+                </table>
+                <br />
+            </div>
+        </div>
+
+
+
+
+
+    }
+
+</div>
+
+
+@section scripts
+{
+    <script>
+
+        require(["pubsub", "ajax", "extensions"], function (pubsub, ajax, extensions) {
+            var updatequantityUrl = "@Url.Action("updatecartitems", "shopping")";
+
+            $(".update").on("click", function () {
+                var $this = $(this),
+                    orderType = $this.data("ordertype");
+                var $table = $("tbody[data-ordertype]"),
+                    items = [],
+                    itemLength = $table.children("tr").length,
+                    rawItems = $table.children("tr"),
+                    isDeletingItem = false;
+
+
+                for (var i = 0; i < itemLength; i++) {
+                    var itemID = $(rawItems[i]).data("id");
+                    var itemQuantity = $(rawItems[i]).find("[name='Quantity']").val();
+                    var itemCode = $(rawItems[i]).data("itemcode");
+                    var itemType = $(rawItems[i]).parents("tbody").data("ordertype");
+
+                    if (parseInt(itemQuantity) == 0) {
+                        isDeletingItem = true;
+                    }
+
+                    items.push({ ID: itemID, Quantity: itemQuantity, ItemCode: itemCode, Type: itemType });
+                }
+
+                console.log("item", items);
+
+                ajax.json({
+                    url: updatequantityUrl,
+                    data: { items: items },
+                    success: function (response) {
+                        if (response.success) {
+
+                            // set the new updated sub total
+                            //$("[data-subtotal-container='{0}']".format(orderType)).html(response.subtotal);
+                            var orderquantity = 0;
+                            $('tbody').children("tr").find("[name='Quantity']").each(function ()
+                            { orderquantity += parseInt($(this).val()); });
+                            $('[data-text="orderquantity"]').html(orderquantity.format("N0"));
+                            $('[data-text="ordersubtotal"]').html(response.subtotal.format("C"));
+                            $('[data-text="ordertotal"]').html(response.subtotal.format("C"));
+                            if (response.autoOrderSubtotal != null) {
+                                $('[data-text="autoordersubtotal"]').html(response.autoOrderSubtotal.format("C"));
+                                orderquantity = 0;
+                                var autoorderquantity = 0;
+                                $('tbody[data-ordertype="Order"]').children("tr").find("[name='Quantity']").each(function () { orderquantity += parseInt($(this).val()); })
+                                $('tbody[data-ordertype="AutoOrder"]').children("tr").find("[name='Quantity']").each(function () { autoorderquantity += parseInt($(this).val()); })
+                                $('[data-text="orderquantity"]').html(orderquantity.format("N0"));
+                                $('.autoorder').find('[data-text="orderquantity"]').html(autoorderquantity.format("N0"));
+                                $('.autoorder').find('[data-text="ordertotal"]').html(response.autoOrderSubtotal.format("C"));
+                            }
+                            if (isDeletingItem) {
+                                window.location = window.location;
+                            }
+                            window.trigger("update.cartpreview");
+                        } else {
+                            console.log("updatequantity failed: ", response.message);
+                        }
+                    }
+                });
+            });
+
+            // Quantity field bindings
+
+            $("[data-price-each]").on("change", function () {
+                updateItemQuantity(this);
+            });
+
+            window.on('cart.removeitemfromcart', function (id) {
+                ajax.json({
+                    url: '@Url.Action("removeitemfromcart", "shopping")',
+                    data: {
+                        id: id
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            window.trigger('cart.itemremoved', id);
+                            window.trigger('cart.cartupdated', response);
+                            window.location = window.location;
+                        }
+                    }
+                });
+            });
+
+            window.on('cart.cartupdated', function (data) {
+                var updatedItem = data.item;
+                var items = data.items;
+
+                if (items.length == 0) {
+                    $('.cart-footer').hide();
+                    window.location = window.location;
+                }
+
+                if (updatedItem.Type == 0) {
+
+                    var quantity = 0;
+                    var subtotal = 0;
+                    for (var i = 0, max = items.length; i < max; i++) {
+                        var item = items[i];
+
+                        if (item.Type == 0) {
+                            quantity += item.Quantity;
+                        }
+                    }
+
+                    $('[data-text="orderquantity"]').html(quantity.format("N0"));
+                    $('[data-text="ordersubtotal"]').html(data.totals.Subtotal.format("C"));
+                }
+            });
+
+            function updateItemQuantity(item) {
+                var $this = $(item),
+                    quantity = $this.val(),
+                    $parentContainer = $this.parents("[data-itemcode]").first(),
+                    itemcode = $parentContainer.data("itemcode"),
+                    priceEach = $this.data("price-each"),
+                    $priceDisplayContainer = $parentContainer.find("[data-price-display]");
+
+                if (quantity < 0) {
+                    $this.val("0");
+                    return;
+                }
+
+                // Set the price display of the items updated
+                var price = priceEach * quantity;
+                $priceDisplayContainer.html("$" + price.toFixed(2));
+            }
+
+            // Called with the plus and minus buttons : custom.js
+            window.on("cart.quantitychange", function (model) {
+                var price = model.priceeach * parseInt(model.quantity);
+
+                var $itemRow = $("tbody[data-ordertype='{0}'] tr[data-id='{1}'][data-itemcode='{2}']".format(model.itemtype, model.ID, model.itemcode.toString()));
+                $itemRow.find("[data-price-display]").html("$" + price.toFixed(2).localeFormat('c'));
+            });
+        });
+
+    </script>
+}

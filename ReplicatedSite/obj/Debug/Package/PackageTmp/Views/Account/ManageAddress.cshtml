@@ -1,0 +1,40 @@
+﻿@model Address
+@{
+    ViewBag.Title = "Your Account";
+    Layout = "~/Views/Account/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-9">
+        @using (Html.BeginForm("saveaddress", "account"))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="well">
+                @Html.EditorFor(model => model, "Address")
+                @Html.HiddenFor(model => model.AddressType)
+
+
+                @if (Model.AddressType != AddressType.Main)
+                {
+                    <div class="checkbox">
+                        <label>
+                            @Html.CheckBox("MakePrimary") @Resources.Common.SaveAsPrimaryAddress
+                        </label>
+                    </div>
+                }
+            </div>
+
+            <button type="submit" class="btn btn-primary">@Resources.Common.SaveChanges</button>
+            <a href="@Url.Action("AddressList")" class="btn btn-link">@Resources.Common.Cancel</a>
+
+            if (Model.AddressType != AddressType.New && Model.AddressType != AddressType.Main)
+            {
+                <span class="pull-right">
+                    <a href="@Url.Action("DeleteAddress", new { type = Model.AddressType })" class="btn btn-default">@Resources.Common.Delete</a>
+                </span>
+            }
+
+        }
+    </div>
+</div> 

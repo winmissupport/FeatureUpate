@@ -1,0 +1,90 @@
+﻿@model ItemDetailViewModel
+
+
+@* Begin Product Purchase Module *@
+
+<div class="row" id="product-detail" data-widget="item">
+    <div id="left-side" class="col-sm-5">
+        <img class="img-responsive" src="@Model.Item.SmallImageUrl" alt="" />
+    </div>
+
+    <div class="right-side col-xs-7">
+
+        <div>
+            @* Begin Product Purchase Module *@
+
+            <div class="product-purchase-module">
+                @*Headline*@
+                <section class="title row margin-0 item-description">
+                    <h2 class="product-name">@Model.Item.ItemDescription</h2>
+                    <span class="product-price-discount">@Model.Item.Price.ToString("C")<i>@Model.Item.DiscountedPrice.ToString("C")</i></span>
+                    <!--<span class="product-price">$72.00</span>-->
+
+                    <div class="reviews-counter">
+                        <div class="rating five-stars">
+                            <div class="star-rating"></div>
+                            <div class="star-bg"></div>
+                        </div>
+                        <span>3 Reviews</span>
+                    </div>
+                </section>
+
+                
+
+                @*Variables*@
+                <section class="row margin-0 select-product">
+                    <div class="col-xs-8 options">
+                        @Html.ValidationSummary()
+
+                        <label for="size">Choose Option</label>
+                        <select id="size" name="size">
+                            <option>30 oz. Jar</option>
+                            <option>12 Jar Case</option>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
+
+                </section>
+                <section class="linking row margin-0" style="max-width: 25vw;">
+                    <input type="hidden" name="ItemCode" value="@Model.Item.ItemCode" />
+                    <input type="hidden" name="Type" value="@Model.Item.Type" />
+                    <input type="hidden" name="ParentItemCode" value="@Model.Item.ParentItemCode" />
+
+                    @*@Html.HiddenFor(c => c.Item.ItemCode)
+                        @Html.HiddenFor(c => c.Item.Type)
+                        @Html.HiddenFor(c => c.Item.ParentItemCode)*@
+
+                    @*<div class="input-group pull-left">
+                        <div class="qtyminus input-group-btn"></div>
+                        <input name="Quantity" value="@Model.Item.Quantity" class="form-control product-quantity qty" style="height: 40px; width: 40px;" />
+                        <div class="qtyplus input-group-btn"></div>
+                    </div>*@
+                    <div class="pull-right">
+
+                        <a class="button adc" data-role="item.addtoorder" data-type="order" id="add-to-order-btn"> Add to cart</a>
+
+
+
+                        @if (Model.Item.AllowOnAutoOrder && Identity.Customer != null)
+                        {
+                            if (Identity.Customer.CustomerTypeID == CustomerTypes.SmartShopper)
+                            {
+                                <div class="text-divider">
+                                    <h5>or</h5>
+                                </div>
+                            
+                            
+
+                                <a class="button adc" data-role="item.addtoautoorder" id="add-to-auto-order-btn" data-type="autoorder"> Add to auto-order</a>
+                            }
+
+                        }
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                </section>
+            </div>
+        </div>
+    </div>
+</div>

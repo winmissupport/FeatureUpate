@@ -1,0 +1,72 @@
+﻿@model EnrollmentReviewViewModel
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            @Resources.Common.Summary
+        </h3>
+    </div>
+    <div class="panel-body">
+
+        <h4>@Resources.Common.EnrollerSponsor:</h4>
+        <div class="media">
+            <div class="pull-left">
+                <img class="media-object pull-left" src="@Url.Avatar(Identity.Owner.CustomerID)" style="max-width: 50px;" />
+            </div>
+            <div class="media-body">
+                <strong class="media-heading">@Identity.Owner.FullName</strong><br />
+                <a href="mailto:@Identity.Owner.Email" target="_blank">@Identity.Owner.Email</a><br />
+                @Identity.Owner.Phone
+            </div>
+        </div>
+
+        <br />
+
+        <h4>@Resources.Common.OrderTotals:</h4>
+
+        <div>
+            <table class="table orderdetail-table">
+                <tr>
+                    <th>@Resources.Common.Item</th>
+                    <th>@Resources.Common.PriceEA</th>
+                </tr>
+                @foreach (var item in Model.Items)
+                {
+                    var cost = item.Quantity * item.Price;
+                    <tr>
+                        <td>@item.ItemDescription</td>
+                        <td>@cost.ToString("C")</td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="2"><a href="@Url.Action("packs")"><i class="fa-edit"></i>@Resources.Common.Change</a></td>
+                </tr>
+            </table>
+
+
+            <table class="table table-condensed table-subtotals">
+                <tr>
+                    <td class="td-label">@Resources.Common.Subtotal:</td>
+                    <td class="td-value">@Model.Totals.Subtotal.ToString("C")</td>
+                </tr>
+                <tr>
+                    <td class="td-label">@Resources.Common.Shipping:</td>
+                    <td class="td-value">@Model.Totals.Shipping.ToString("C")</td>
+                </tr>
+                <tr>
+                    <td class="td-label">@Resources.Common.Tax:</td>
+                    <td class="td-value">@Model.Totals.Tax.ToString("C")</td>
+                </tr>
+                <tr>
+                    <td class="td-label">@Resources.Common.Total:</td>
+                    <td class="td-value">@Model.Totals.Total.ToString("C")</td>
+                </tr>
+            </table>
+
+
+            <div class="clearfix"></div>
+        </div>
+
+    </div>
+</div>
+

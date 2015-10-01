@@ -1,0 +1,45 @@
+﻿@model CategoryViewModel
+
+<div class="panel-group shop" id="categorylist-accordion">
+    <div class="product-nav-divider"></div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="panel-title skin-type-category">
+                <a data-toggle="collapse" data-parent="#categorylist-accordion" href="#skinType">
+                    Skin Type <i class="fa-angle-double-right"></i>
+                </a>
+            </span>
+        </div>
+        <div id="skinType" class="panel-collapse collapse">
+            <div class="panel-body">
+                <ul class="product-list-navigation-links list-unstyled">
+                    @foreach (var type in Model.SkinTypeFilters)
+                    {
+                        <li><a class="skin-type-filter" data-type="@type">@type</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="product-nav-divider"></div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="panel-title">
+                <a data-toggle="collapse" data-parent="#categorylist-accordion" href="#category">
+                    Category <i class="fa-angle-double-right"></i>
+                </a>
+            </span>
+        </div>
+        <div id="category" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <ul class="product-list-navigation-links list-unstyled">
+                    @foreach (var subcategory in Model.MainCategory.Subcategories)
+                    {
+                        <li><a class="subcategory-filter" data-subcategory="@subcategory.ItemCategoryID">@subcategory.ItemCategoryDescription</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="product-nav-divider"></div>
+</div>

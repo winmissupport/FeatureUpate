@@ -1,0 +1,100 @@
+﻿@model PacksViewModel
+@{
+    ViewBag.Title = "Enrollment Pack";
+    bool hasSelectedPack = (Model.SelectedOrderItem != null);
+}
+
+<style>
+    .inner-pack { margin-bottom: 15px; min-height: 160px; }
+        .inner-pack h4 { font-size: 20px; line-height: 20px; color: white; margin-bottom: 20px; }
+        .inner-pack p { line-height: 18px; }
+</style>
+
+@using (Html.BeginForm())
+{
+    <div class="container">
+        <div class="space-40"></div>
+        <div class="row">
+            @{ var columns = Model.OrderItems.Count(); }
+            @foreach (var item in Model.OrderItems)
+            {
+                var itemButtonText = (item.ItemCode == Model.SelectedOrderItem.ItemCode && hasSelectedPack) ? "<i class='fa-check'></i>" : "Select";
+                
+                
+                <div class="col-sm-@(12 / columns)">
+
+                    <div class="pack">
+
+                        <div class="pack-title">
+                            <div class="inner-pack">
+                                <h4 class="text-uppercase" title="ItemDescription">@item.ItemDescription</h4>
+                                <p title="ShortDetail1">@item.ShortDetail1</p>
+                            </div>
+                        </div>
+
+                        <div class="inner-pack">
+                            <div class="text-center">
+                                <img src="@item.LargeImageUrl" class="img-responsive" alt="LargeImage" title="LargeImage" /></div>
+                        </div>
+                        <div class="inner-pack">
+                            <strong class="text-blue">Includes</strong>
+                            @Html.Raw(item.LongDetail1)
+                        </div>
+                        <div class="inner-pack">
+                            <div class="pack-price">
+                                <div class="main-price">@item.Price.ToString("C")</div>
+                                Retail Price @item.OtherPrice1.ToString("C") OtherPrice1</div>
+                        </div>
+                    </div>
+                    <a class="btn btn-primary btn-wide" data-pack="@item.ItemCode">@itemButtonText</a>
+                </div>
+                <div class="space-20 visible-xs"></div>
+            }
+
+        </div>
+        <div class="space-20"></div>
+        <button type="submit" class="btn btn-primary btn-lg">Proceed</button>
+    </div>
+    
+    <input type="hidden" name="SelectedPack" value="itemcode" />    
+    
+    <div class="space-50"></div>
+    @Html.AntiForgeryToken()
+}
+
+
+<script>
+    (function () {
+        function registerEventHandlers() {
+            $("[data-pack]").on("click", function () {
+                var itemCode = $(this).data("pack");
+
+                activatePack(itemCode);
+
+                $('[name="SelectedPack"]').val(itemCode);
+            });
+        }
+
+        function _init() {
+            registerEventHandlers();
+        }
+        
+        // Set the current active pack the user selects, and deselect the others. 
+        // This also sets the item code that will be submitted to the server.
+        function activatePack(itemCode) {
+            $("[data-pack]").each(function () {
+                $(this).html("Select");
+                $(this).removeClass("active");
+            });
+
+            var $currentPack = $('[data-pack="{0}"]'.format(itemCode.toString()));
+
+            $currentPack.html("<i class='fa-check'></i>");
+            $currentPack.addClass("active");
+        }
+
+        // Initialize our event handlers
+        _init();
+
+    })();
+</script>

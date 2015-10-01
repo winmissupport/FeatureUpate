@@ -1,0 +1,167 @@
+﻿@model AutoOrderCartReviewViewModel
+
+<style>
+    #auto-order-cart { }
+        #auto-order-cart .auto-order-date-list { margin-left: 15px; }
+        #auto-order-cart .fixed-label { min-width: 120px; text-align: right; margin-right: 20px; }
+        #auto-order-cart .item-quantity { max-width: 60px; }
+</style>
+<div id="auto-order-cart">
+    @* Auto Order Detail Header - Start Date*@
+    <div class="row">
+        <div class="col-sm-6">
+            <ul class="list-unstyled auto-order-date-list">
+                <li>
+                    <label class="fixed-label">Frequency:</label>
+                    <span>@Model.AutoOrderFrequencyType</span>
+                </li>
+                <li>
+                    <label class="fixed-label">Ship Day:</label>
+                    <span>
+
+                        @{
+                            var disabled = (Model.ActiveAutoOrder != null) ? "" : "disabled";
+                        }
+                        <select id="auto-order-start-day" @disabled>
+                            @{
+                                var availableDays = Model.AvailableRunDays;
+                                availableDays = (Model.ActiveAutoOrder != null) ? availableDays.Where(d => Convert.ToInt32(d.Value) >= Convert.ToDateTime(Model.ActiveAutoOrder.NextRunDate).Day).ToList() : availableDays.ToList();
+                                if (availableDays.Count <= 0)
+                                {
+                                    availableDays = Model.AvailableRunDays;
+                                }
+                            }
+
+                            @foreach (var item in availableDays)
+                            {
+                                var selected = (item.Value == Model.SelectedDay.ToString()) ? "selected='selected'" : "";
+                                <option value="@item.Value" @selected>@item.Text</option>
+                            }
+                        </select>
+
+                        <a data-role="auto-order-info" data-toggle="tooltip" data-placement="top" title="You can modify the run date of your Auto Order, once it is created, in your Auto Order manager"><i class="fa-question-circle" /></a>
+                    </span>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-6">
+            <label class="fixed-label">Next Ship Date: </label>
+            <span>@Model.NextRunDate.ToString("D")</span>
+        </div>
+    </div>
+
+    @* Auto Order ID if applicable *@
+    @{ var autoorderID = (Model.ActiveAutoOrder != null) ? Model.ActiveAutoOrder.AutoOrderID : 0; }
+
+    <input type="hidden" name="AutoOrderID" value="@autoorderID" />
+
+
+    @if (Model.AutoOrderCartItems != null && Model.AutoOrderCartItems.Count() > 0)
+    {
+        <table class="table table-condensed" id="auto-order-cart-table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th class="text-center">QTY</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Total Price</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                @{
+                    var currentAutoOrderItemcodes = (Model.ActiveAutoOrder != null) ? Model.ActiveAutoOrder.Details.Select(i => i.ItemCode).ToList() : new List<string>();
+                    var autoOrderItems = Model.AutoOrderCartItems;
+                    var activeAutoOrderItems = autoOrderItems.Where(i => currentAutoOrderItemcodes.Contains(i.ItemCode));
+                    var cartItems = autoOrderItems.Where(i => !currentAutoOrderItemcodes.Contains(i.ItemCode));
+
+                }
+
+                @if (activeAutoOrderItems.Count() > 0)
+                {
+                    foreach (var item in activeAutoOrderItems)
+                    {
+                        <tr data-item-code="@item.ItemCode">
+                            <td>@item.ItemDescription</td>
+                            <td class="item-quantity-cell text-center">
+                                <input type="hidden" name="ID" value="@item.ID" />
+
+                                <input type="number" value="@item.Quantity.ToString("0")" data-price-each="@item.Price.ToString("0.00")" name="Quantity" class="form-control input-sm text-center item-quantity" data-role="cart.updateitemquantity" data-qty-type="retail" data-id="@item.ID" />
+                            </td>
+                            <td class="text-center">@item.Price.ToString("C")</td>
+                            <td class="text-center" data-price-display="@item.ItemCode">@((item.Price * item.Quantity).ToString("C"))</td>
+                        </tr>
+                    }
+                }
+
+                @*<tr><td colspan="4">&nbsp;</td></tr>*@
+
+                @if (cartItems.Count() > 0)
+                {
+                    @*var headerMessage = (activeAutoOrderItems.Count() > 0) ? "New Items" : "New {0} Auto Ship".FormatWith(Model.AutoOrderFrequencyType);
+                    
+                    <tr><td colspan="4"><h4>@headerMessage</h4></td></tr>*@
+                    
+                    foreach (var item in cartItems)
+                    {
+                        <tr data-item-code="@item.ItemCode">
+                            <td>@item.ItemDescription</td>
+                            <td class="item-quantity-cell text-center">
+                                <input type="hidden" name="ID" value="@item.ID" />
+
+                                <input type="number" value="@item.Quantity.ToString("0")" data-price-each="@item.Price.ToString("0.00")" name="Quantity" class="form-control input-sm text-center item-quantity" data-role="cart.updateitemquantity" data-qty-type="retail" data-id="@item.ID" />
+                            </td>
+                            <td class="text-center">@item.Price.ToString("C")</td>
+                            <td class="text-center" data-price-display="@item.ItemCode">@((item.Price * item.Quantity).ToString("C"))</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+
+        </table>
+
+        <hr />
+
+        <div class="row cart-footer">
+            <div class="col-xs-6">
+                <h4><strong>WIN Credit Balance</strong> @Model.AvailablePoints.ToString("C")</h4>
+            </div>
+            <div class="col-xs-2 text-right">
+                <button data-role="autoorder.update" class="update btn-checkout btn btn-link" role="button">
+                    Update
+                </button>
+            </div>
+            <div class="col-xs-3 col-xs-offset-3">
+                <ul class="cart-totals list-unstyled text-right">
+                    <li>
+                        <ul class="list-inline list-unstyled">
+                            <li class="cart-total-header"><strong>Sub Total:</strong></li>
+                            <li class="order-subtotal-computed"><span data-text="personalusetotal">@Model.CalculatedAutoOrder.Subtotal.ToString("C")</span></li>
+                        </ul>
+                        <ul class="list-inline list-unstyled">
+                            <li class="cart-total-header"><strong>Shipping:</strong></li>
+                            <li class="order-subtotal-computed"><span data-text="retailtotal">@Model.CalculatedAutoOrder.Shipping.ToString("C")</span></li>
+                        </ul>
+                        <ul class="list-inline list-unstyled">
+                            <li class="cart-total-header"><strong>Tax:</strong></li>
+                            <li class="order-subtotal-computed"><span data-text="taxabletotal">@Model.CalculatedAutoOrder.Tax.ToString("C")</span></li>
+                        </ul>
+                        <hr />
+                        <ul class="list-inline list-unstyled">
+                            <li class="cart-total-header"><strong>Total:</strong></li>
+                            <li class="order-subtotal-computed"><span data-text="ordersubtotal">@Model.CalculatedAutoOrder.Total.ToString("C")</span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    }
+</div>
+
+@* All javascript related to this module resides in the AutoOrderPopupModal.cshtml file - Mike McBride*@
+
+<script>
+    (function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    })();
+</script>

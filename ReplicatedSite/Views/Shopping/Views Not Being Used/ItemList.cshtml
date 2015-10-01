@@ -1,0 +1,70 @@
+﻿@model CategoryLandingViewModel
+@{
+    ViewBag.Title = "Shopping";
+}
+
+@Html.Partial("Partials/Navigation/_ShoppingNavigation")
+
+
+<div id="view-productlist" class="shop">
+
+    <div class="container product-list">
+
+        <div class="row">
+            <div class="col-sm-3 product-list-navigation">
+                @*@Html.Partial("partials/navigation/_categorylist")*@
+            </div>
+            <div class="col-sm-9 items-list">
+                <h2 class="category-heading">Facial Cleansers</h2>
+                <div class="row">
+                    @foreach (var item in Model.Items)
+                    {
+                        <div class="col-sm-4 product" data-itemcode="@item.ItemCode">
+                            @Html.Partial("Partials/Items/Cards/SingleItem", item)
+
+                            @* Trigger button for quick shop popup modal *@
+                            <button type="button" class="btn quick-shop-btn" data-toggle="modal" data-target=".quickShopModal-@item.ItemCode" data-quick-shop="@item.ItemCode">Quick Shop <img src="~/Content/images/pangea_arrow_right.png" /></button>
+                        </div>
+
+                    }
+
+                    @* Modal for Quickshop Popup *@
+                    <div id="quickshop-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="space-100"></div>
+
+
+
+@section scripts
+{
+    <script>
+
+        require(["pubsub", "ajax"], function (pubsub, ajax) {
+            window.on('order.addtocart', function (item) {
+                console.log('order.addtocart', item);
+            });
+            window.on('autoorder.addtocart', function (item) {
+                console.log('autoorder.addtocart', item);
+            });
+
+            $("[data-itemcode]").hover(function () {
+                var itemcode = $(this).data("itemcode"),
+                   $quickshopLink = $("[data-quick-shop='" + itemcode + "']");
+
+                $quickshopLink.show();
+            }, function () {
+                var itemcode = $(this).data("itemcode"),
+                   $quickshopLink = $("[data-quick-shop='" + itemcode + "']");
+
+                $quickshopLink.hide();
+            });
+
+            
+
+        });
+    </script>
+}

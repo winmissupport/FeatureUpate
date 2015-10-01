@@ -1,0 +1,410 @@
+﻿@model EnrollmentPropertyBag
+@{
+    ViewBag.Title = "Personal Information";
+}
+
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+
+    <div id="view-enrollment">
+        @using (Html.BeginForm())
+    {
+    <div class="row">
+        <div class="col-sm-8">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        @Resources.Common.PersonalInfo
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    @Html.EditorForModel("PersonalInformation")
+                </div>
+            </div>         
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        @Resources.Common.YourAddress
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    @Html.EditorForModel("HomeAddress")
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">@Resources.Common.YourPersonalWeb</h3>
+                </div>
+                <div class="panel-body">
+                    @Html.EditorForModel("LoginInformation")
+                </div>
+            </div>
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">@Resources.Common.ShippingInfo </h3>
+                </div>
+                <div class="panel-body">
+                    @Html.EditorForModel("ShippingInformation")
+                </div>
+            </div>
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">@Resources.Common.BillingPayment</h3>
+                </div>
+                <div class="panel-body">
+                    @Html.EditorForModel("Billing")
+                </div>
+            </div>
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">@Resources.Common.Terms</h3>
+                </div>
+                <div class="panel-body">
+                    @Html.EditorForModel("TermsAndConditions")
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-lg" data-role="submit">@Resources.Common.Submit</button>
+            <div class="space-30"></div>
+
+        </div>
+        <div class="col-sm-4">
+
+            <div id="view-enrollmentsummary">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Your Enroller
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="media">
+                            <div class="pull-left">
+                                <img class="media-object" src="@Url.Avatar(Identity.Owner.CustomerID)" style="max-width: 50px;" />
+                            </div>
+                            <div class="media-body">
+                                <strong class="media-heading">@Identity.Owner.FullName</strong><br />
+                                <a href="mailto:@Identity.Owner.Email" target="_blank">@Identity.Owner.Email</a><br />
+                                @Identity.Owner.Phone
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="summary-container">
+                <!-- Dynamically Injected -->
+            </div>
+
+          
+            <a href="@Url.Action("productlist", "enrollment")" class="btn btn-primary btn-lg">@Resources.Common.ContinueShopping</a>
+
+
+            @*   @Html.ValidationSummary()
+
+
+                @if (Request.IsLocal)
+                {
+                    <button type="button" class="btn btn-warning" data-role="validate">Validate</button>
+                    <button type="button" class="btn btn-warning" data-role="viewmodel">View Model</button>
+                    <button type="button" class="btn btn-warning" data-role="filltestinfo">Fill Test Info</button>
+                    <div class="space-10"></div>
+                    <pre id="__modeldebug" class="hidden"></pre>
+                }*@
+
+        </div>
+    </div>
+
+
+    @Html.AntiForgeryToken()
+    }
+    </div>
+</div>
+
+
+@section scripts
+{
+    <style>
+        .control-label.required:after {
+            content: " *";
+            color: #C80000;
+        }
+    </style>
+    <script>
+        require(["ajax", "app"], function (ajax, app) {
+
+            // Settings
+            var context = "#view-enrollment",
+                $context = $(context),
+                removeItemsURL = '@Url.Action("deleteitemfromcart", "enrollment")',
+                updateItemSummaryURL = '@Url.Action("updateitemsummary", "enrollment")';
+
+            // State
+            var state = {
+                validated: false
+            };
+
+            // Event Handlers
+            function registerEventHandlers() {
+
+                // Remove item button
+                $context.on('click', '[data-role="removeitem"]', function () {
+                    var $this = $(this),
+                        $itemParent = $this.parents('tr'),
+                        itemcode = $itemParent.data('itemcode'),
+                        itemtype = $itemParent.data('itemtype'),
+                        $item = $('[data-itemcode="' + itemcode + '"][data-itemtype="' + itemtype + '"]').serializeObject();
+
+                    actions.removeItem($item);
+                });
+
+                $('[data-role="submit"]', $context).on('click', function () {
+                    actions.submitForm();
+                });
+
+                // Debug stuff
+                $('[data-role="validate"]', $context).on('click', function () {
+                    $('form', $context).valid();
+                });
+                $('[data-role="viewmodel"]', $context).on('click', function () {
+                    $('#__modeldebug', $context).removeClass('hidden');
+                    $(':input').on('change', function () {
+                        $('#__modeldebug', $context).html(JSON.stringify(helpers.getFilteredModel(), null, 3));
+                    }).first().triggerHandler('change');
+                });
+                $('[data-role="filltestinfo"]', $context).on('click', function () {
+                    $('input[type="text"]:visible').each(function () {
+                        $(this).val(helpers.getRandomString());
+                    });
+                    $('input[type="email"]:visible').each(function () {
+                        $(this).val(helpers.getRandomString(10) + "@@gmail.com");
+                    });
+                    $('input[type="tel"]:visible').each(function () {
+                        $(this).val(helpers.getRandomNumber());
+                    });
+                     
+                    var tempPassword = helpers.getRandomString();
+                    $('input[type="password"]:visible').each(function () {
+                        $(this).val(tempPassword);
+                    });
+
+                    $(':input:visible:first').triggerHandler('change');
+                });
+
+                // Decorate all required fields
+                $('[data-val-required]').each(function () {
+                    $('.control-label[for="{0}"]'.format($(this).attr('id'))).addClass('required');
+                });
+            }
+
+
+            // Actions
+            var actions = {
+                updateItemSummary: function () {
+                    var $container = $('#summary-container');
+
+                    ajax.json({
+                        url: updateItemSummaryURL,
+                        beforeSend: function () {
+                            $container.html('<p class="text-center"><strong>Loading Summary...</strong></p>');
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                $container.html(response.html);
+                            }
+                            else {
+                                console.log("failed");
+                            }
+                        },
+                        error: function (xhr, error, status) {
+                            console.log("Error: ", xhr);
+                        }
+                    });
+                },
+                removeItem: function ($item) {
+
+                    //console.log($item.ItemCode);
+                    //console.log($item.Type);
+
+
+                    ajax.json({
+                        url: removeItemsURL,
+                        data: {
+                            itemcode: $item.ItemCode,
+                            type: $item.Type
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                console.log("item deleted");
+                                actions.updateItemSummary();
+                            }
+                            else {
+                                console.log("failed");
+                            }
+                        },
+                        error: function (xhr, error, status) {
+                            console.log("Error: ", xhr);
+                        }
+                    });
+                },
+                submitForm: function () {
+
+                    if (actions.validateForm() == false) return;
+
+                    var model = helpers.getFilteredModel();
+
+                    var formdata = {};
+                    (function recurse(obj, current) {
+                        for (var key in obj) {
+                            var value = obj[key];
+                            var newKey = (current ? current + "." + key : key);  // joined key with dot
+                            if (value && typeof value === "object") {
+                                recurse(value, newKey);  // it's a nested object, so do it again
+                            } else {
+                                formdata[newKey] = value;  // it's not an object, so set the property
+                            }
+                        }
+                    })(model);
+
+                    var data = formdata;
+
+                    ajax.post({
+                        url: "@Url.Action("enrolleeinfo")",
+                        data: data,
+                        success: function (response) {
+                            window.location = "@Url.Action("checkout")";
+
+                            console.log("Success: ", response);
+                        },
+                        error: function (xhr, error, status) {
+                            console.log("Error: ", xhr);
+                        }
+                    });
+                },
+                validateForm: function () {
+
+                    if (!$('form:first', $context).valid()) {
+
+                        var scrollToTop = 0;
+                        var firstError = $('[data-valmsg-for]:visible:first');
+                        if (firstError.length > 0) {
+                            var fieldName = $(firstError).data('valmsg-for');
+                            var $field = $('[name="' + fieldName + '"]:visible');
+                            $field.focus();
+                        }
+
+                        return false;
+                    }
+
+
+                    var $password = $('#Customer_Password').val(),
+                        $confirmPassword = $('#confirm-password').val(),
+                        $hint = $('#passwordHint').val();
+
+                    $termsChecked = $("#terms-checkbox:checked").length > 0
+
+                    if ($termsChecked === false) {
+                        app.throwError("You must accept the terms of agreement.");
+                        return false;
+                    }
+
+                    return true;
+                }
+            };
+
+
+            // Helpers
+            var helpers = {
+                getModel: function (selector) {
+                    // Serialize the form
+                    selector = selector || 'form';
+                    var $form = $(selector, $context);
+                    var o = {};
+                    var a = $form.find(':input').serializeArray();
+                    $.each(a, function () {
+                        if (o[this.name] !== undefined) {
+                            o[this.name] = o[this.name] || '';
+                        } else {
+                            o[this.name] = this.value || '';
+                        }
+                    });
+
+
+                    // Deeply convert it into our model.
+                    var model = {}, j, d;
+                    for (var m in o) {
+                        d = m.split(".");
+                        var startOfObj = model;
+                        for (j = 0; j < d.length  ; j += 1) {
+
+                            if (j == d.length - 1) {
+                                startOfObj[d[j]] = o[m];
+                            }
+                            else {
+                                startOfObj[d[j]] = startOfObj[d[j]] || {};
+                                startOfObj = startOfObj[d[j]];
+                            }
+                        }
+                    }
+
+
+                    return model;
+                },
+                getFilteredModel: function () {
+
+                    var model = helpers.getModel();
+
+                    console.log('unfiltered model', model);
+
+                    // Commission Settings
+                    model.DirectDeposit = helpers.getModel('[data-bind="@Html.NameFor(c => c.Customer.PayableTypeID)"]:visible').DirectDeposit;
+
+                    // Payment Method
+                    model.PaymentMethod = helpers.getModel('[data-bind="@Html.NameFor(c => c.PaymentTypeID)"]:visible').PaymentMethod;
+
+                    return model;
+                },
+                getRandomString: function (length) {
+                    length = length || 7;
+                    var text = "";
+                    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+                    for (var i = 0; i < length; i++)
+                        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+                    return text;
+                },
+                getRandomNumber: function (length) {
+                    length = length || 10;
+                    var text = "";
+                    var possible = "0123456789";
+
+                    for (var i = 0; i < length; i++)
+                        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+                    return text;
+                }
+            };
+
+
+            // Initialization
+            function init() {
+                registerEventHandlers();
+                actions.updateItemSummary();
+            }
+            init();
+
+        });
+    </script>
+
+}

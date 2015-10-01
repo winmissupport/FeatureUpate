@@ -1,0 +1,189 @@
+﻿/* Flexslider
+------------------------------------- */
+.flex-container a:active,
+.flexslider a:active,
+.flex-container a:focus,
+.flexslider a:focus  {outline: none;}
+.slides,
+.flex-control-nav,
+.flex-direction-nav {margin: 0; padding: 0; list-style: none;}
+
+.flexslider {margin: 0; padding: 0; position: relative; zoom: 1; }
+.flexslider .slides > li {display: none; -webkit-backface-visibility: hidden;} /* Hide the slides before the JS is loaded. Avoids image jumping */
+.flexslider .slides img {width: 100%; display: block;}
+.flex-pauseplay span {text-transform: capitalize;}
+
+.slides:after {content: "\0020"; display: block; clear: both; visibility: hidden; line-height: 0; height: 0;}
+html[xmlns] .slides {display: block;}
+* html .slides {height: 1%;}
+
+.no-js .slides > li:first-child {display: block;}
+
+/* FlexSlider Default Theme */
+.flex-viewport { max-height: 2000px; -webkit-transition: all 1s ease; -moz-transition: all 1s ease; -o-transition: all 1s ease; transition: all 1s ease; }
+.loading .flex-viewport { max-height: 300px; }
+.flexslider .slides { zoom: 1; }
+.carousel li { margin-right: 5px; }
+
+/* Direction Nav */
+.flex-direction-nav {*height: 0;}
+.flex-direction-nav a  {
+	text-decoration:none;
+	display: block;
+	width: 36px;
+	height: 36px;
+	margin: 0;
+	position: absolute;
+	z-index: 10;
+	overflow: hidden;
+	opacity: 1;
+	cursor: pointer;
+	font-family: "FontAwesome";
+	font-size: 13px;
+	background-color: #c0c0c0;
+	color: #fff;
+	-webkit-transition: all 200ms ease-in-out;
+	-moz-transition: all 200ms ease-in-out;
+	-o-transition: all 200ms ease-in-out;
+	transition: all 200ms ease-in-out;
+}
+
+.flex-direction-nav .flex-prev { bottom: 0; right: 37px; }
+.flex-direction-nav .flex-next { bottom: 0; right: 0; }
+
+.flex-direction-nav .flex-prev:before,
+.flex-direction-nav .flex-next:before {
+	position: relative;
+	top: 9px;
+	left: 14px;
+}
+
+.flex-direction-nav .flex-prev:before { content: ""; }
+.flex-direction-nav .flex-next:before { content: ""; }
+
+.flexslider .flex-prev:hover,
+.flexslider .flex-next:hover { background-color: #808080; }
+
+.flexslider:hover .flex-next:hover,
+.flexslider:hover .flex-prev:hover { opacity: 1; }
+
+.flex-direction-nav .flex-disabled {
+	opacity: 0 !important;
+	filter: alpha(opacity=0);
+	cursor: default;
+}
+
+/* Hover / Animations
+------------------------------------- */
+.hover-cover {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #000;
+	opacity: 0;
+	visibility: hidden;
+}
+
+
+.portfolio-item:hover .hover-cover{
+	opacity: 0.5;
+	visibility: visible;
+}
+
+.portfolio-item:hover .hover-icon{
+	opacity: 1;
+	visibility: visible;
+	bottom:0;
+}
+
+.hover-icon {
+	position:absolute;
+	right: 0;
+	bottom: -48px;
+	color:#fff;
+	font-size: 16px;
+	width: 48px;
+	height: 48px;
+	background-color: #0071CE;
+	border-radius: 0;
+	opacity: 0;
+	visibility: hidden;
+}
+
+.hover-icon:before {
+	height: 19px;
+	width: 19px;
+	top: 12px;
+	left: 18px;
+	content: "";
+	font-family: "FontAwesome";
+	position: relative;
+}
+
+.hover-icon.loading:before {
+	content:"";
+	height: 16px;
+	width: 16px;
+	top: 16px;
+	left: 16px;
+	background: url(~/content/images/icons/loading.png) no-repeat;
+	display: block;
+	-webkit-animation: spin 2s infinite linear;
+	-moz-animation: spin 2s infinite linear;
+	-o-animation: spin 2s infinite linear;
+	 animation: spin 2s infinite linear;
+}
+
+.hover-cover,
+.hover-icon {
+	-webkit-transition: all 200ms ease-in-out;
+	-moz-transition: all 200ms ease-in-out;
+	-o-transition: all 200ms ease-in-out;
+	transition: all 200ms ease-in-out;
+	font-size:14px;
+}
+
+
+/* Filters
+------------------------------------- */
+#portfolio-wrapper .portfolio-item { margin-bottom: 20px; }
+
+#filters {
+	margin: 0 0 20px 0;
+	float: left;
+}
+
+#filters li {
+	float:left;
+	display: inline-block;
+	line-height: 24px;
+	background: #fff;
+	overflow: hidden;
+}
+
+#filters ul li { display: inline; }
+
+#filters a {
+	color: #999;
+	font-size: 12px;
+	text-transform: uppercase;
+	font-weight: 700;
+	display: block;
+	padding: 6px 12px;
+	margin: 0 1px 0 0;
+	background-color: #f6f6f6;
+	line-height: 20px;
+	-webkit-transition: background-color 200ms ease-in-out, color 200ms ease-in-out;
+	-moz-transition: background-color 200ms ease-in-out, color 200ms ease-in-out;
+	-o-transition: background-color 200ms ease-in-out, color 200ms ease-in-out;
+	transition: background-color 200ms ease-in-out, color 200ms ease-in-out;
+	float: left;
+}
+
+#filters a:hover,
+#filters a.selected {
+	background-color: #808080;
+	color: #fff;
+}

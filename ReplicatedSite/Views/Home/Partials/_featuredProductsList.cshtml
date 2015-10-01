@@ -1,0 +1,53 @@
+﻿@model ItemListViewModel
+
+@{
+    var modalItem = new Item();
+    var contextID = Guid.NewGuid();
+
+}
+
+<div class="showbiz" data-left="#showbiz_left_1" data-right="#showbiz_right_1" data-play="#showbiz_play_1">
+    <div class="overflowholder">
+
+        <ul class="margin-0">
+            @foreach (var item in Model.Items)
+            {
+                modalItem.ItemCode = item.ItemCode;
+                
+
+                <li>
+
+                    <div data-itemcode="@item.ItemCode" class="item-list-item margin-0">
+
+                        @Html.Partial("../Shopping/Partials/Items/Cards/SingleItem_Home", item)
+                        
+                    </div>
+                </li>
+
+            }
+
+        </ul>
+        <div class="clearfix"></div>
+
+    </div>
+</div>
+
+@*Products*@
+@*<div class="products row margin-0" style="position: relative; z-index: 9;">
+
+    @foreach (var item in Model.Items)
+    {
+        modalItem.ItemCode = item.ItemCode;
+
+        <div data-itemcode="@item.ItemCode" class="item-list-item col-sm-3">
+            <figure class="product">
+                <div id="itemType" class="hidden">@item.Type</div>
+                <div id="itemCode" class="hidden">@item.ItemCode</div>
+
+                @Html.Partial("../Shopping/Partials/Items/Cards/SingleItem_NoPrice", item)
+            </figure>
+        </div>
+    }
+    <div class="clearfix"></div>
+
+</div>*@

@@ -1,0 +1,339 @@
+﻿@model EnrollmentPropertyBag
+@{
+    ViewBag.Title = "Welcome";
+
+    var selectedMarket = GlobalUtilities.GetMarketConfigurationByCountry();
+
+    var hasBirthDate = (Model.Customer.BirthDate != null && Model.Customer.BirthDate != DateTime.MinValue);
+    var birthDay = (hasBirthDate) ? Model.Customer.BirthDate.Day : 1;
+    var birthMonth = (hasBirthDate) ? Model.Customer.BirthDate.Month : 1;
+    var birthYear = (hasBirthDate) ? Model.Customer.BirthDate.Year : DateTime.Now.AddYears(-18).Year;
+}
+
+<div id="view-enrollment">
+    @using (Html.BeginForm())
+    {
+
+        <div class="container" id="personal-info-container">
+            <div class="space-40"></div>
+            <h2>Primary Applicant</h2>
+            <div class="space-20"></div>
+            <hr />
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="firstName" class="col-sm-2 control-label">@Resources.Common.FirstName:</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(c => c.Customer.FirstName, new { @class = "form-control" })
+                                <span class="required-icon">*</span>
+                                <br />
+                                @Html.ValidationMessageFor(c => c.Customer.FirstName)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="middleName" class="col-sm-2 control-label">@Resources.Common.MiddleInitial:</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(c => c.Customer.MiddleName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(c => c.Customer.MiddleName)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName" class="col-sm-2 control-label">@Resources.Common.LastName:</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(c => c.Customer.LastName, new { @class = "form-control" })
+                                <span class="required-icon">*</span>
+                                <br />
+                                @Html.ValidationMessageFor(c => c.Customer.LastName)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pubName" class="col-sm-2 control-label"><a data-toggle="tooltip" data-placement="top" title="@Resources.Common.PublishByNameTooltip"><i class="fa-question-circle"></i></a> @Resources.Common.PublishByName: </label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(c => c.Customer.PublicName, new { @class = "form-control"})
+                                <span class="required-icon">*</span>
+                                <br />
+                                @Html.ValidationMessageFor(c => c.Customer.PublicName)
+                            </div>
+                        </div>
+                        @if (selectedMarket.MarketName == MarketName.UnitedStates)
+                        {
+                            <div class="form-group">
+                                <label for="ssn" class="col-sm-2 control-label">SSN:</label>
+                                <div class="col-sm-10">
+                                    @Html.TextBoxFor(c => c.Customer.TaxID, new { @class = "form-control" })
+                                    <span class="required-icon">*</span>
+                                    <br />
+                                    @Html.ValidationMessageFor(c => c.Customer.TaxID)
+                                </div>
+                            </div>
+                        }
+                        <div class="form-group">
+                            <label for="ssn" class="col-sm-2 control-label">@Resources.Common.BirthDate:</label>
+                            <div class="col-sm-10">
+                                <div id="birth-date-container">
+                                    @Html.DropDownList("Customer.BirthMonth", Html.BirthMonths(birthMonth), new { @class = "form-control lstMonth" })
+
+                                    @Html.DropDownList("Customer.BirthDay", Html.BirthDays(31, birthDay), new { @class = "form-control lstDay" })
+
+                                    @Html.DropDownList("Customer.BirthYear", Html.BirthYears(18, 100, birthYear), new { @class = "form-control lstYear" })
+                                    <span class="required-icon">*</span>
+
+                                    <input type="hidden" name="@Html.NameFor(c => c.Customer.BirthDate)" id="hdnBirthDate" />
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <small>@Resources.Common.ApplicantOlder</small>
+                </div>
+            </div>
+            <div class="space-40"></div>
+            <h2>@Resources.Common.ShippingAddress</h2>
+            <div class="space-20"></div>
+            <hr />
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="address" class="col-sm-2 control-label">@Resources.Common.Address:</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(c => c.ShippingAddress.Address1, new { @class = "form-control" })
+                                <span class="required-icon">*</span>
+                                <br />
+                                @Html.ValidationMessageFor(c => c.ShippingAddress.Address1)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lineTwo" class="col-sm-2 control-label">(@Resources.Common.LineTwo):</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(c => c.ShippingAddress.Address2, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(c => c.ShippingAddress.Address2)
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="city" class="col-sm-2 control-label">@Resources.Common.City:</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(c => c.ShippingAddress.City, new { @class = "form-control" })
+                                <span class="required-icon">*</span>
+                                <br />
+                                @Html.ValidationMessageFor(c => c.ShippingAddress.City)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="state" class="col-sm-2 control-label">@Resources.Common.State:</label>
+                            <div class="col-sm-10">
+                                @Html.DropDownListFor(s => s.ShippingAddress.State, Html.Regions(Model.ShippingAddress.Country, Model.ShippingAddress.State),
+                                new
+                                {
+                                    @class = "form-control"
+                                })
+                                <span class="required-icon">*</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="PostalCode" class="col-sm-2 control-label">@Resources.Common.PostalCode:</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(c => c.ShippingAddress.Zip, new { @class = "form-control" })
+                                <span class="required-icon">*</span>
+                                <br />
+                                @Html.ValidationMessageFor(c => c.ShippingAddress.Zip)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="country" class="col-sm-2 control-label">@Resources.Common.Country:</label>
+                            <div class="col-sm-10">
+                                @Html.Countries().FirstOrDefault(c => c.Value == Model.ShippingAddress.Country).Text
+
+                                <input type="hidden" value="@Model.ShippingAddress.Country" name="@Html.NameFor(c => c.ShippingAddress.Country)" />
+
+                                <a href="@Url.Action("countryselection", "enrollment")">(@Resources.Common.Change)</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-40"></div>
+            <h2>Contact Information</h2>
+            <div class="space-20"></div>
+            <hr />
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="address" class="col-sm-3 control-label">@Resources.Common.EveningPhone:</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(c => c.Customer.PrimaryPhone, new { @class = "form-control number-only" })
+                                <span class="required-icon">*</span>
+                                <br />
+                                @Html.ValidationMessageFor(c => c.Customer.PrimaryPhone)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lineTwo" class="col-sm-3 control-label">@Resources.Common.DayPhone:</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(c => c.Customer.SecondaryPhone, new { @class = "form-control number-only" })
+                                @Html.ValidationMessageFor(c => c.Customer.SecondaryPhone)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="city" class="col-sm-3 control-label">@Resources.Common.CellPhone:</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(c => c.Customer.MobilePhone, new { @class = "form-control number-only" })
+                                @Html.ValidationMessageFor(c => c.Customer.MobilePhone)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="fax" class="col-sm-3 control-label">@Resources.Common.Fax:</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(c => c.Customer.Fax, new { @class = "form-control number-only" })
+                                @Html.ValidationMessageFor(c => c.Customer.Fax)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="col-sm-3 control-label">@Resources.Common.Email:</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(c => c.Customer.Email, new { @class = "form-control" })
+                                <span class="required-icon">*</span>
+                                <br />
+                                @Html.ValidationMessageFor(c => c.Customer.Email)
+                                <br />
+                                <p>@Resources.Common.YourUsername</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <div class="checkbox">
+                                        <label for="@Html.IdFor(c => c.Customer.IsOptedIn)">
+                                            <input type="checkbox" checked="checked" name="@Html.NameFor(c => c.Customer.IsOptedIn)" id="@Html.IdFor(c => c.Customer.IsOptedIn)" value="true" /> @Resources.Common.YesReceiveCorporate
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" checked="checked" /> @Resources.Common.YesReceiveSponsor
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+            <div class="space-40"></div>
+            <h2>@Resources.Common.AccountLogin</h2>
+            <div class="space-20"></div>
+            <hr />
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="loginname" class="col-sm-3 control-label">@Resources.Common.Username:</label>
+                            <div class="col-sm-9">
+                                <label class="col-sm-3 control-label" id="login"></label>
+                               @Html.HiddenFor(c => c.Customer.LoginName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="pasword" class="col-sm-3 control-label">@Resources.Common.Password:</label>
+                            <div class="col-sm-9">
+                                @Html.PasswordFor(c => c.Customer.Password, new
+                                   {
+                                       @class = "form-control password",
+                                       required = "required"
+                                   })
+                                @Html.ValidationMessageFor(c => c.Customer.Password)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pasword" class="col-sm-3 control-label">@Resources.Common.ConfirmPassword:</label>
+                            <div class="col-sm-9">
+                                @Html.PasswordFor(c => c.Customer.ConfirmPassword, new
+                                   {
+                                       @class = "form-control password",
+                                       required = "required"
+                                   })
+                                @Html.ValidationMessageFor(c => c.Customer.ConfirmPassword)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-20"></div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <a class="btn btn-primary btn-lg" data-role="submit"> @Resources.Common.NextStep</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-50"></div>
+        @Html.AntiForgeryToken()
+    }
+</div>
+
+
+<script>
+    require([], function () {
+        $('[data-role="submit"]').on("click", function () {
+            var $this = $(this);
+            $this.loadingbutton("start");
+
+            var birthDay = $(".lstDay").val(),
+             birthMonth = $(".lstMonth").val(),
+             birthYear = $(".lstYear").val();
+
+            var birthDate = new Date(birthYear, birthMonth, birthDay, 0, 0, 0, 0);
+
+            if (validateBirthDate(birthDate)) {
+                $("#hdnBirthDate").val(birthDate.toDateString());
+                var $form = $this.parents("form");
+
+                $form.submit();
+
+                // Wait for remote validation
+                setTimeout(function () {
+                    if (!$form.valid()) {                
+                        $this.loadingbutton("stop");
+                    }
+                }, 3000);
+            } else {
+                toastr.error("You must be older than 18 to enroll");
+                $this.loadingbutton("stop");
+            }
+        });
+
+        $(".number-only").on("keypress", function (e) {
+            e = (e) ? e : window.event;
+            var charCode = (e.which) ? e.which : e.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        });
+
+        $("#Customer_Email").keyup( function () {
+            console.log("here");
+            $("#login").html($(this).val());
+            $("#Customer_LoginName").val($(this).val());
+        });
+        function validateBirthDate(birthDate) {
+
+            var tempDate = new Date(birthDate.getFullYear() + 18, birthDate.getMonth(), birthDate.getDate());
+            return (tempDate <= new Date());
+        }
+
+    });
+</script>

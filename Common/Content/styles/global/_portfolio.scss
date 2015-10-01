@@ -1,0 +1,264 @@
+﻿/* ------------------------------------------------------------------- */
+/* Portfolio
+---------------------------------------------------------------------- */
+
+/* Dynamic Grid
+------------------------------------- */
+.og-grid {
+	list-style: none;
+	padding: 0;
+	margin: 0 auto;
+	text-align: left;
+	width: 100%;
+	margin-left: 2px;
+}
+
+.og-grid > li.unclickable a { cursor: default; }
+
+.og-grid li a img {
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+.og-grid > li {
+	display: inline-block;
+	margin: 0 8px 20px 8px;
+	vertical-align: top;
+	height: auto;
+	float: none;
+    -webkit-transition: opacity 0.3s ease-in-out;
+	-moz-transition: opacity 0.3s ease-in-out;
+	-o-transition: opacity 0.3s ease-in-out;
+	transition: opacity 0.3s ease-in-out;
+}
+
+/* Hover Effects */
+.dynamic-portfolio-holder {
+	overflow: hidden;
+	position: relative;
+}
+
+.dynamic-portfolio-holder .hover-icon:before,
+.overflowholder .hover-icon:before { top: 15px; }
+
+
+.og-grid li a:hover .hover-cover {
+	opacity: 0.5;
+	visibility: visible;
+}
+
+.og-grid li a:hover .hover-icon {
+	opacity: 1;
+	visibility: visible;
+	bottom: 0;
+}
+
+.og-grid li a:hover .hover-desc {
+	opacity: 1;
+	visibility: visible;
+	top: 40%;
+}
+
+
+/* Filtered Element Style */
+.og-grid > li.unclickable .hover-desc,
+.og-grid > li.unclickable .hover-icon,
+.og-grid > li.unclickable .hover-cover { display: none; }
+
+.og-grid > li.unclickable {
+	opacity: 0.4;
+}
+
+.hover-desc {
+	position: absolute;
+	top:0;
+	left:0;
+	color: #fff;
+	text-align: center;
+	width: 100%;
+	top: 45%;
+	opacity: 0;
+	visibility: hidden;
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+}
+
+.hover-desc h5 {
+	color: #fff;
+	font-size: 18px;
+	font-weight: 600;
+	margin-bottom: -2px;
+}
+
+.hover-desc span {
+	color: #fff;
+	text-transform: uppercase;
+	font-size: 12px;
+	font-weight: 700;
+	opacity: 0.7;
+}
+
+.og-expander {
+	position: absolute;
+	background: #f6f6f6;
+	top: auto;
+	left: 10px;
+	margin-top: 20px;
+	margin-bottom: 40px;
+	text-align: left;
+	opacity: 0;
+	overflow: hidden;
+}
+
+.og-expander-inner {
+	padding: 0;
+	height: 100%;
+}
+
+/* Close Button */
+.og-close {
+	position: absolute;
+	width: 48px;
+	height: 48px;
+	top: 0;
+	right: 0;
+	cursor: pointer;
+	z-index: 9999;
+	background: #c0c0c0;
+	color: #fff;
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+}
+
+.og-close:before {
+	content: "";
+	font-family: "FontAwesome";
+	font-size: 16px;
+	top: 15px;
+	left: 18px;
+	position: relative;
+}
+
+.og-close:hover {
+	background: #808080;
+}
+
+/* Details */
+.og-details {
+	width: auto;
+	overflow: hidden;
+	position: relative;
+	padding: 0 50px;
+	margin: 45px 0;
+}
+
+.og-details h3 {
+	font-weight: 600;
+	font-size: 24px;
+	padding: 0;
+	margin-bottom: 14px;
+	margin-top: 0;
+	color: #606060;
+}
+
+.og-details p {
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 22px;
+	color: #909090;
+	margin-bottom: 12px;
+}
+
+/* Image Gallery */
+.gridslider {
+	float: left;
+	display: inline-block;
+	position: relative;
+	width: 500px;
+	overflow: hidden;
+}
+
+.gridslider img {
+	height: 100%;
+	max-width: inherit;
+	width: auto;
+}
+
+/* Columns Grid */
+.gridslider { width: 500px; }
+.og-expander { width: 1180px; }
+.og-grid > li { width: 280px; }
+
+@media only screen and (min-width: 960px) and (max-width: 1289px) {
+	.gridslider { width: 400px; }
+	.og-expander { width: 940px; }
+	.og-grid > li { width: 220px; }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+	.gridslider { width: 350px; }
+	.og-expander { width: 748px; }
+	.og-grid > li { width: 236px; }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+	.gridslider ,
+	.og-expander,
+	.og-grid > li { width: 420px; }
+	.og-expander { left:0; }
+}
+
+@media only screen and (max-width: 479px) {
+	.gridslider ,
+	.og-expander,
+	.og-grid > li { width: 300px; }
+	.og-expander {left:0;}
+}
+
+
+/* Portfolio Item
+------------------------------------- */
+.item-description {
+	padding: 20px 20px 30px 20px;
+	text-align: center;
+	background-color: #f6f6f6;
+}
+
+.item-description h5 {
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 16px;
+	color: #707070;
+	margin: 0;
+}
+
+.item-description span {
+	color: #aaa;
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 12px;
+	margin: 0;
+	text-transform: uppercase;
+}
+
+.portfolio-holder {
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+	-webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing:border-box;
+}
+
+.portfolio-holder img {
+	width: 100%;
+	position: relative;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	backface-visibility: hidden;
+}

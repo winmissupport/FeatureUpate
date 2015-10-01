@@ -1,0 +1,380 @@
+﻿/* ------------------------------------------------------------------- */
+/* Blog Styles
+---------------------------------------------------------------------- */
+
+/* Masonry
+------------------------------------- */
+.masonry-item .from-the-blog {
+	margin: 0 0 20px 0;
+}
+
+/* Blog Quote */
+.post-quote {
+	background: #505050;
+	padding: 25px 25px 10px 25px;
+}
+
+.post-quote blockquote {
+	color: #fff;
+	font-size: 18px;
+	font-style: normal;
+	line-height: 26px;
+	border-left: 1px solid #666;
+	padding: 0 0 0 18px;
+	margin-left: 45px;
+	font-weight: 300;
+}
+
+.post-quote span {
+	text-decoration: none;
+	display: block;
+	margin: 10px 0 0 0;
+	font-size: 14px;
+	color: #d0d0d0;
+}
+
+.post-quote .icon:before {
+	font-family: "FontAwesome";
+	font-size: 24px;
+	content: "";
+	color: #fff;
+	position: relative;
+	height: 15px;
+	width: 25px;
+	display: block;
+	float: left;
+	margin: 4px 0 0 0;
+}
+
+
+/* Blog List
+------------------------------------- */
+.the-team-content,
+.from-the-blog-content {
+	background-color: #f8f8f8;
+	padding: 25px 30px;
+	margin: 0;
+}
+
+.the-team-content h5,
+.from-the-blog-content a h5 {
+	font-weight: 700;
+	line-height: 22px;
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+	margin: 0 0 3px 0;
+}
+
+.the-team h5 {
+	font-size: 18px;
+	margin: 0;
+}
+
+.the-team-content a:hover h5,
+.from-the-blog-content a:hover h5 {
+	color: #888;
+}
+
+.the-team-content i,
+.from-the-blog-content i {
+	font-weight: 500;
+	color: #aaa;
+	font-size: 13px;
+}
+
+.the-team-content span,
+.from-the-blog-content span {
+	font-size: 14px;
+	display: block;
+	margin: 9px 0 14px 0;
+}
+
+.the-team span {
+	margin: 9px 0 17px 0;
+}
+
+.the-team-image,
+.from-the-blog-image { overflow: hidden; position: relative; }
+
+.the-team-image a img,
+.from-the-blog-image a img {
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+/*.the-team-image a img,
+.from-the-blog-image:hover a img {
+	opacity: 0.9;
+}*/
+
+.from-the-blog-image:hover .hover-icon {
+	visibility: visible;
+	bottom:0;
+	opacity:1;
+}
+
+.from-the-blog-content.no-img {
+	padding-top: 30px;
+}
+
+
+/* Posts
+------------------------------------- */
+.post {
+	padding: 0 0 30px 0;
+	margin: 0 0 40px 0;
+	border-bottom: 1px solid #ebebeb;
+}
+
+.post.single {
+	border:0;
+	margin: 0 0 10px 0;
+}
+
+.post #basic-slider { margin-bottom: -23px; }
+
+.extra-padding {
+	padding-right: 20px;
+}
+
+.extra-padding.left {
+	padding-left: 20px;
+}
+
+
+.post-content {
+	margin: 0 0 0 70px;
+}
+
+.post-img {
+	overflow: hidden;
+	margin: 0 0 23px 0;
+	position: relative;
+}
+
+.post-img a:hover .hover-icon {
+	opacity: 1;
+	visibility: visible;
+	bottom: 0;
+}
+
+.post-img a img {
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+.post-img a:hover img {
+	opacity: 0.9;
+}
+
+/* Tags */
+.meta {
+	color: #909090;
+	margin: 0 0 15px 0;
+}
+
+.meta a {
+	color: #909090;
+	text-decoration: none;
+}
+
+.meta time {
+	margin: 0 0 0 -2px;
+}
+
+.meta a:hover {
+	color: #808080;
+}
+
+.meta i {
+	display: inline-block;
+	margin: 2px 5px 0 0;
+	color: #c0c0c0;
+}
+
+.meta:after {content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0;}
+
+.meta span {
+	margin-right: 12px;
+	float: left;
+}
+
+
+/* Title */
+.meta h2 {
+	line-height: 26px;
+	font-size: 24px;
+	font-weight: 600;
+	margin: 0 0 2px 0;
+}
+
+.meta h2 a {
+	color: #606060;
+}
+
+.meta h2 a:hover {
+	color: #888;
+}
+
+
+/* Date */
+.date {
+	float: left;
+	text-align: center;
+	height: 0;
+}
+
+.date span {
+	display: block;
+}
+
+.day {
+	background: #f6f6f6;
+	padding: 10px;
+	font-size: 16px;
+	font-weight: 500;
+	color: #a0a0a0;
+}
+
+.month {
+	background: #c0c0c0;
+	padding: 0 10px 2px 10px;
+	color: #fff;
+	font-weight: 700;
+	font-size: 12px;
+	text-transform: uppercase;
+}
+
+/* Tags
+------------------------------------- */
+.tags {
+	margin: 5px 0 0 0;
+}
+
+.tags a {
+	padding: 4px 11px 4px 11px;
+	display: inline-block;
+	color: #999;
+	font-size: 12px;
+	text-transform: uppercase;
+	font-weight: 700;
+	background-color: #f6f6f6;
+	margin: 0 2px 6px 0;
+	-webkit-transition: all 200ms ease-in-out;
+	-moz-transition: all 200ms ease-in-out;
+	-o-transition: all 200ms ease-in-out;
+	transition: all 200ms ease-in-out;
+}
+
+.tags a:last-child {
+	margin-right: 0;
+}
+
+.tags a:hover {
+	background: #808080;
+	color: #fff;
+}
+
+
+/* Widget Tabs
+------------------------------------- */
+.widget-tabs li {
+	padding: 0 0 15px 0;
+	margin: 15px 0 0 0;
+	border-bottom: 1px solid #ededed;
+}
+
+.widget-tabs li:first-child {
+	margin: 4px 0 0 0;
+}
+
+.widget-tabs li:last-child {
+	border-bottom: 0;
+}
+
+.widget-thumb a img {
+	display: block;
+	width: 74px;
+	height: 74px;
+	float: left;
+	margin: 0 15px 0 0;
+}
+
+.widget-text h4 {
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 21px;
+	padding: 3px 0 0 0;
+}
+
+.widget-text h4 a {
+	color: #666;
+}
+
+.widget-text h4 a:hover {
+	color: #888;
+}
+
+.widget-text span {
+	color: #a0a0a0;
+	font-weight: 500;
+	margin: 4px 0 0 0;
+	display: block;
+}
+
+.widget-tabs.comments .widget-text span {
+	padding: 5px 0 0 0;
+	margin: 0;
+}
+
+/* Blog Tabs */
+.tabs-nav.blog li {
+	width: 33.334%;
+	text-align: center;
+}
+
+.tabs-nav.blog li a {
+	padding: 0;
+}
+
+
+/* Widget
+------------------------------------- */
+
+.categories li a {
+	padding: 0 0 7px 0;
+	display: inline-block;
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+	color: #888;
+}
+
+.categories li a:hover {
+	padding-left: 3px;
+	color: #808080 !important;
+}
+
+.categories li:before {
+	font-family: "FontAwesome";
+	font-size: 12px;
+	content: "";
+	color: #ddd;
+	position: relative;
+	left: 0;
+	top: -1px;
+	padding: 0 7px 0 0;
+}

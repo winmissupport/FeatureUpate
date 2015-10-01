@@ -1,0 +1,64 @@
+﻿@model CategoryLandingViewModel
+
+@{
+    ViewBag.Title = "Shop";
+    var modalItem = new Item();
+    ViewBag.Meta = "Purchase WIN Worldwide (WIN) wellness products, including the great tasting superfood drink-mix, Daily Lift™.";
+}
+
+@*@Html.Partial("Partials/Navigation/_ShoppingNavigation")*@
+
+@* Temp Style: NOTE: This needs to be revisited. Lets review how this is constructed when we get a chance. *@
+<style>
+    .item-list-item { margin:0 60px 0 0; }
+</style>
+<div class="titlebar">
+
+    <section class="container">
+
+        <h2>@ViewBag.Title</h2>
+
+        <nav id="breadcrumbs">
+            <ul>
+                <li><a href="@Url.Action("Index", "Home")">@Resources.Common.Home</a></li>
+                <li><a href="@Url.Action("Index", "Shopping")">@ViewBag.Title</a></li>
+            </ul>
+        </nav>
+
+    </section>
+</div>
+<div class="shop">
+        
+
+       
+        <div class="container">
+            @*Content
+                ==================================================*@
+            @*<div class="sixteen columns full-width">
+
+                     Ordering
+                    <select class="orderby">
+                        <option>Default Sorting</option>
+                        <option>Sort by Popularity</option>
+                        <option>Sort by Newness</option>
+                    </select>
+
+                </div>*@
+            @*Products*@
+            <div class="products row" style="position: relative; z-index: 9;">
+
+                @foreach (var item in Model.Items)
+                {
+                    modalItem.ItemCode = item.ItemCode;
+
+                    <div data-itemcode="@item.ItemCode" class="item-list-item col-sm-3">
+                        @Html.Partial("Partials/Items/Cards/SingleItem_NoPrice", item)                      
+                    </div>
+                }
+                <div class="clearfix"></div>
+                <br />
+            </div>
+
+        <div class="margin-top-15"></div>
+    </div>
+</div>

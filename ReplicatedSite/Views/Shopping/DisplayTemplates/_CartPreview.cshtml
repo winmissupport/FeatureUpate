@@ -1,0 +1,144 @@
+﻿@model ReplicatedSite.ViewModels.CartViewModel
+@{decimal totalCount = (Identity.Customer != null) ? Model.Items.Sum(i => i.Quantity) + Model.AutoOrderItems.Sum(i => i.Quantity) : Model.Items.Sum(i => i.Quantity);}
+
+<div class="dropdown" id="cart-preview-widget">
+    <a data-toggle="dropdown" id="cart-preview-link"><i class="glyphicon-shopping-cart"></i>&nbsp; <span class="cart-item-count">@totalCount.ToString("0")</span><small>@Resources.Labels.Items</small></a>
+    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
+        <li>
+            <div class="cart-preview">
+                <section class="cart-section">
+                    <div class="cart-section-header">
+                        <span><i class="fa-calendar lime-icon"></i> @Resources.Labels.Order</span>
+                        <span class="pull-right">
+                            <span class="order-item-count">@Model.Items.Sum(i => i.Quantity).ToString("0")</span> @Resources.Labels.Items
+                        </span>
+                    </div>
+                    @if (Model.Items.Count() > 0)
+                    {
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>@Resources.Labels.Quantity</th>
+                                    <th colspan="2">@Resources.Labels.Items</th>
+                                    <th>@Resources.Labels.Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var product in Model.Items.Take(2))
+                                {
+                                    <tr>
+                                        <td>@product.Quantity.ToString("0")</td>
+                                        <td><img class="tiny-image" src="@product.TinyImageUrl" /></td>
+                                        <td>@product.ItemDescription</td>
+                                        <td>@product.Price.ToString("C")</td>
+                                    </tr>
+                                }
+
+                                @if (Model.Items.Count() > 2)
+                                {
+                                    var additionalOrderItemPrice = 0M;
+                                    foreach (var additionalOrderItem in Model.Items.Skip(2))
+                                    {
+                                        additionalOrderItemPrice = additionalOrderItemPrice + (additionalOrderItem.Price * additionalOrderItem.Quantity);
+                                    }
+
+                                    <tr>
+                                        <td colspan="2">&nbsp;</td>
+                                        <td>@(Model.Items.Skip(2).Sum(p => p.Quantity).ToString("0")) @Resources.Labels.Items</td>
+                                        <td>@additionalOrderItemPrice.ToString("C")</td>
+                                    </tr>
+                                }
+
+                                <tr>
+                                    <td colspan="2">&nbsp;</td>
+                                    <td><strong>@Resources.Labels.Subtotal</strong></td>
+                                    <td><span class="cart-subtotal">@Model.Items.Sum(i => (i.Price * i.Quantity)).ToString("C")</span></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+    }
+                </section>
+
+                @*@if (Identity.Customer != null) //2015-02-19 #61259 DV. Remove requirement that login is required to see the AOP cart.  However, in order to interact with this View user must have already registered after he/she gets worn down by the marketing gimmick that pushes them to register.
+                {*@
+                    <section class="cart-section">
+                        <div class="cart-section-header">
+                            <span><i class="fa-refresh orange-icon"></i> @Resources.Labels.AutoOrder</span>
+                            <span class="pull-right">
+                                <span class="order-item-count">@Model.AutoOrderItems.Sum(i => i.Quantity).ToString("0")</span> @Resources.Labels.Items
+                            </span>
+                        </div>
+                        @if (Model.AutoOrderItems.Count() > 0)
+                    {
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>@Resources.Labels.Quantity</th>
+                                <th colspan="2">@Resources.Labels.CartItem</th>
+                                <th>@Resources.Labels.Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{var totalAOPrice = 0M;}
+
+                            @foreach (var aoproduct in Model.AutoOrderItems.Take(2))
+                                {
+                                    totalAOPrice = aoproduct.Price * aoproduct.Quantity;
+
+                                <tr>
+                                    <td>@aoproduct.Quantity.ToString("0")</td>
+                                    <td><img class="tiny-image" src="@aoproduct.TinyImageUrl" /></td>
+                                    <td>@aoproduct.ItemDescription</td>
+                                    <td>@totalAOPrice.ToString("C")</td>
+                                </tr>
+                                }
+
+                            @if (Model.AutoOrderItems.Count() > 2)
+                                {
+                                    var additionalAOItemPrice = 0M;
+                                    foreach (var additionalAOItem in Model.AutoOrderItems.Skip(2))
+                                    {
+                                        additionalAOItemPrice = additionalAOItemPrice + (additionalAOItem.Price * additionalAOItem.Quantity);
+                                    }
+
+                                <tr>
+                                    <td colspan="2">&nbsp;</td>
+                                    <td>@(Model.AutoOrderItems.Skip(2).Sum(p => p.Quantity).ToString("0")) @Resources.Labels.Items</td>
+                                    <td>@additionalAOItemPrice.ToString("C")</td>
+                                </tr>
+                                }
+
+                            <tr>
+                                <td colspan="2">&nbsp;</td>
+                                <td><strong>@Resources.Labels.Subtotal</strong></td>
+                                @{
+                        var subtotal = Model.AutoOrderTotals.Subtotal + Model.AutoOrderTotals.Tax;
+                                }
+                                <td><span class="cart-subtotal">@subtotal.ToString("C")</span></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+
+                    }
+                    </section>
+                @*}*@
+
+                <footer>
+                    <a class="orange-link" href="@Url.Action("cart", "shopping")"><span>@Resources.Labels.MyCart </span><span class="circle-arrow"><i class="fa-arrow-right"></i></span></a>
+                </footer>
+
+            </div>
+        </li>
+    </ul>
+</div>
+
+<script>
+    $(function () {
+        $('#cart-preview-link').dropdown();
+    });
+</script>

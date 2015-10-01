@@ -1,0 +1,196 @@
+﻿@model AccountRegistrationViewModel
+@{
+    ViewBag.Title = "Create a Customer Account";
+}
+
+<div class="space-10"></div>
+<div id="view-account-registration" class="container registration">
+    <div class="row">
+        @ViewBag.Error
+        <div id="account-registration-form">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2">
+                    <h2>@ViewBag.Title</h2>
+                    <div class="register-form-container">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            
+
+
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-sm-2">@Html.LabelFor(c => c.FirstName, new { @class = "control-label" })</div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(c => c.FirstName, new
+                                                {
+                                                    @class = "form-control",
+                                                    placeholder = "First Name",
+                                                    required = "required"
+                                                })
+                                                <small>@Html.ValidationMessageFor(c => c.FirstName)</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">@Html.LabelFor(c => c.LastName, new { @class = "control-label" })</div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(c => c.LastName, new
+                                                {
+                                                    @class = "form-control",
+                                                    placeholder = "Last Name",
+                                                    required = "required"
+                                                })
+                                                <small>@Html.ValidationMessageFor(c => c.LastName)</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-2 margin-1">@Html.LabelFor(c => c.Username, new { @class = "control-label" })</div>
+                                        <div class="col-sm-4 margin-1">
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(c => c.Username, new
+                                                {
+                                                    @class = "form-control",
+                                                    placeholder = "Email Address",
+                                                    required = "required"
+                                                })
+                                                <small>@Html.ValidationMessageFor(c => c.Username)</small>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-2 margin-1">@Html.LabelFor(c => c.PhoneNumber, new { @class = "control-label" })</div>
+                                        <div class="col-sm-4 margin-1">
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(c => c.PhoneNumber, new
+                                                {
+                                                    @class = "form-control",
+                                                    placeholder = "Phone Number",
+                                                    required = "required"
+                                                })
+                                                <small>@Html.ValidationMessageFor(c => c.PhoneNumber)</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*<div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <div class="checkbox">
+                                                        <label for="@Html.IdFor(c => c.IsOptedIn)" class="text-primary">
+                                                            @Html.CheckBoxFor(c => c.IsOptedIn) I would like to receive emails about product news and exciting opportunities!
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                        </div>*@
+                                    <div class="row">
+                                        <div class="col-sm-2 margin-1">@Html.LabelFor(c => c.Password, new { @class = "control-label" })</div>
+                                        <div class="col-sm-4 margin-1">
+                                            <div class="form-group">
+
+                                                @Html.EditorFor(c => c.Password, new
+                                                {
+                                                    
+                                                    placeholder = "Password",
+                                                    
+                                                })
+                                                
+
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2 margin-1">@Html.LabelFor(c => c.ConfirmPassword, new { @class = "control-label" })</div>
+                                        <div class="col-sm-4 margin-1">
+                                            <div class="form-group">
+
+                                                @Html.PasswordFor(c => c.ConfirmPassword, new
+                                                {
+                                                    @class = "form-control password",
+                                                    placeholder = "Re-Enter Password",
+                                                    
+                                                })
+                                                <small>@Html.ValidationMessageFor(c => c.ConfirmPassword)</small>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="form-group">
+                                        <button type="submit" data-role="submit-form" class="btn btn-primary">Submit Registration</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .register-form-container .control-label { text-transform: uppercase; }
+</style>
+
+@section scripts
+{
+
+    <script>
+        require(["ajax", "app", "pubsub"], function (ajax, app) {
+
+            // Settings
+            var context = "#view-account-registration",
+                $context = $(context),
+                isOrphan = @Model.IsOrphan.ToString().ToLower();
+
+            // Event Handlers
+            function registerEventHandlers() {
+                $('[data-role="enroller-reset"]', $context).on('click', function () {
+                    var value = $('#enrollerID').val();
+
+                    window.trigger("registration.enrolleridreset");
+                });
+
+
+                // Pubsub events
+                window.on('registration.enrolleridreset', function () {
+                    $('#account-registration-form').hide();
+                    $('#associate-search-container').show();
+                    $('#search-message').hide();
+                });
+
+                window.on('registration.enrolleridchosen', function () {
+                    $('#account-registration-form').show();
+                });
+
+            }
+
+
+            // Actions
+            var actions = {
+
+            };
+
+
+            // Helpers
+            var helpers = {
+
+            };
+
+
+            // Initialization
+            function init() {
+                registerEventHandlers();
+
+                if (!isOrphan) {
+                    $('#account-registration-form').show();
+                }
+            }
+            init();
+
+        });
+    </script>
+}

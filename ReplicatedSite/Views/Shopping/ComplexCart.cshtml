@@ -1,0 +1,220 @@
+﻿@model CartViewModel
+@{
+    ViewBag.Title = Resources.Labels.ShoppingCart;
+}
+
+<div class="shop">
+    <div class="cart container">
+        <div class="summary">
+            @if (Model.Items.Count() == 0)
+            {
+                <h2 class="text-uppercase">@ViewBag.Title</h2>
+
+                <div class="space-20"></div>
+
+                <p>@Resources.Labels.NoItemsInCart</p>
+
+                <div class="space-20"></div>
+
+                <a href="@Url.Action("index", "shopping")" class="btn-continue">@Resources.Labels.ContinueShopping</a>
+            }
+            else
+            {
+                <div class="row cart-page-header-row">
+                    <div class="col-sm-7">
+                        <h2 class="text-uppercase">@ViewBag.Title</h2>
+                    </div>
+                    <div class="col-sm-3 col-sm-offset-2 text-right">
+                        <a href="@Url.Action("itemlist")" class="btn-continue">@Resources.Labels.ContinueShopping</a>
+                        &nbsp;
+                        &nbsp;
+                        <a href="@Url.Action("Checkout")" class="btn-checkout">@Resources.Labels.Checkout <i class="fa-angle-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="row cart-body">
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-condensed">
+                            <thead>
+                                <tr class="shopping-cart-header-row">
+                                    <th class="cart-header item-header">
+                                        <span class="">@Resources.Labels.CartItem</span>
+                                    </th>
+
+                                    <th class="cart-header">
+                                        <span class="item-quantity-header">Quantity</span>
+                                    </th>
+                                    <th class="cart-header">
+                                        <span class="item-price-header">@Resources.Labels.Price</span>
+                                    </th>
+                                    <th class="cart-header">
+                                        <span class="total-price-header">@Resources.Labels.TotalPrice</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model.Items)
+                                {
+                                    var itemCodeForDetail = (item.GroupMasterItemCode.IsNotNullOrEmpty()) ? item.GroupMasterItemCode : item.ItemCode;
+                                    var disabled = (item.ItemCode == ReplicatedSite.Settings.PreferredCustomerSubscriptionItemCode) ? "disabled='disabled'" : "";
+
+                                    <tr class="cart-body-row" data-id="@item.ID">
+                                        <td>
+                                            <div class="item-description">
+                                                <dl>
+                                                    <dt class="text-uppercase"><a href="@Url.Action("itemdetail", new { itemcode = itemCodeForDetail })" class="dark-brown">@item.ItemDescription</a></dt>
+                                                    <dd><a href="@Url.Action("itemdetail", new { itemcode = itemCodeForDetail })" class="dark-brown">@item.ShortDetail2</a></dd>
+                                                </dl>
+                                            </div>
+                                        </td>
+                                        <td class="item-quantity-cell">
+                                            <input type="hidden" name="ID" value="@item.ID" class="item-quantity" />
+
+                                            <input type="number" value="@item.Quantity.ToString("0")" name="@Html.NameFor(c => item.Quantity)" class="form-control input-sm text-center item-quantity" data-role="cart.updateitemquantity" data-id="@item.ID" @disabled />
+                                            <p>
+                                                <small class="remove"><a class="text-muted" data-role="cart.removeitemfromcart" data-id="@item.ID">@Resources.Labels.Remove</a></small>
+                                            </p>
+                                        </td>
+                                        <td class="item-price">
+                                            @item.Price.ToString("C")
+                                        </td>
+                                        <td class="total-price">
+                                            @{var subtotal = (item.Price * item.Quantity).ToString("C");}
+                                            <span data-text="subtotal">@subtotal</span>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+                <div class="row cart-footer">
+                    <div class="col-xs-7">
+                        @if (Identity.Customer != null && Identity.Customer.CustomerTypeID == CustomerTypes.SmartShopper)
+                        {
+                            <h4><strong>Credit:</strong> </h4> <span class="credit"></span>
+                        }
+                    </div>
+                    <div class="col-xs-2 text-right">
+                        <a href="@Url.Action("cart", "shopping")" class="update btn-checkout">
+                            Update
+                        </a>
+                    </div>
+                    <div class="col-xs-3 ">
+                        @if (Model.Items.Where(c => c.Type == ShoppingCartItemType.Order).Count() > 0)
+                        {
+                            <ul class="cart-totals list-unstyled text-right">
+                                <li>
+                                    <ul class="list-inline list-unstyled">
+                                        <li class="cart-total-header"><strong>Order @Resources.Labels.Subtotal:</strong></li>
+                                        <li class="order-subtotal-computed"><span data-text="ordersubtotal">@Model.Items.Sum(c => c.Quantity * c.Price).ToString("C")</span></li>
+                                    </ul>
+                                </li>
+                                @if (Identity.Customer != null && Identity.Customer.CustomerTypeID == CustomerTypes.SmartShopper)
+                                {
+                                    <li>
+                                        <ul class="list-inline list-unstyled">
+                                            <li class="cart-total-header"><strong>Credit Earned:</strong></li>
+                                            <li class="credit-earned-computed"> </li>
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        }
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-5 col-sm-offset-7 text-right">
+                        <a href="@Url.Action("itemlist")" class="btn-continue">@Resources.Labels.ContinueShopping</a>
+                        &nbsp;
+                        &nbsp;
+                        <a href="@Url.Action("Checkout")" class="btn-checkout">@Resources.Labels.Checkout <i class="fa-angle-right"></i></a>
+                    </div>
+                </div>
+            }
+        </div>
+        
+    </div>
+</div>
+
+
+
+
+
+@section scripts
+{
+    <script>
+        require(["pubsub", "ajax", "shopping"], function (pubsub, ajax, shopping) {
+
+            // Settings
+            var updatequantityUrl = "@Url.Action("updateitemquantity", "shopping")",
+                removeitemUrl = "@Url.Action("removeitemfromcart", "shopping")",
+                context = ".shopping-cart",
+                $context = $(context);
+
+            shopping.bind(context);
+
+
+            window.on('cart.updateitemquantity', function (data) {
+                console.log("item", data);
+
+                ajax.json({
+                    url: updatequantityUrl,
+                    data: data,
+                    success: function (response) {
+                        if (response.success) {
+                            window.trigger('cart.cartupdated', response);
+                        }
+                    }
+                });
+            });
+            window.on('cart.removeitemfromcart', function (id) {
+                ajax.json({
+                    url: removeitemUrl,
+                    data: {
+                        id: id
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            window.trigger('cart.itemremoved', id);
+                            window.trigger('cart.cartupdated', response);
+                        }
+                    }
+                });
+            });
+
+            window.on('cart.itemremoved', function (id) {
+                $('[data-id="{0}"]'.format(id), $context).slideUp('fast', function () {
+                    $(this).remove();
+                });
+            });
+
+            window.on('cart.cartupdated', function (data) {
+                var updatedItem = data.item;
+                var items = data.items;
+
+                if (updatedItem.Type == 0) {
+
+                    var quantity = 0;
+                    var subtotal = 0;
+                    for (var i = 0, max = items.length; i < max; i++) {
+                        var item = items[i];
+
+                        if (item.Type == 0) {
+                            quantity += item.Quantity;
+                        }
+                    }
+
+                    $('[data-text="orderquantity"]').html(quantity.format("N0"));
+                    $('[data-text="ordersubtotal"]').html(data.totals.Subtotal.format("C"));
+                }
+            });
+        });
+
+    </script>
+}

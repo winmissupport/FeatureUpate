@@ -1,0 +1,375 @@
+﻿@model EnrollmentReviewViewModel
+@{
+    ViewBag.Title = "Review your information";
+
+    var controller = ViewContext.RouteData.Values["controller"].ToString();
+    var orderItems = Model.Items;
+    var hasOrderItems = (orderItems != null && orderItems.Count() > 0);
+
+    var virtualItems = Model.Items.Where(c => c.IsVirtual == true);
+    var hasVirtualItems = virtualItems.Count() > 0;
+    var hasNonVirtualItems = (hasVirtualItems && orderItems.Where(c => !c.IsVirtual).Count() > 0);
+
+    var allowIdealPaymentMethod = Model.PropertyBag.ShippingAddress.Country == "NL"; //Removed DE from Logic 68000 JWJ 13JULY2015
+}
+
+<div id="view-orderreview" class="container">
+    @*  @Html.Partial("partials/_enrollmentbreadcrumb")*@
+    <div class="space-30"></div>
+    <h2>@Resources.Common.ReviewYourOrder</h2>
+    <h5>@ViewBag.Error</h5>
+    <div class="divider"></div>
+    <div class="space-15"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <h4 style="text-transform: none;">Please review and scroll through to the end of the Brand Partner Terms of Agreement before clicking you agree.</h4>
+            <hr />
+            <div id="brand-partner-terms">
+                <div style="height: 150px; overflow-y: auto; margin: 0 0 30px 0; border: 1px solid #999; padding: 5px; background: #efefef; border-radius:3px;" id="terms-box">
+                    @switch (Model.PropertyBag.ShippingAddress.Country)
+                    {
+                        case "US":
+                            @Html.Raw(Resources.Common.TermsOfAgreementContentUS);
+                                                                                      break;
+                        case "BE":
+                        @Html.Raw(Resources.Common.TermsOfAgreementContentBE);
+                                                                                  break;
+                        case "NL":
+                        @Html.Raw(Resources.Common.TermsOfAgreementContentNL);
+                                                                                  break;
+                        case "DE":
+                        @Html.Raw(Resources.Common.TermsOfAgreementContentDE);
+                                                                                  break;
+                        @*case "MX":
+                        @Html.Raw(Resources.Common.TermsOfAgreementContentMX);
+                                                                                  break;*@
+                        case "GB":
+                        @*JB 7/20/2015 67803 Added code to include UK Terms and Agreement.*@
+                        @Html.Raw(Resources.Common.TermsOfAgreementContentUK);
+                                                                                  break;
+                        default:
+                        @Html.Raw(Resources.Common.TermsOfAgreementContentUS);
+                                                                                  break;
+                    }
+                </div>
+                <p><a href="~/Content/documents/PoliciesProcedures_@(Model.PropertyBag.ShippingAddress.Country).pdf" target="_blank">@Resources.Common.PolicyAndProcedures</a></p>
+                <label data-toggle="tooltip" data-placement="top" title="@Resources.Common.TermsCheckBoxTooltip">
+                    <input type="checkbox" id="chkTermsAgree" required disabled="disabled" />
+                    @Resources.Common.AgreeTerms
+                </label>
+            </div>
+            @*<div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="agreement" id="agreement">
+                            <small>
+
+                                <a href="@Url.Action("TermsOfAgreement", "Enrollment")" target="_blank">@Resources.Common.TermsOfAgreement</a>
+                                <a href="~/Content/documents/PoliciesProcedures_@Model.PropertyBag.ShippingAddress.Country-.pdf" target="_blank">@Resources.Common.PolicyAndProceedures</a>
+                            </small>
+                        </label>
+                    </div>
+                </div>*@
+        </div>
+    </div>
+    <div class="row margin-15">
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h4>@Resources.Common.ShippingAddress</h4>
+                            @Html.DisplayFor(c => c.PropertyBag.ShippingAddress)
+                            <div class="space-10"></div>
+                            <a href="@Url.Action("personalinfo")"><i class="fa-edit"></i>@Resources.Common.Change</a>
+                        </div>
+                        <div class="col-sm-6">
+                            @if (!hasVirtualItems || hasNonVirtualItems)
+                            {
+                                <h4>@Resources.Common.ChooseShippingMethod:</h4>
+                                <div id="shipmethods">
+                                    @using (Ajax.BeginForm("setshipmethodid", "Enrollment", new AjaxOptions()
+                                    {
+                                        OnBegin = "enrollReview.begin"
+                                    }))
+                                    {
+                                        foreach (var shipMethod in Model.ShipMethods.OrderBy(c => c.Price))
+                                        {
+                                            <div class="radio">
+                                                <label>
+                                                    @Html.RadioButton("ShipMethodID", shipMethod.ShipMethodID, shipMethod.Selected)
+                                                    @shipMethod.ShipMethodDescription <small class="text-muted">@shipMethod.Price.ToString("C")</small>
+                                                </label>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <span></span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-40"></div>
+            @*Payment Method*@
+            <h4>@Resources.Common.EnterPaymentMethod</h4>
+            <div class="divider"></div>
+            @using (Ajax.BeginForm("UsePaymentMethod", new AjaxOptions
+            {
+                OnBegin = "enrollReview.begin",
+                OnSuccess = "enrollReview.success",
+                OnFailure = "enrollReview.failure"
+            }))
+            {
+
+                <div class="panel panel-default" data-payment="card">
+                    <div class="panel-body" id="billing">
+                        @Html.EditorForModel("Billing")
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg" data-role="submit">@Resources.Common.CompleteEnrollment</button>
+            }
+
+        </div>
+        @* Enrollment Summary *@
+        <div class="col-md-4">
+            <div class="space-20 visible-xs"></div>
+            <div id="summary-container">
+                @*@Html.Partial("_EnrollmentSummary")*@
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <style>
+        .control-label.required:after {
+            content: " *";
+            color: #C80000;
+        }
+
+        .order-totals-header h4 {
+            display: inline;
+            margin-right: 15px;
+        }
+    </style>
+    <script>
+        var enrollReview = {};
+        var propertyBag = @Html.Raw(Json.Encode(Model));
+
+        require(["ajax", "app", "shopping", "pubsub"], function (ajax, app, shopping) {
+
+
+            // Settings
+            var context = "#view-orderreview",
+                $context = $(context),
+                removeItemsURL = '@Url.Action("deleteitemfromcart", "enrollment")',
+                updateItemSummaryURL = '@Url.Action("getenrollmentordersummary", "enrollment")',
+                allowIdealPaymentMethod = "@allowIdealPaymentMethod.ToString().ToLower()",
+                @*paymenttypeSelector = '[data-bind="@Html.NameFor(c => c.PaymentTypeID)"]:visible',*@
+                enrollmentsubmitUrl = "@Url.Action("submitenrollment", "enrollment")",
+                checkoutUrl = "@Url.Action("enrollmentcomplete", "enrollment")",
+                    agreement = false,
+                    policyPDF = false,
+                    agreementPDF = false,
+                    loadingimage = "<img class='summary-loadingimage' src='@Url.Content("~/Content/images/loading_white.gif")' />",
+                    enrollmentSubmitted = false;
+
+            $('button').prop('disabled', true);
+
+            //shopping.bind(context);
+
+            $('#terms-box').bind('scroll', function () {
+                if ($(this).scrollTop() + $(this).innerHeight() >= this.scrollHeight) {
+                    $('#chkTermsAgree').prop("disabled", false);
+                }
+            });
+
+            $("#chkTermsAgree").on("change", function () {
+                var isChecked = $(this).is(":checked");
+
+                if (isChecked) {
+                    $('[data-role="submit"]').prop('disabled', false);
+                } else {
+                    $('[data-role="submit"]').prop('disabled', true);
+                }
+            }).change();
+
+            // Event Handlers
+            function registerEventHandlers() {
+                //if(allowIdealPaymentMethod){
+                //    $("[name='PaymentMethodType']").on("change", function(){
+                //        var $this = $(this);
+
+                //        $("[name='PaymentMethodType']").each(function(){
+                //            $("[data-payment='" + $(this).val() + "']").slideUp();
+                //        });
+
+                //        $("[data-payment='" + $this.val() + "']").slideDown();
+                //    });
+                //}
+
+                // Remove item button
+                //$context.on('click', '[data-role="removeitem"]', function () {
+                //    var $this = $(this),
+                //        $itemParent = $this.parents('tr'),
+                //        itemcode = $itemParent.data('itemcode'),
+                //        itemtype = $itemParent.data('itemtype'),
+                //        $item = $('[data-itemcode="' + itemcode + '"][data-itemtype="' + itemtype + '"]').serializeObject();
+
+                //    actions.removeItem($item);
+                //});
+
+                $('[name="ShipMethodID"]', $context).on('change', function () {
+                    //$(this).parents('form')[0].submit();
+
+                    var shipMethod = $('[name="ShipMethodID"]:checked').val();
+
+                    ajax.post({
+                        url: '@Url.Action("setshipmethodid")',
+                        data: {shipMethodID: shipMethod},
+                        beforeSend: function() {
+                            $('#summary-container').html(loadingimage);
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                $("#summary-container").html(response.html);
+                            }
+                        },
+                        error: function (xhr, error, status) {
+                            console.log("server error", xhr.responseText);
+                        }
+                    });
+                });
+
+                $context.ready(function() {
+                    $('#summary-container').html(loadingimage);
+
+                    ajax.json({
+                        url: '@Url.Action("GetEnrollmentSummary", "Enrollment")',
+                        success: function (response) {
+                            if (response.success) {
+                                $('#summary-container').html(response.html);
+                            } else {
+                                console.log("get enrollment summary failed", response.message);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.log("get enrollment summary failed", xhr);
+                        }
+                    });
+                });
+
+                //$('[name="agreement"]', $context).on('change', function () {
+                //    agreement = (!agreement) ? true : false;
+                //    actions.verifyCB();
+                //});
+
+                //$('[name="policyPDF"]', $context).on('click', function () {
+                //    policyPDF = (!policyPDF) ? true : false;
+                //    actions.verifyCB();
+                //});
+
+                //$('[name="agreementPDF"]', $context).on('click', function () {
+                //    agreementPDF = (!agreementPDF) ? true : false;
+                //    actions.verifyCB();
+                //});
+            }
+
+
+            // Actions
+            var actions = {
+                submitForm: function () {
+                    if (!enrollmentSubmitted) {
+                        enrollmentSubmitted = true;
+                        ajax.post({
+                            url: enrollmentsubmitUrl,
+                            beforeSend: function(xhr) {
+                                $('[data-role="submit"]').loadingbutton('start');
+                            },
+                            success: function (response) {
+                                if (response.success) {
+                                    console.log("Enrollment complete: ", response);
+
+                                    // If the response contains a redirect form, then we want to post the redirect form so the user will be sent to make their payment
+                                    if (response.redirectForm != null) {
+                                        $("body").append(response.redirectForm);
+                                    } else {
+                                        window.location = checkoutUrl + "?token=" + response.token;
+                                    }
+                                } else {
+                                    console.log("Submit Enrollment failed: ", response);
+                                    toastr.error(response.message);
+                                    $('[data-role="submit"]').loadingbutton('stop');
+                                }
+                            },
+                            error: function (xhr, error, status) {
+                                console.log("Submit Enrollment failed:Server Side:", xhr);
+                                toastr.error(response.message);
+                                $('[data-role="submit"]').loadingbutton('stop');
+                            },
+                            complete: function() {
+                                enrollmentSubmitted = false;
+                            }
+                        });
+                    }
+                },
+                onBegin: function (xhr) {
+                    var securityToken = $("[name='__RequestVerificationToken']").val();
+                    xhr.setRequestHeader("__RequestVerificationToken", securityToken);
+                    toastr.clear();
+                    $('[data-role="submit"]').loadingbutton('start');
+                },
+                onSuccess: function (response) {
+                    if (response.success == true) {
+                        actions.submitForm();
+                    } else {
+                        toastr.error(response.message, "Error");
+                        $('[data-role="submit"]').loadingbutton('stop');
+                        enrollmentSubmitted = false;
+                    }
+                },
+                onFailure: function (response) {
+                    console.log("onfailure", response);
+                    $('[data-role="submit"]').loadingbutton('stop');
+                    enrollmentSubmitted = false;
+                }
+                //,
+                //verifyCB: function(response){
+                //    console.log("here");
+                //    if(agreement === true){
+                //        $('button').prop('disabled', false);
+                //    }
+                //    else
+                //    {
+                //        $('button').prop('disabled', true);
+                //        toastr.error("Please read both the agreement and policy PDFs and then accept by checking the checkbox.");
+                //    }
+                //}
+            };
+
+
+            // Helpers
+            var helpers = {
+            };
+
+
+            // Initialization
+            function init() {
+                registerEventHandlers();
+                //actions.submitForm();
+
+                enrollReview.success = actions.onSuccess;
+                enrollReview.failure = actions.onFailure;
+                enrollReview.begin = actions.onBegin;
+            }
+            init();
+
+        });
+    </script>
+}

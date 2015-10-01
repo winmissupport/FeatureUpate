@@ -1,0 +1,75 @@
+﻿@model ReplicatedSite.ViewModels.AutoOrderShipMethodViewModel
+
+
+@using (Ajax.BeginForm("updateautoordershipmethod", "autoorders", new AjaxOptions
+{
+    OnSuccess = "onUpdateShipMethodSuccess",
+    OnBegin = "onUpdateBegin" // Set the verification token for the header
+}))
+{
+    <div class="top-bar-blue no-padding no-margin-top">
+        <div class="row-24 row-head">
+            <div class="col-xs-24">
+                <h3>@Resources.Common.EditShipMethod</h3>
+                <span class="autoorder-cart-name">@Resources.Common.OrderUppercase</span>
+                <span class="autoorder-cart-value">#@Model.AutoorderID</span>
+
+                <input type="hidden" name="autoorderid" value="@Model.AutoorderID">
+            </div>
+
+        </div>
+
+        <div class="space-20"></div>
+
+        <div class="row row-body">
+            <div class="alert alert-danger alert-dismissable" id="shipmethodalert">
+                <button type="button" class="close" data-role="hide-alert" aria-hidden="true">&times;</button>
+                <h4 class="alert-error-header">@Resources.Common.SorryErrorText</h4>
+                <h4 class="alert-success-header">@Resources.Common.ShipMethodUpdated</h4>
+                <p class="alert-message-body"></p>
+            </div>
+            <div class="col-xs-12">
+                @* Alan C - Commented out 14 May 2015 as the editor does not need to be used - there is only one Ship Method for Autoships *@
+                @*@foreach (var shipmethod in Model.ShipMethods)
+                    {
+                        var selected = (shipmethod.Selected) ? "checked" : "";
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="shipMethodID" value="@shipmethod.ShipMethodID" @selected>
+                                <span style="min-width:100px;display:inline-block;">@shipmethod.ShipMethodDescription</span> - @shipmethod.Price.ToString("C")
+                            </label>
+                        </div>
+                    }*@
+
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="shipMethodID" value="@Model.SelectedShipMethod.ShipMethodID" checked>
+                        <span style="min-width:100px;display:inline-block;">@Model.SelectedShipMethod.ShipMethodDescription</span> - @Model.SelectedShipMethod.Price.ToString("C")
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="autoorder-cart-buttons">
+                <a class="btn btn-danger btn-cancel autoorder-link"><span>@Resources.Common.CancelUppercase </span></a>
+                <button type="submit" class="autoorder-link btn btn-success"><span><i class="fa-save"></i> @Resources.Common.SaveUppercase </span></button>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    function onUpdateShipMethodSuccess(response) {
+        //autoOrderPreferences().trigger("shipmethodalert", response);
+        window.trigger("shipmethodalert", response);
+    }
+    // Set the verification token for the header
+    function onUpdateBegin(xhr) {
+        $('[type="submit"]').loadingbutton('start');
+        var securityToken = $("[name='__RequestVerificationToken']").val();
+        xhr.setRequestHeader("__RequestVerificationToken", securityToken);
+    }
+</script>

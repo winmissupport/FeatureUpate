@@ -1,0 +1,75 @@
+﻿@model Item
+@{
+    var contextID = Guid.NewGuid();
+}
+
+
+<div class="view-item view-item-card margin-0" data-widget="item" id="view-item-@contextID">
+    <figure class="product">
+        <div class="mediaholder">
+            @Html.HiddenFor(c => c.ItemID)
+            @Html.HiddenFor(c => c.ItemTypeID)
+            @Html.HiddenFor(c => c.Quantity)
+
+            <a href="@Url.Action("ItemDetail", "Shopping", new { itemcode = Model.ItemCode })">
+                <img alt="" src="@Model.SmallImageUrl" class="img-responsive" />
+                <div class="cover">
+                    <img alt="" src="@Model.LargeImageUrl" />
+                </div>
+            </a>
+            <a class="quick-shop-button" data-target=".quickShopModal-@Model.ItemCode" data-quick-shop="@Model.ItemCode" data-toggle="modal"><i class="fa fa-shopping-cart"></i> @Resources.Common.AddToCart </a>
+        </div>
+
+        <a href="@Url.Action("ItemDetail", "Shopping", new { itemcode = Model.ItemCode })">
+            <section class="list-item-description">
+
+                <span class="text-strong text-muted product-category">
+                    @Model.ShortDetail2 @Resources.Common.Category
+                </span>
+
+                <h5 class="item-description">
+                    @Model.ItemDescription
+                </h5>
+                    <span class="product-price-discount">
+                        <span class="strikePrice">@Model.Price.ToString("C")</span>
+                        <i class="activePrice">@Model.OtherPrice1.ToString("C")</i>
+                    </span>
+            </section>
+        </a>
+    </figure>
+</div>
+
+
+<input type="hidden" id="quick-shop-item-description" value="@Model.ItemDescription" />
+<input type="hidden" id="quick-shop-item-code" value="@Model.ItemCode" />
+
+@using (Html.BeginPartialScript())
+{
+    <script>
+        require(['shopping', 'ajax', 'pubsub'], function (shopping, ajax, pubsub) {
+
+            var $contextID = $('#view-item-@contextID');
+
+
+            $("[data-quick-shop]", $contextID).on("click", function () {
+                var itemcode = $(this).data("quick-shop");
+
+                ajax.json({
+                    url: "@Url.Action("quickshopmodal", "shopping")",
+                    data: { itemcode: itemcode },
+                    success: function (response) {
+                        if (response.success) {
+                            $("#quickshop-container .modal-body").html(response.html);
+                            $("#quickshop-container .modal").modal();
+
+                        } else {
+                            console.log("error fetching quick shop modal", response.message);
+                        }
+                    }
+                });
+            });
+
+        });
+
+    </script>
+}

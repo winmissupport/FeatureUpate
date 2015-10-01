@@ -1,0 +1,118 @@
+﻿@{
+    ViewBag.Title = "Opportunity";
+    ViewBag.Meta = "Daily Lift™ can do more than simply improve your physical health. It can also boost your financial wellness. Once you try it, you will see just how well the product sells itself. And when it sells, you WIN.";
+}
+
+<section class="titlebar">
+    <div class="container">
+
+        <h2>@ViewBag.Title</h2>
+
+        <nav id="breadcrumbs">
+            <ul>
+                <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+                <li>@ViewBag.Title</li>
+            </ul>
+        </nav>
+    </div>
+
+</section>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="space-20"></div>
+            <div id="basic-slider" class="royalSlider rsDefault">
+                @if (Identity.Owner.WebAlias != GlobalSettings.ReplicatedSites.DefaultWebAlias)
+                {
+                    <a href="@Url.Action("checkout", "enrollment")"><img class="rsImg" src="@Url.Content("~/content/images/enrollment/splash/opportunity.jpg")" alt="" /><span class="royal-caption">Get In the Picture</span></a>
+                }
+                else
+                {
+                    <a href="@Url.Action("index", "enrollment")"><img class="rsImg" src="@Url.Content("~/content/images/enrollment/splash/opportunity.jpg")" alt="" /><span class="royal-caption">Get In the Picture</span></a>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container view-opportunity">
+    @*Headline*@
+    <h3 class="headline">@Resources.Common.ATasteIOfFreedom</h3><span class="line margin-bottom-30"></span><div class="clearfix"></div>
+
+    <p>@Resources.Common.DailyLiftCanDoMore </p><br>
+
+    <h3 class="headline">@Resources.Common.MoreWaysToEarn</h3><span class="line margin-bottom-30"></span><div class="clearfix"></div>
+
+    <p>@Resources.Common.AtWINPride</p>
+    <p>
+        @Resources.Common.HereAreJust
+        <div style="padding-left:5%;">
+            <ul class="list-4 color">
+                <li><strong>@Resources.Common.RetailProfits</strong>: @Resources.Common.EarnTwenty</li>
+                <li><strong>@Resources.Common.NewOrderBonuses</strong>: @Resources.Common.EarnFourty</li>
+                <li><strong>@Resources.Common.DifferentialBonus</strong>: @Resources.Common.EarnThedifference</li>
+                <li><strong>@Resources.Common.ReoccurringOrders</strong>: @Resources.Common.EarnTwentyFive</li>
+                <li><strong>@Resources.Common.TeamResidualCommissions</strong>: @Resources.Common.EarnFive</li>
+                <li><strong>@Resources.Common.BonusPools</strong>: @Resources.Common.EarnShares</li>
+                <li><strong>@Resources.Common.LuxuryCarBonus</strong>: @Resources.Common.EarnTwelveFifty</li>
+            </ul>
+        </div>
+    </p><br>
+
+    <h3 class="headline">@Resources.Common.DontJustTake</h3><span class="line margin-bottom-30"></span><div class="clearfix"></div>
+
+    <blockquote class="new"><em>@Resources.Common.WINIsCommitted</em></blockquote>
+
+    <blockquote class="new"><em>@Resources.Common.JustShareProduct</em></blockquote>
+
+    <blockquote class="new"><em>@Resources.Common.APersonalRecommendation</em></blockquote>
+
+    <blockquote class="new"><em>@Resources.Common.EasyMoney</em></blockquote>
+
+    <p>@Resources.Common.GiveDailyLift</p>
+    <div class="space-20"></div>
+    @if (Identity.Owner.WebAlias != GlobalSettings.ReplicatedSites.DefaultWebAlias)
+    {
+
+        <p><a href="@Url.Action("countryselection")" class="button">@Resources.Common.JoinNow</a></p>
+    }
+    else
+    {
+        <h3 class="headline">Becoming a Brand Partner</h3><span class="line margin-bottom-30"></span><div class="clearfix"></div>
+        <p>@Resources.Common.ToLearnMore <a href="@Url.Action("ContactUs", "Home")">@Resources.Common.ContactForm</a>.</p>
+    }
+</div>
+@*<div class="col-sm-4">
+    <a class="btn btn-primary" id="joinnowlnk">JOIN NOW</a>
+</div>*@
+<div class="space-40"></div>
+
+<style>
+    blockquote.new {
+        display: block;
+        background: #fff;
+        padding: 15px 20px 15px 45px;
+        margin: 0 5% 20px 5%;
+        position: relative;
+        text-align: left;
+        border: 0;
+        font-size: 16px;
+    }
+
+        blockquote.new::before {
+            content: "\201C";
+            font-family: Georgia, serif;
+            font-size: 60px;
+            font-weight: bold;
+            color: #0071ce;
+            position: absolute;
+            left: 1%;
+            top: 25px;
+        }
+
+        blockquote.new::after {
+            content: "";
+        }
+</style>

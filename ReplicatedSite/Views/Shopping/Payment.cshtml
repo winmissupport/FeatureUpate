@@ -1,0 +1,350 @@
+﻿@model PaymentMethodsViewModel
+@{
+    ViewBag.Title = Resources.Common.Payment;
+
+    var controller = ViewContext.RouteData.Values["controller"].ToString();
+    var hasPaymentMethods = Model.PaymentMethods != null && Model.PaymentMethods.Count() > 0;
+    var selectedPaymentType = (Model.PropertyBag.PaymentMethod != null) ? Model.PropertyBag.PaymentMethod.GetType().ToString() : "none";
+    var allowIdealPaymentMethod = Model.PropertyBag.ShippingAddress.Country == "NL";
+
+    var idealPaymentTypeID = 999; // Updating to 999 Indicates that it is an iDeal Payment and we will redirect
+}
+
+
+
+<div id="view-orderpayment" class="shipping-payment">
+
+    <div class="row margin-5">
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label for="PaymentMethodPreference" class="control-label">@Resources.Common.HowPay</label>
+                <span>
+                    @if (allowIdealPaymentMethod)
+                    {
+                        <img src="@Url.Content("/Content/images/payments/iDeal.png")" alt="" style="max-height: 20px; display: inline-block;">
+                    }
+                    <img src="@Url.Content("/Content/images/payments/visa.png")" alt="" style="max-height: 20px; display: inline-block;">
+                    <img src="@Url.Content("/Content/images/payments/mastercard.png")" alt="" style="max-height: 20px; display: inline-block;">
+                </span>
+
+                @{
+                    var availablePaymentTypes = new List<Common.Api.ExigoWebService.PaymentType>()
+                    {
+                        Common.Api.ExigoWebService.PaymentType.CreditCard
+                    };
+
+                }
+
+                @if (allowIdealPaymentMethod)
+                {
+                    <div class="radio">
+                        <label for="@(Html.IdFor(c => c.PaymentTypeID))_@idealPaymentTypeID">
+                            @Html.RadioButtonFor(c => c.PaymentTypeID, idealPaymentTypeID, new
+                            {
+                                id = Html.IdFor(c => c.PaymentTypeID) + "_" + idealPaymentTypeID
+                            })
+                            @Resources.Common.Ideal
+                        </label>
+                    </div>
+                }
+
+                @foreach (var paymentType in availablePaymentTypes)
+                {
+                    var paymentTypeID = Exigo.GetPaymentTypeID(paymentType);
+                    var paymentTypeDescription = (paymentType == Common.Api.ExigoWebService.PaymentType.CreditCard) ? "Credit Card" : paymentType.ToString();
+
+                    <div class="radio">
+                        <label for="@(Html.IdFor(c => c.PaymentTypeID))_@paymentTypeID">
+                            @Html.RadioButtonFor(c => c.PaymentTypeID, paymentTypeID, new
+                            {
+                                id = Html.IdFor(c => c.PaymentTypeID) + "_" + paymentTypeID
+                            })
+                            @paymentTypeDescription
+                        </label>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    @* Ingenico/Ideal *@
+    <div data-bind="@Html.NameFor(c => c.PaymentTypeID)" data-key="@idealPaymentTypeID" class="hidden">
+        @{
+            var idealPaymentType = new Ideal();
+        }
+        <input type="hidden" name="PaymentMethodType" value="@idealPaymentType.GetType().ToString()" />
+        <input type="hidden" name="Attempts" value="@idealPaymentType.Attempts" />
+    </div>
+
+    @* Credit Cards *@
+    <div data-bind="@Html.NameFor(c => c.PaymentTypeID)" data-key="@Exigo.GetPaymentTypeID(Common.Api.ExigoWebService.PaymentType.CreditCard)" class="hidden">
+
+        @if (hasPaymentMethods)
+        {
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead style="background-color: #EEECDF">
+                        <tr>
+                            <th colspan="2">@Resources.Common.YourPaymentMethods</th>
+                            <th>@Resources.Common.Name</th>
+                            <th class="text-right" style="width: 100px;">@Resources.Common.Expires</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var method in Model.PaymentMethods)
+                        {
+                            if (method is CreditCard)
+                            {
+                                var card = method as CreditCard;
+
+                                <tr>
+                                    <td style="width: 180px;">
+                                        @using (Ajax.BeginForm("UseCreditCardOnFile", controller, new AjaxOptions()
+                                    {
+                                        OnSuccess = "paymentoverview.onSuccess",
+                                        OnBegin = "paymentoverview.onBegin"
+                                    }))
+                                        {
+                                            <input type="hidden" name="Type" value="@card.Type" />
+
+                                            <button type="submit" class="button">@Resources.Common.PayWithThisCard</button>
+                                        }
+                                    </td>
+                                    <td>@Resources.Common.CardEndingIn @card.CardNumber</td>
+                                    <td>@card.NameOnCard</td>
+                                    <td class="@((card.IsExpired) ? "text-danger" : "") text-right">
+                                        @card.ExpirationDate.ToString("M/yyyy")
+                                        @if (card.IsExpired)
+                                        {
+                                            <text><br />@Resources.Common.Expired</text>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+
+        @if (hasPaymentMethods)
+        {
+            <h5>@Resources.Common.MorePaymentOptions</h5>
+        }
+        @*else
+            {
+                <h5>@Resources.Common.SelectPaymentMethod</h5>
+            }*@
+
+            @*<hr />*@
+            <div class="row">
+                <div class="col-sm-12">
+                    <h5>@Resources.Common.CreditDebitCards</h5>
+
+                    <p><a data-toggle="#newcardcontainer" class="btn btn-link"><i class="fa-plus"></i>&nbsp;@Resources.Common.AddCard</a></p>
+
+                    <div id="newcardcontainer" style="display: none;">
+                        @{ var NewCard = new CreditCard(); }
+                        @using (Ajax.BeginForm("UseCreditCard", controller, new AjaxOptions()
+                {
+                    OnSuccess = "paymentoverview.onSuccess",
+                    OnBegin = "paymentoverview.onBegin"
+                }, new { novalidate = "novalidate" }))
+                        {
+
+                            <div class="row margin-5">
+                                <div class="col-sm-8">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="control-label">@Resources.Common.NameOnCard</label>
+                                        <input type="text" class="form-control" name="NewCard.NameOnCard" placeholder="@Resources.Common.NameOnCard" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row margin-5">
+                                <div class="col-sm-8">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="control-label">@Resources.Common.CardNumber</label>
+                                        <input type="text" class="form-control" name="NewCard.CardNumber" placeholder="@Resources.Common.CardNumber" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(c => NewCard.CVV, new { @class = "control-label" })
+                                        @Html.EditorFor(c => NewCard.CVV, new { data_restrict_input = "int" })
+                                    </div>
+                                </div>
+                            </div>
+                            <label for="inputEmail3" class="control-label">@Resources.Common.ExpirationDate</label>
+                            <div class="row margin-5">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        @Html.DropDownList("NewCard.ExpirationMonth", Html.Months(), new
+                                {
+                                    @class = "form-control"
+                                })
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        @Html.DropDownList("NewCard.ExpirationYear", Html.ExpirationYears(), new
+                                {
+                                    @class = "form-control"
+                                })
+                                    </div>
+                                </div>
+                            </div>
+                            @*
+                                <div class="checkbox billingsameasshipping">
+                                    <label>
+                                        <input type="checkbox" name="BillingSameAsShipping" value="true" checked /> @Resources.Common.BillingAddressSameAsShipping
+                                        <input type="hidden" value="false" name="BillingSameAsShipping" />
+                                    </label>
+                                </div>
+
+                                @Html.EditorFor(c => NewCard.BillingAddress)
+                            *@
+
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="button">@Resources.Common.PayWithThisCard</button>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        var paymentoverview;
+        require(["ajax", "pubsub", "extensions"], function (ajax, pubsub) {
+            paymentoverview = (function () {
+
+                // Settings
+                var context = "#view-orderpayment",
+                    $context = $(context),
+                    checkoutUrl = '@Url.Action("checkout", "shopping")',
+                    setPaymentTypeUrl = "@Url.Action("UsePaymentMethod")",
+                    $activeControl = "",
+                    idealPaymentTypeID = '@idealPaymentTypeID';
+
+
+                // Event Handlers
+                function registerEventHandlers() {
+
+                    // Handle the PayableType fields
+                    var paymentTypeIDName = '@Html.NameFor(c => c.PaymentTypeID)';
+
+
+                    $('[data-toggle]', $context).on('click', function () {
+                        var $target = $($(this).data('toggle'));
+                        $target.slideToggle('fast');
+                    });
+
+                    $('input:checkbox[name="BillingSameAsShipping"]').on('change', function () {
+                        var $this = $(this),
+                            $target = $this.parents('.billingsameasshipping').siblings('.view-address'),
+                            checked = $this.is(':checked')
+
+                        if (checked) {
+                            $target.slideUp('fast');
+                        }
+                        else {
+                            $target.slideDown('fast');
+                        }
+                    });
+                    $('input:checkbox[name="BillingSameAsShipping"]').each(function () {
+                        $(this).triggerHandler('change');
+                    });
+
+
+                    // Auto-check the first option if applicable
+                    if ($('[name="{0}"]:checked'.format(paymentTypeIDName), $context).length == 0) {
+                        $('[name="{0}"]:first'.format(paymentTypeIDName), $context).prop('checked', true);
+                    }
+
+                    // Toggle the respective fieldset on change
+                    $('[name="{0}"]'.format(paymentTypeIDName), $context).on('change', function () {
+                        var name = $(this).attr('name'),
+                            value = $('[name="{0}"]:checked'.format(name), $context).val();
+
+                        if (value == idealPaymentTypeID) {
+                            actions.setIngenicoPaymentType();
+                        }
+
+                        $('[data-bind="{0}"]'.format(name), $context).addClass('hidden')
+                            .filter('[data-key="{0}"]'.format(value), $context).removeClass('hidden');
+                    }).filter(':checked').triggerHandler('change');
+
+                    $('[type="submit"]').on("click", function () {
+                        $this = $(this);
+                        $activeControl = $this;
+                        $activeControl.loadingbutton("start");
+                        $this.parents("form").first().submit();
+                    });
+                }
+
+
+                // Actions
+                var actions = {
+                    setIngenicoPaymentType: function () {
+                        var idealPaymentMethod = $('[data-key="{0}"]'.format(idealPaymentTypeID)).serializeObject();
+
+                        console.log(idealPaymentMethod);
+
+                        ajax.json({
+                            url: setPaymentTypeUrl,
+                            data: { paymentMethod: idealPaymentMethod, PaymentTypeID: idealPaymentTypeID },
+                            success: function (response) {
+                                if (response.success) {
+                                    window.trigger("checkout.paymentselected");
+                                } else {
+                                    console.log("failed", response.message);
+                                }
+                            },
+                            error: function (xhr, error, status) {
+                                console.log("xhr failed", xhr);
+                            }
+                        });
+                    },
+                    onSuccess: function (response) {
+                        $activeControl.loadingbutton("stop");
+
+                        if (response.success) {
+                            $("[type='submit']").removeClass("disabled");
+                            window.trigger("checkout.paymentselected");
+                            $activeControl.addClass("disabled").text("Payment Method Selected");
+                        } else {
+                            toastr.error(response.message, "Invalid payment type was added.");
+                            $activeControl.text("Pay with this card");
+                        }
+                    },
+                    onBegin: function (xhr) {
+                        var securityToken = $("[name='__RequestVerificationToken']").val();
+                        xhr.setRequestHeader("__RequestVerificationToken", securityToken);
+                    }
+                };
+
+
+                // Helpers
+                var helpers = {
+
+                };
+
+
+                // Initialization
+                function init() {
+                    registerEventHandlers();
+                }
+                init();
+
+                return {
+                    onSuccess: actions.onSuccess,
+                    onBegin: actions.onBegin
+                }
+            })();
+        });
+    </script>

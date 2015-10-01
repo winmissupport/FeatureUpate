@@ -1,0 +1,16 @@
+﻿<section class="titlebar">
+    <div class="container">
+
+            <h2>@Resources.Common.Checkout</h2>
+
+            <nav id="breadcrumbs">
+                <ul>
+                    <li><a href="@Url.Action("Index", "Home")">@Resources.Common.Home</a></li>
+                    <li><a href="@Url.Action("Index", "Shopping")">@Resources.Common.Shop</a></li>
+                    <li><a href="@Url.Action("Cart", "Shopping")">@Resources.Common.Checkout</a></li>
+                    <li>@ViewBag.CheckoutStep</li>
+                </ul>
+            </nav>
+
+    </div>
+</section>

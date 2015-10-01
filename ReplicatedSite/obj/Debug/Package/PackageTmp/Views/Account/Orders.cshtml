@@ -1,0 +1,71 @@
+﻿@model Order
+@{
+    ViewBag.Title = "Your Orders";
+    Layout = "~/Views/Account/_Layout.cshtml";
+}
+
+<h3>Your Orders</h3>
+
+<nav class="navbar navbar-default" role="navigation">
+    <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+            <input type="search" id="searchordersfilter" class="form-control input-sm" placeholder="Order#..." />
+        </div>
+        <button type="button" id="searchorders" class="btn btn-primary btn-sm">@Resources.Common.SearchOrders</button>
+    </form>
+</nav>
+
+<p>
+    <a href="@Url.Action("orders", new { id = "" })" class="active">@Resources.Common.OrdersByDate</a> |
+    <a href="@Url.Action("orders", new { id = "open" })">@Resources.Common.OpenOrders</a> |
+    <a href="@Url.Action("orders", new { id = "cancelled" })">@Resources.Common.CancelledOrders</a>
+</p>
+
+<div class="orderlist">
+
+    @foreach (var order in Model.Orders.OrderByDescending(c => c.OrderDate).Take(10))
+    {
+        @Html.Partial("~/Views/Account/_OrderDetail.cshtml", order)
+    }
+    @if (Model.Orders.Count == 0)
+    {
+        <hr />
+        <p class="text-center text-muted">@Resources.Common.NoOrdersFound</p>
+    }
+
+</div>
+
+
+@section scripts
+{
+    <script>
+        (function () {
+
+            // Event Handlers
+            function registerEventHandlers() {
+                $('#searchordersfilter').on('change', function (event) {
+                });
+                $('#searchordersfilter').on('keypress', function (event) {
+                    if (event.which == 13) {
+                        event.preventDefault();
+                    }
+                });
+                $('#searchorders').on('click', function () {
+                });
+            }
+
+
+            // Actions
+            var actions = {
+            };
+
+
+            // Initialization
+            function init() {
+                registerEventHandlers();
+            }
+            init();
+
+        })();
+    </script>
+}

@@ -1,0 +1,38 @@
+﻿@model List<Country>
+@{
+    ViewBag.Title = @Resources.Common.ReturnPolicy;
+}
+
+<section class="titlebar">
+    <div class="container">
+        <div>
+            <h2>@Resources.Common.ReturnPolicy</h2>
+
+            <nav id="breadcrumbs">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li>@Resources.Common.ReturnPolicy</li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+<div class="container">
+    <div>
+        <h3 class="headline">@Resources.Common.UnitedStates</h3>
+        <span class="line margin-bottom-30"></span>
+        <div class="clearfix"></div>
+        @Html.Raw(Resources.Common.USReturnPolicy)
+        <div class="space-10"></div>
+        <h3 class="headline">@Resources.Common.Europe</h3>
+        <span class="line margin-bottom-30"></span><div class="clearfix"></div>
+        @Html.Raw(Resources.Common.EUReturnPolicy)
+        <div class="space-10"></div>
+        @Html.Raw(Resources.Common.ReturnException)
+        <div class="space-10"></div>
+        @Html.Raw(Resources.Common._30DayGuarantee)
+    </div>
+</div>
+
+
+

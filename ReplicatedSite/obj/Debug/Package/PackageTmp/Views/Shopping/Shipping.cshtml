@@ -1,0 +1,219 @@
+﻿@model CheckoutViewModel
+@{
+    Layout = "~/Views/Shopping/_CheckoutLayout.cshtml";
+    ViewBag.Title = Resources.Common.ShippingAddress;
+    var contextID = Guid.NewGuid();
+
+}
+
+<div id="view-ordershipping" class="checkout view-checkout margin-15">
+    <div class="panel-group" role="tablist">
+        <div class="panel">
+            <div class="panel-heading" role="tab" id="addressesHeading">
+                <a href="@Url.Action("Shipping", "Shopping")">
+                    <div class="checkout-section active">
+                        <span>1</span>@Resources.Common.ShippingAddress
+                        @*<strong><i class="fa fa-edit"></i>@Resources.Common.Edit</strong>*@
+                    </div>
+                </a>
+            </div>
+            <div class="panel-body">
+                @if (Model.Addresses != null && Model.Addresses.Count() > 0)
+                {
+                    <h3>@Resources.Common.SelectShippingAddress</h3>
+
+                    <div class="row">
+                        @foreach (var address in Model.Addresses)
+                        {
+                            <div class="col-sm-6 address-on-file-@contextID">
+                                @Html.DisplayFor(c => address)
+
+                                <div class="space-15"></div>
+                                @using (Html.BeginForm(new { novalidate = "novalidate" }))
+                                {
+                                    using (Html.BeginHtmlFieldPrefixScope("Address"))
+                                    {
+
+                                        @Html.Partial("~/Views/Shared/EditorTemplates/ShippingAddressOnFile.cshtml", address)
+                                    }
+
+                                    @Html.AntiForgeryToken()
+
+                                    <button type="submit" class="btn button ">@Resources.Common.ShipToThisAddress</button>
+                                }
+                            </div>
+                        }
+                    </div>
+
+                    <div class="space-50"></div>
+                    <hr />
+                }
+
+                <div class="space-30"></div>
+
+                <div class="row" style="position: relative;" id="new-shipping">
+                    <div class="col-sm-12">
+                        <h3>@Resources.Common.AddNewAddress</h3>
+                        @using (Html.BeginForm())
+                        {
+                            var Address = Model.ShippingAddress;
+                            Address.AddressType = AddressType.New;
+
+
+                            @Html.Partial("Partials/Cart/ShippingAddress", Address)
+
+
+                            @Html.AntiForgeryToken()
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+
+            <div class="panel-body">
+                <a href="@Url.Action("checkout", "Shopping")" aria-expanded="false" aria-controls="Billing">
+                    <div class="checkout-section">
+                        <span>2</span> @Resources.Common.Billing
+                    </div>
+                </a>
+            </div>
+
+        </div>
+        <div class="panel">
+
+            <div class="panel-body">
+                <a href="@Url.Action("checkout", "Shopping")" aria-expanded="false" aria-controls="Delivery">
+                    <div class="checkout-section">
+                        <span>3</span> @Resources.Common.Delivery
+                    </div>
+                </a>
+            </div>
+
+        </div>
+
+        <div class="panel">
+            <div class="panel-body">
+                <a href="@Url.Action("checkout", "shopping")" class="disabled">
+                    <div class="checkout-section"><span>4</span> @Resources.Common.PaymentOrderReview</div>
+                </a>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+<!-- Modal -->
+<div id="validation-modal" class="modal fade" role="dialog">
+    <div class="space-100"></div>
+    <div class="modal-dialog">
+        @using (Html.BeginForm(new { novalidate = "novalidate" }))
+        {
+                    <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#0071CE; ">
+                    <h2 class="modal-title" style="text-align:center;color:white;">Shipping Address Cannot Be Verified</h2>
+                </div>
+                <div class="modal-body" style="text-align:center; padding-bottom:0;">
+                    <h4>We're sorry but your shipping address cannot be verified</h4>
+
+
+                    <input type="hidden" name="overrideValidation" value="true" />
+
+                    <input type="hidden" name="address.Address1" value="@Model.PropertyBag.ShippingAddress.Address1" />
+                    <input type="hidden" name="address.Address2" value="@Model.PropertyBag.ShippingAddress.Address2" />
+                    <input type="hidden" name="address.City" value="@Model.PropertyBag.ShippingAddress.City" />
+                    <input type="hidden" name="address.State" value="@Model.PropertyBag.ShippingAddress.State" />
+                    <input type="hidden" name="address.Zip" value="@Model.PropertyBag.ShippingAddress.Zip" />
+                    <input type="hidden" name="address.Country" value="@Model.PropertyBag.ShippingAddress.Country" />
+                    <input type="hidden" name="address.FirstName" value="@Model.PropertyBag.ShippingAddress.FirstName" />
+                    <input type="hidden" name="address.LastName" value="@Model.PropertyBag.ShippingAddress.LastName" />
+                    <input type="hidden" name="address.Phone" value="@Model.PropertyBag.ShippingAddress.Phone" />
+                    <input type="hidden" name="address.Email" value="@Model.PropertyBag.ShippingAddress.Email" />
+
+                    @*@{
+                        ShippingAddress address = new ShippingAddress();
+
+                        address.Address1 = Model.PropertyBag.ShippingAddress.Address1;
+                        address.Address2 = Model.PropertyBag.ShippingAddress.Address2;
+                        address.City = Model.PropertyBag.ShippingAddress.City;
+                        address.State = Model.PropertyBag.ShippingAddress.State;
+                        address.Zip = Model.PropertyBag.ShippingAddress.Zip;
+                        address.Country = Model.PropertyBag.ShippingAddress.Country;
+                        address.FirstName = Model.PropertyBag.ShippingAddress.FirstName;
+                        address.LastName = Model.PropertyBag.ShippingAddress.LastName;
+                        address.Phone = Model.PropertyBag.ShippingAddress.Phone;
+                        address.Email = Model.PropertyBag.ShippingAddress.Email;
+                        }
+                        <input type="hidden" name="address" value="@address" />*@
+
+
+
+                    @Html.AntiForgeryToken()
+                    <div class="space-30"></div>
+
+                    <p style="text-align:center; margin:0;">Do You Wish To Continue?</p>
+                    <div class="modal-footer col-md-12">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-8 center-block" style="padding-right:0;">
+                            <button type="submit" class="btn btn-primary btn-lg " style="width:150px; text-align:center;">Continue</button>
+                            <button type="button" class="btn btn-default btn-lg " style="width:100px;" data-dismiss="modal">Back</button>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+
+
+
+                    <div class="space-30"></div>
+                    <small style="text-align:center;">@Resources.Common.CallCustomerService</small>
+
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script>
+        require(["ajax"], function (ajax) {
+
+            // Event Handlers
+            function registerEventHandlers() {
+
+            }
+
+
+            // Actions
+            var actions = {
+                loadValidationModal: function () {
+                    var queryString = getParameterByName("validate");
+                    console.log("queryString : ",queryString);
+                    if (queryString == "Unable to verify address") {
+                        $("#validation-modal").modal('show');
+                    }
+                }
+
+            };
+            function getParameterByName(name) {
+                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                    results = regex.exec(location.search);
+                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+
+
+            // Initialization
+            function init() {
+                registerEventHandlers();
+                actions.loadValidationModal();
+            }
+            init();
+
+        });
+
+    </script>
+}

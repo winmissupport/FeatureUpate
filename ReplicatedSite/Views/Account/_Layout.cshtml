@@ -1,0 +1,65 @@
+﻿@{
+    Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+}
+
+
+<style>
+    #view-account .panel-title a{
+        color: white !important;
+    }
+</style>
+
+@* ------ TitleBar / Breadcrumb ------- *@
+<section class="titlebar">
+    <div class="container">
+
+        <h2>@Resources.Common.YourAccount</h2>
+
+        <nav id="breadcrumbs">
+            <ul>
+                <li><a href="@Url.Action("Index", "Home")">@Resources.Common.Home</a></li>
+                <li><a href="@Url.Action("Index", "Account")">@Resources.Common.Account</a></li>
+                <li>@ViewBag.Title</li>
+            </ul>
+        </nav>
+    </div>
+</section>
+
+
+<div id="view-account" class="container">
+    @*<div class="row">
+        <div class="space-10"></div>
+        <h2>@Resources.Common.YourAccount</h2>
+        <div class="space-10"></div>
+        <ol class="breadcrumb">
+            <li class="active"><i class="fa-home"></i></li>
+        </ol>
+    </div>*@
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title text-center"><a href="@Url.Action("index")">@Resources.Common.YourAccount</a></h3></div>
+                <ul class="list-group">
+                    @if (Identity.Customer.CustomerTypeID == CustomerTypes.SmartShopper)
+                    {
+                    <li class="list-group-item"><a href="@Url.Action("autoorderpreferences", "autoorders")">@Resources.Common.ManageAutoShip</a></li>
+                    }
+                    <li class="list-group-item"><a href="@Url.Action("orderlist")">@Resources.Common.Orders</a></li>
+                    <li class="list-group-item"><a href="@Url.Action("addresslist")">@Resources.Common.Addresses</a></li>
+                    <li class="list-group-item"><a href="@Url.Action("paymentmethodlist")">Payment Options</a></li>
+                    <li class="list-group-item"><a href="@Url.Action("logout", "account")">@Resources.Common.SignOut</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-9">
+
+            @RenderBody()
+
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @RenderSection("scripts", false)
+}

@@ -1,0 +1,49 @@
+﻿<#@ template hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="$(SolutionDir)Common\bin\Common.dll" #>
+<#@ import namespace="Common" #>
+<#@ import namespace="Common.Api.ExigoOData" #>
+<#@ import namespace="ExigoService" #>
+<#@ assembly name="$(SolutionDir)Common\bin\Microsoft.Data.Services.Client.dll" #>
+<#@ assembly name="System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" #>
+<#@ import namespace="System.Data.Services.Client" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+using System;
+
+namespace Common
+{
+	public static class CurrencyCodes
+    {
+	<#
+		var records = Exigo.OData().Currencies;
+		foreach(var record in records) {
+			var id = record.CurrencyCode;
+			var description = record.CurrencyDescription; 
+			var defaultValue = "Currency";
+			var numericPrefix = "C";
+
+			if(string.IsNullOrEmpty(description)) {
+				description = defaultValue + id;
+			}
+			if (Regex.IsMatch(description, @"^\d")) {
+				description = numericPrefix + description;
+			}
+
+			description = new Regex("[^a-zA-Z0-9_]").Replace(description, ""); 
+	#>
+/// <summary>
+	///	Currency Code '<#=id#>'
+	/// </summary>
+	public const string <#=description#> = "<#=id#>";
+	<# } #>
+	<# if(records.Count() == 0) {#>
+[Obsolete("No currency codes were found in Exigo.")]
+		public const string UNDEFINED = "";
+	<# } #>}
+}

@@ -1,0 +1,186 @@
+﻿@model AutoOrder
+
+@{
+    var paymentTypeDescription = "";
+
+    if (Model.PaymentMethod.CanBeParsedAs<CreditCard>())
+    {
+        var card = Model.PaymentMethod.As<CreditCard>();
+
+        paymentTypeDescription = "Credit Card ...{0}".FormatWith(card.CardNumber.Replace("*", ""));
+    }
+    else
+    {
+        paymentTypeDescription = "";
+    }
+}
+<style>
+    .orderinfo .panel-title {
+        background: #FFF !important;
+        color: #888;
+        padding: 0;
+        position: relative;
+    }
+
+        .orderinfo .panel-title a {
+            position: absolute;
+            top: -3px;
+            right: 15px;
+            padding: 3px 11px !important;
+            margin: 0 !important;
+        }
+
+    .orderinfo .panel-heading {
+        padding: 11px 0 !important;
+        background: #FFF !important;
+    }
+</style>
+
+<div class="auto-item" data-autoorder-id="@Model.AutoOrderID">
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+
+            <div class="panel-heading" role="tab" id="headingOne">
+                <a data-toggle="collapse" data-parent="#accordion" href="#autoOrderPanel@(Model.AutoOrderID)" aria-expanded="true" aria-controls="autoOrderPanel@(Model.AutoOrderID)">
+                    <div class="auto-top">
+                        <div class="row">
+                            <div class="col-lg-2 col-xs-2 text-center pull-left"><span class="auto-title text-uppercase text-muted ">@Resources.Common.Schedule</span><br /><span class="textHighlighted ">@Convert.ToDateTime(Model.NextRunDate).ToShortDateString()</span></div>
+                            <div class="col-lg-4 col-xs-4 text-center hidden-xs"><span class="auto-title text-uppercase text-muted">@Resources.Common.ShipTo</span><br /><span class="textHighlighted">@Model.Recipient.FullName</span></div>
+                            <div class="col-lg-2 col-xs-2 text-center hidden-xs"><span class="auto-title text-uppercase text-muted">@Resources.Common.PaidWith</span><br /><span class="textHighlighted">@paymentTypeDescription</span></div>
+                            <div class="col-lg-2 col-xs-2 text-center hidden-xs"><span class="auto-title text-uppercase text-muted">@Resources.Common.Total</span><br /><span class="textHighlighted">@Model.Total.ToString("C")</span></div>
+                            <div class="col-lg-2 col-xs-2 text-center pull-right"><span class="auto-title text-uppercase text-muted ">@Resources.Common.Order</span><br /><span class="textHighlighted ">#@Model.AutoOrderID</span></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div id="autoOrderPanel@(Model.AutoOrderID)" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body" style="padding:0;">
+                    <div class="row">
+                        <div class="col-sm-7 products">
+                            <div class="auto-heading item-control-heading">
+                                <span class="auto-title text-muted">Items (@Model.Details.Count())</span>
+
+                                <a data-role="edit-order" data-orderid="@Model.AutoOrderID" class="button pull-right">Edit/Add Items</a>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="auto-heading">
+                                <div class="row">
+                                    <div class="col-xs-6">Product</div>
+                                    <div class="col-xs-3 text-center">Unit Price</div>
+                                    <div class="col-xs-3 text-center">Qty</div>
+                                </div>
+                            </div>
+                            <div class="item-list">
+                                <ul class="list-unstyled">
+                                    @foreach (var item in Model.Details)
+                                    {
+                                        <li>
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <div class="image">
+                                                                <a href="@Url.Action("itemdetail", "shopping", new { itemcode = item.ItemCode })"><img src="@item.ImageUrl" class="img-responsive"></a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-9">
+                                                            <div class="itemdescription">
+                                                                <a href="@Url.Action("itemdetail", "shopping", new { itemcode = item.ItemCode })">@item.ItemDescription</a>
+                                                            </div>
+                                                            <small class="text-muted">SKU: @item.ItemCode</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-3 text-center">@item.PriceEach.ToString("C")</div>
+                                                <div class="col-xs-3 text-center">
+                                                    @Convert.ToInt32(item.Quantity)
+
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-5 orderinfo">
+                            <div class="space-15"></div>
+                            <div class="panel-group" id="@Model.AutoOrderID-accordion" role="tablist" data-autoorder-id="@Model.AutoOrderID">
+
+
+                                <!-- Payment -->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            Payment
+                                            <a data-toggle="collapse" data-parent="#@Model.AutoOrderID-accordion" href="#@Model.AutoOrderID-collapse" data-module="payment" class="collapsed button auto-order-module-btn">
+                                                <i class="fa-edit"></i>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="@Model.AutoOrderID-collapse" class="panel-collapse collapse">
+                                        <!-- Content -->
+                                        <div class="auto-order-payment auto-order-module">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Payment -->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            @Resources.Common.Schedule
+                                            <a data-toggle="collapse" data-parent="#@Model.AutoOrderID-accordion" href="#@Model.AutoOrderID-collapse2" data-module="date" class="button auto-order-module-btn">
+                                                <i class="fa-edit"></i>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="@Model.AutoOrderID-collapse2" class="panel-collapse collapse">
+                                        <!-- Content -->
+                                        <div class="auto-order-date auto-order-module"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Payment -->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            @Resources.Common.ShippingAddress
+                                            <a data-toggle="collapse" data-parent="#@Model.AutoOrderID-accordion" href="#@Model.AutoOrderID-collapse3" data-module="shipping" class="button auto-order-module-btn">
+                                                <i class="fa-edit"></i>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="@Model.AutoOrderID-collapse3" class="panel-collapse collapse">
+                                        <!-- Content -->
+                                        <div class="auto-order-shipping auto-order-module"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Payment -->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            @Resources.Common.ShipMethod
+                                            <a data-toggle="collapse" data-parent="#@Model.AutoOrderID-accordion" href="#@Model.AutoOrderID-collapse4" data-module="shipmethod" class="button auto-order-module-btn">
+                                                <i class="fa-edit"></i>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="@Model.AutoOrderID-collapse4" class="panel-collapse collapse">
+                                        <!-- Content -->
+                                        <div class="auto-order-shipmethod auto-order-module"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

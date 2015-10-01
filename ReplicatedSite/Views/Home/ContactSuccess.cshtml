@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Success";
+}
+
+<section class="titlebar">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2>@ViewBag.Title</h2>
+
+                <nav id="breadcrumbs">
+                    <ul>
+                        <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+                        <li>@ViewBag.Title</li>
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+    </div>
+</section>
+<div class="container">
+
+        <h3>Thank you for contacting WIN Worldwide. Please allow 48 hours for a response.</h3>
+
+    <p>
+        <ul style="margin-left:5%">
+            <li>Customer Support</li>
+            @*<li><em style="color: #0071ce;">support@mywinlife.com</em></li>*@
+            <li>972.943.5220</li>
+        </ul>
+    </p>
+    <p>
+        In the interim, please try exploring the following topics to see if they might be helpful.
+
+    </p>
+    <h3 class="headline">Helpful Resources</h3><span class="line margin-bottom-30"></span><div class="clearfix"></div>
+    
+    @Html.Partial("Partials/Contact/_contactResources")
+</div>
+

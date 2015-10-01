@@ -1,0 +1,23 @@
+﻿#view-home {
+    .featured-marketing-section {
+        margin-top: 25px;
+    }
+        .parallax-title { height: 200px; padding-top: 75px;
+
+            @media (max-width: 968px) { font-size: 25px; }
+
+            span.author-name { font-size: 12px; }
+        }
+
+        .parallax-banner { max-height: 200px;
+
+        }
+    .graybutton {
+        background:#c0c0c0 !important;
+
+        &:hover {
+            background:#00559b !important;
+        }
+    }
+
+}

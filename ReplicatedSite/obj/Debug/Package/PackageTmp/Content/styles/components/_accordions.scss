@@ -1,0 +1,9 @@
+.panel-group {
+    & > .panel {
+        & > .panel-heading { padding: 0;
+            & > .panel-title {
+                & > a { padding: 10px 15px; display: block; }
+            }
+        }
+    }
+}

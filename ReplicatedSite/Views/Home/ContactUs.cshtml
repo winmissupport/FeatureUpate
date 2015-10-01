@@ -1,0 +1,234 @@
+﻿@model Email
+
+@{
+    ViewBag.Title = Resources.Common.ContactUs;
+    ViewBag.Meta = Resources.Common.ContactUsViewBagMeta;
+}
+
+
+<section class="titlebar">
+    <div class="container">
+        <h2>@ViewBag.Title</h2>
+
+        <nav id="breadcrumbs">
+            <ul>
+                <li><a href="@Url.Action("Index", "Home")">@Resources.Common.Home</a></li>
+                <li>@ViewBag.Title</li>
+            </ul>
+        </nav>
+    </div>
+</section>
+<div class="container" id="view-contact">
+    <h5>
+        @Resources.Common.SomeMostCommon <a href="@Url.Action("FAQ", "Home")">@Resources.Common.FAQ</a>
+    </h5>
+    <div class="space-20"></div>
+    <div class="row">
+        <h3 class="headline">@Resources.Common.CallUs</h3><span class="line margin-bottom-30"></span><div class="clearfix"></div>
+        <div class="text-center">
+            <div class="col-sm-4 col-sm-offset-2">
+
+                <h3>@Resources.Common.UnitedStates</h3>
+                <ul>
+                    <li>@GlobalSettings.Company.Address.Address1 </li>
+                    <li>@GlobalSettings.Company.Address.Address2 </li>
+                    <li>@GlobalSettings.Company.Address.City, @GlobalSettings.Company.Address.State @GlobalSettings.Company.Address.Zip </li>
+                    <li>@GlobalSettings.Company.Phone </li>
+                    <li>@GlobalSettings.Company.USHours </li>
+                </ul>
+            </div>
+            <div class="col-sm-4">
+                <h3>@Resources.Common.Netherlands</h3>
+                <ul>
+                    <li>@GlobalSettings.Company.NLContactUs.Address1 </li>
+                    <li>@GlobalSettings.Company.NLContactUs.Address2 </li>
+                    <li>@GlobalSettings.Company.NLContactUs.Country </li>
+                    <li>@GlobalSettings.Company.NLPhone </li>
+                    <li>@GlobalSettings.Company.NLHours </li>
+                </ul>
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <h3 class="headline">Email Us</h3><span class="line margin-bottom-30"></span><div class="clearfix"></div>
+        <h5>@Resources.Common.YouMayUseBelow</h5>
+        <div class="space-20"></div>
+        <div class="col-sm-8 col-sm-offset-2">
+            <p>
+                <i class="fa-asterisk"></i> @Resources.Common.DenotesRequiredField
+            </p>
+            <h5 style="color: #FF0000;">
+                @ViewBag.Error
+            </h5>
+
+            <div class="space-10"></div>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <section class="row">
+                    <div class="form-group col-xs-6">
+                        <label for="@Model.MessageType">@Resources.Common.MessageType</label>
+                        <select name="@Html.NameFor(c => c.MessageType)">
+                            <option value="@Resources.Common.Feedback">@Resources.Common.Feedback</option>
+                            <option value="@Resources.Common.SiteProblem">@Resources.Common.SiteProblem</option>
+                            <option value="@Resources.Common.AccountInquiry">@Resources.Common.AccountInquiry</option>
+                            <option value="@Resources.Common.OrderInquiry">@Resources.Common.OrderInquiry</option>
+                            <option value="@Resources.Common.General" selected>@Resources.Common.General</option>
+                        </select>
+                    </div>
+                </section>
+                <section class="row">
+                    <div class="form-group col-xs-6">
+                        <label for="FirstName" class="control-label">@Resources.Common.FirstName <i class="fa-asterisk"></i></label>
+                        @Html.EditorFor(c => c.FirstName,
+                        new
+                        {
+                            htmlAttributes = new
+                            {
+                                @class = "form-control",
+                                required = true,
+                                name = Html.NameFor(c => c.FirstName),
+                                placeholder = Resources.Common.FirstName
+                            }
+                        })
+                        @Html.ValidationMessageFor(c => c.FirstName)
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label for="LastName" class="control-label">@Resources.Common.LastName <i class="fa-asterisk"></i></label>
+                        @Html.EditorFor(c => c.LastName,
+                        new
+                        {
+                            htmlAttributes = new
+                            {
+                                @class = "form-control",
+                                required = true,
+                                name = Html.NameFor(c => c.LastName),
+                                placeholder = Resources.Common.LastName
+                            }
+                        })
+                        @Html.ValidationMessageFor(c => c.LastName)
+                    </div>
+                </section>
+                <section class="row" id="ContactInfo">
+                    <div class="form-group col-xs-6">
+                        <div class="row margin-5">
+                            <div class="col-xs-12">
+                                <label for="@Html.NameFor(c => c.PreferredContactType)" class="control-label">Select Contact Type <i class="fa-asterisk"></i></label>
+
+                                @Html.EnumDropDownListFor(c => c.PreferredContactType, new
+                        {
+                            htmlAttributes = new
+                            {
+                                @class = "form-control",
+                                required = true,
+                                name = Html.NameFor(c => c.PreferredContactType),
+                                id = Html.IdFor(c => c.PreferredContactType)
+                            }
+                        })
+                                @Html.ValidationMessageFor(c => c.PreferredContactType)
+                            </div>
+                        </div>
+                        <div class="row margin-5">
+                            <div class="col-xs-12">
+                                <label for="@Html.NameFor(c => c.PreferredContact)" class="control-label">@Resources.Common.PreferredContactMethod <i class="fa-asterisk"></i></label>
+                                @Html.EditorFor(c => c.PreferredContact,
+                        new
+                        {
+                            htmlAttributes = new
+                            {
+                                @class = "form-control",
+                                required = true,
+                                name = Html.NameFor(c => c.PreferredContact),
+                                placeholder = Resources.Common.PreferredContactMethod
+                            }
+                        })
+                                @Html.ValidationMessageFor(c => c.PreferredContact)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <div class="row margin-5">
+                            <div class="col-xs-12">
+                                <label for="@Html.NameFor(c => c.AlternateContactType)" class="control-label">Select Contact Type</label>
+
+                                @Html.EnumDropDownListFor(c => c.AlternateContactType, new
+                        {
+                            htmlAttributes = new
+                            {
+                                @class = "form-control",
+                                name = Html.NameFor(c => c.AlternateContactType),
+                                id = Html.IdFor(c => c.AlternateContactType)
+                            }
+                        })
+                            </div>
+                        </div>
+                        <div class="row margin-5">
+                            <div class="col-xs-12">
+                                <label for="@Model.AlternateContactType" class="control-label">@Resources.Common.AlternateContactMethod</label>
+
+                                @Html.EditorFor(c => c.AlternateContact,
+                        new
+                        {
+                            htmlAttributes = new
+                            {
+                                @class = "form-control",
+                                name = Html.NameFor(c => c.AlternateContact),
+                                placeholder = Resources.Common.AlternateContactMethod
+                            }
+                        })
+                            </div>
+                        </div>
+                        <div class="space-5"></div>
+                    </div>
+                </section>
+                <section class="row">
+                    <div class="form-group col-xs-8">
+                        <label for="@Model.ReferringBrandPartner" class="control-label">@Resources.Common.ReferringBrandPartner</label>
+                        @Html.EditorFor(c => c.ReferringBrandPartner,
+                        new
+                        {
+                            htmlAttributes = new
+                            {
+                                @class = "form-control",
+                                name = Html.NameFor(c => c.ReferringBrandPartner),
+                                placeholder = Resources.Common.ReferrerNameAndInfo
+                            }
+                        })
+                    </div>
+                </section>
+                <section class="row">
+                    <div class="form-group">
+                        <label for="@Html.NameFor(c => c.Comments)" class="control-label">@Resources.Common.YourCommentsInquiry <i class="fa-asterisk"></i></label>
+                        <textarea class="form-control" rows="10" cols="100" required="required" name="@Html.NameFor(c => c.Comments)" placeholder="@Resources.Common.EnterYourInquiry"></textarea>
+                        @Html.ValidationMessageFor(c => c.Comments)
+                    </div>
+                </section>
+                <section class="form-group">
+                    <button class="button btn btn-primary" role="button" type="submit">@Resources.Common.Submit</button>
+                    <button class="btn btn-default" role="button" type="reset">@Resources.Common.Clear</button>
+                </section>
+            }
+        </div>
+    </div>
+</div>
+<style>
+    #view-contact .fa-asterisk {
+        color: #0071ce;
+        font-size: x-small;
+    }
+</style>
+
+@section scripts {
+    <script>
+        (function () {
+
+
+        })();
+    </script>
+}

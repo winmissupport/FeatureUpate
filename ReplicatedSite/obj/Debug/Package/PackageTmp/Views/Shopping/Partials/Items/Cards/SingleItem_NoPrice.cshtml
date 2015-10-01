@@ -1,0 +1,95 @@
+﻿@model Item
+@{
+    var contextID = Guid.NewGuid();
+}
+
+
+<div class="view-item view-item-card margin-0" data-widget="item" id="view-item-@contextID">
+    <figure class="product">
+        <div class="mediaholder">
+            @Html.HiddenFor(c => c.ItemID)
+            @Html.HiddenFor(c => c.ItemTypeID)
+            @*@Html.HiddenFor(c => c.Quantity)*@
+            <div id="itemType" class="hidden">@Model.Type</div>
+            <div id="itemCode" class="hidden">@Model.ItemCode</div>
+
+            <a href="@Url.Action("ItemDetail", "Shopping", new { itemcode = Model.ItemCode })">
+                <img alt="" src="@Model.SmallImageUrl" class="item-list-image" />
+                <div class="cover">
+                    <img alt="" src="@Model.LargeImageUrl" class="item-list-hover-image" />
+                </div>
+            </a>
+            @*<a class="product-button" data-target=".quickShopModal-@Model.ItemCode" data-quick-shop="@Model.ItemCode" data-toggle="modal"><i class="fa fa-shopping-cart"></i> @Resources.Common.AddToCart </a>*@
+        </div>
+        <div style="position: relative;">
+            @* Quick shop alternate button for Internet Explorer *@
+            <a class="quick-shop-button quick-shop-not-hovered" data-target=".quickShopModal-@Model.ItemCode" data-quick-shop="@Model.ItemCode" data-toggle="modal"><i class="fa fa-shopping-cart"></i> @Resources.Common.AddToCart </a>
+        </div>
+
+        <a href="@Url.Action("ItemDetail", "Shopping", new { itemcode = Model.ItemCode })">
+            <section class="list-item-description">
+
+                <span class="text-strong text-muted product-category">
+                    @Model.ShortDetail2 @Resources.Common.Category
+                </span>
+
+                <h5 class="item-description">@Model.ItemDescription</h5>
+                @*<h5>
+                        <span class="activePrice" data-price-type="retail" style="font-size: 24px; margin: 5px 0 0 0; font-weight: 500;">@Model.Price.ToString("C")</span>
+                        <span class="strikePrice" data-price-type="discount" style="font-size: 24px; margin: 5px 0 0 0; font-weight: 500;">@Model.OtherPrice1.ToString("C")</span>
+                    </h5>*@
+            </section>
+        </a>
+    </figure>
+</div>
+
+<input type="hidden" id="quick-shop-item-description" value="@Model.ItemDescription" />
+<input type="hidden" id="quick-shop-item-code" value="@Model.ItemCode" />
+
+@using (Html.BeginPartialScript())
+{
+    <script>
+        @*require(["vendor/clamp"], function () {
+            // Clamp some items (add ellipsis after # lines)
+            $('#view-item-@contextID [data-clamp]').each(function (index, element) {
+                // $clamp(element, { clamp: $(this).data('clamp') }); // Removed due to compatibility issues with IE. ~ Travis 9/8/2014
+            });
+        });*@
+
+        require(['shopping', 'ajax', 'pubsub'], function (shopping, ajax, pubsub) {
+
+            var $contextID = $('#view-item-@contextID');
+
+            $("[data-quick-shop]", $contextID).on("click", function () {
+                var itemcode = $(this).data("quick-shop");
+
+                ajax.json({
+                    url: "@Url.Action("quickshopmodal", "shopping")",
+                    data: { itemcode: itemcode },
+                    success: function (response) {
+                        if (response.success) {
+                            $("#quickshop-container .modal-body").html(response.html);
+                            $("#quickshop-container .modal").modal();
+
+                        } else {
+                            console.log("error fetching quick shop modal", response.message);
+                        }
+                    }
+                });
+            });
+
+            if (navigator.userAgent.indexOf('Internet Explorer')) {
+                $('.product', $contextID).hover(function () {
+                    $("a.quick-shop-button", $contextID).addClass("quick-shop-hovered");
+                    $("a.quick-shop-button", $contextID).removeClass("quick-shop-not-hovered");
+                });
+
+                $('.product', $contextID).mouseleave(function () {
+                    $("a.quick-shop-button", $contextID).removeClass("quick-shop-hovered");
+                    $("a.quick-shop-button", $contextID).addClass("quick-shop-not-hovered");
+                });
+            }
+        });
+
+    </script>
+}

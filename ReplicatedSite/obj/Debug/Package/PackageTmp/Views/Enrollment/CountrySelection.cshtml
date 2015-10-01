@@ -1,0 +1,39 @@
+﻿@model SelectCountryViewModel
+@{
+    ViewBag.Title = "Welcome";
+}
+
+<div class="container">
+    <div class="space-40"></div>
+    <div class="row">
+        <div class="col-sm-3 hidden-xs"></div>
+        <div class="col-sm-6">
+            @using (Html.BeginForm())
+            {                    
+                <div class="well">
+                    <h2 class="text-blue text-center">@Resources.Common.Welcome</h2>
+                    <p>@Resources.Common.SelectCountry</p>
+                    @Html.DropDownListFor(c => c.SelectedCountry, Html.Countries(Model.SelectedCountry),
+                    new
+                    {
+                        @class = "form-control"
+                    })
+                    <div class="space-20"></div>
+                    <p>@Resources.Common.SelectLanguage</p>
+                    @Html.DropDownListFor(c => c.SelectedLanguageID, Html.ExigoLanguages(Model.SelectedLanguageID),
+                    new
+                    {
+                        @class = "form-control"
+                    })
+                    <div class="space-20"></div>
+                    <button class="btn btn-primary btn-wide" type="submit">@Resources.Common.OK</button>
+                </div>
+                
+                
+                @Html.AntiForgeryToken()
+            }
+        </div>
+    </div>
+</div>
+
+<div class="space-50"></div>

@@ -1,0 +1,67 @@
+﻿@{
+    var contextID = Guid.NewGuid();
+}
+
+<div class="modal fade quickShopModal view-item-@contextID view-item" id="view-item" tabindex="-2" role="dialog" aria-labelledby="quickShopLabel" aria-hidden="true" data-backdrop="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                @*<h2 class="modal-title product-name" id="myModalLabel"></h2>*@
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+
+                @*<div class="input-group linking">
+                    <div class="qtyminus input-group-addon"><i class="fa-minus"></i></div>
+                    <input type="text" name="Quantity" value="1" class="form-control product-quantity qty text-center" style="height: 40px; width: 40px;" />
+                    <div class="qtyplus input-group-addon"><i class="fa-plus"></i></div>
+                </div>*@
+
+                @*<section class="row margin-0 share-container">
+                    <div class="share-buttons" style="padding: 0;">
+                        <ul>
+                            <li><a href="#">Share</a></li>
+                            <li class="share-facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=/guest/product/" target="_blank">Facebook</a></li>
+                            <li class="share-twitter"><a href="https://twitter.com/home?status=WIN%20Worldwide!" target="_blank">Twitter</a></li>
+                            <li class="share-gplus"><a href="@GlobalSettings.Company.ShareGooglePlus" target="_blank">Google Plus</a></li>
+                            <li class="share-pinit"><a href="https://pinterest.com/pin/create/button/?url=http://www.winworldwide.com/guest/product/&media=&description=Look%20what%20I%20found%20at%20WIN%20Worldwide%20-" target="_blank">Pin It</a></li>
+
+                        </ul>
+                    </div>
+                </section>*@
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    var $context = $('#quickshop-container');
+    $context.on('click', '.qtyplus', function () {
+        var $thisrowfield = $(this).siblings('.qty');
+
+        var currentVal = parseInt($thisrowfield.val());
+        if (!isNaN(currentVal)) {
+            $thisrowfield.val(currentVal + 1);
+        } else {
+            $thisrowfield.val(1);
+        }
+      
+    });
+
+    // Decrement item quantity button
+    $context.on('click', '.qtyminus', function () {
+
+        var $thisrowfield = $(this).siblings('.qty');
+        var currentVal = parseInt($thisrowfield.val());
+        if (!isNaN(currentVal) && currentVal > 1) {
+            $thisrowfield.val(currentVal - 1);
+        } else {
+            $thisrowfield.val(1);
+        }
+    });
+</script>
+

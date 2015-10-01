@@ -1,0 +1,290 @@
+﻿// ItemDetail.cshtml
+#product-detail {
+    #product-slider {
+        height: auto;
+    }
+}
+
+
+.quickShopModal {
+    box-shadow: none;
+
+    .modal-content {
+        border-radius: 0;
+        box-shadow: none;
+        position: relative;
+
+        .modal-header {
+            box-shadow: none;
+            border-bottom: none;
+        }
+
+        .modal-body {
+            border-bottom: none; /* Product Detail */
+            #product-detail {
+                #product-slider {
+                    height: auto;
+                }
+
+                #control-container {
+                    .variables {
+                        padding: 0 20px 0 20px;
+                    }
+
+                    .linking {
+                        padding: 0 20px 0 20px;
+                        margin-bottom: 0 !important;
+                    }
+                }
+            }
+
+            .options {
+                .btn-group {
+                    height: 40px;
+                    width: 400px;
+                    padding: 5px 15px;
+                }
+            }
+        }
+
+        .modal-footer {
+            box-shadow: none;
+            border-top: none; /*.share-container {
+                position: absolute;
+                top: 32%;
+                left: 43%;
+            }
+
+            .input-group {
+                position: absolute;
+                bottom: 22%;
+                left: 43%;
+
+                .input-group-addon {
+                    border-radius: 0;
+                    text-align: center;
+                    padding-right: 15px;
+                }
+            }*/
+        }
+    }
+}
+
+#quickshop-container {
+    position: fixed;
+    z-index: 9999999;
+}
+
+.view-checkout, .view-cart {
+    .cart-remove:before, .qtyminus:before, .qtyplus:before {
+        content: none;
+    }
+
+    .qtyminus, .qtyplus, .cart-remove {
+        padding-top: 10px;
+    }
+
+    .panel, .panel-heading, .panel-body, .panel-footer, .panel-default, .panel-default .panel-heading, .panel-default .panel-body, .panel-default .panel-heading {
+        box-shadow: none;
+        border: none;
+    }
+
+    .panel {
+        .panel-heading {
+            margin: 0;
+            padding: 0;
+        }
+
+        .panel-body {
+            padding: 5px;
+        }
+    }
+
+    .form-control {
+        height: 35px;
+        padding: 5px;
+        border-radius: 0;
+    }
+
+    .well {
+        border: 0;
+        box-shadow: none;
+    }
+
+    button.button {
+        cursor: pointer;
+        padding: 7px 14px;
+        display: inline-block;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 13px;
+        outline: none;
+        overflow: hidden;
+        position: relative;
+        z-index: 10;
+        background-color: #0071CE !important;
+        color: white;
+        -webkit-transition: background-color 0.2s ease-in-out;
+        -moz-transition: background-color 0.2s ease-in-out;
+        -o-transition: background-color 0.2s ease-in-out;
+        transition: background-color 0.2s ease-in-out;
+        border: none;
+        border-radius: 0;
+
+        &:hover {
+            background-color: #00559b !important;
+        }
+    }
+
+    .active:before {
+        color: #c0c0c0;
+    }
+}
+
+#view-cart {
+    button.button {
+        cursor: pointer;
+        padding: 7px 14px;
+        display: inline-block;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 13px;
+        outline: none;
+        overflow: hidden;
+        position: relative;
+        z-index: 10;
+        background-color: #0071CE !important;
+        color: white;
+        -webkit-transition: background-color 0.2s ease-in-out;
+        -moz-transition: background-color 0.2s ease-in-out;
+        -o-transition: background-color 0.2s ease-in-out;
+        transition: background-color 0.2s ease-in-out;
+        border: none;
+
+        &:hover {
+            background-color: #00559b !important;
+        }
+    }
+}
+
+#view-autoordersettings {
+    .row {
+
+        .col-md-6 {
+            #autoOrderHeading {
+            }
+        }
+    }
+}
+
+.view-item-card {
+    margin: 0;
+    padding: 0;
+
+    figure.product {
+        width: 280px;
+        height: 385px;
+        margin: 20px 0 0 0;
+
+        div.mediaholder {
+            background: transparent;
+            padding: 0;
+            border: none;
+            overflow: hidden;
+
+            a {
+                div.cover {
+                    width: 352px;
+                    height: 280px;
+
+                    img {
+                        min-height: 150%;
+                        min-width: 150%;
+                        overflow: hidden;
+                        margin-top: -115px;
+                        margin-left: 60px;
+                        position: absolute;
+                        z-index: 99;
+                    }
+                }
+            }
+        }
+
+        a {
+            section.list-item-description {
+                width: 280px;
+                min-height: 80px;
+                padding: 18px inherit;
+                margin: 0;
+                text-align: center;
+
+                h5.item-description {
+                    margin: 1px;
+                    padding: 1px;
+                }
+
+                .product-price-discount {
+                    color: #888;
+                    padding: 0;
+                    margin: 1px;
+                }
+
+                .product-price, .product-price-discount {
+                    font-size: 16px;
+                    font-weight: 700;
+                    padding: 1px 0 5px 0;
+                    display: block;
+                }
+            }
+        }
+    }
+}
+
+.view-item {
+
+    .cart-remove:before, .qtyminus:before, .qtyplus:before {
+        content: none;
+        position: absolute;
+    }
+
+    .qtyminus, .qtyplus {
+        padding-top: 5px;
+    }
+
+    .modal-content {
+        .cart-remove:before, .qtyminus:before, .qtyplus:before {
+            content: none;
+            position: absolute;
+        }
+
+        .qtyminus, .qtyplus {
+            padding-top: 5px;
+        }
+    }
+
+
+    .btn-primary {
+        text-align: center;
+        vertical-align: middle;
+        height: 40px;
+        min-width: 125px;
+        padding: 0 20px;
+        position: relative;
+
+        i {
+            height: 40px;
+            width: 40px;
+            background: rgba(0, 0, 0, 0.1);
+            margin: 0 10px -10px -20px; padding-top: 10px;
+            display: inline-block;
+            color: #FFFFFF;
+
+        }
+    }
+}
+
+.checkout {
+    .active {
+        span { color: #FFFFFF; }
+    }
+}

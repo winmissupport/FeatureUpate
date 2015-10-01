@@ -1,0 +1,433 @@
+﻿@model AccountSummaryViewModel
+@{
+    ViewBag.Title = "Your Account";
+    Layout = "~/Views/Account/_Layout.cshtml";
+
+    var action = ViewContext.RouteData.Values["action"].ToString();
+    var controller = ViewContext.RouteData.Values["controller"].ToString();
+}
+
+<div id="view-accountoverview">
+    <div class="row">
+        <div class="col-sm-12">
+
+            @using (Ajax.BeginForm("xxx", controller, new AjaxOptions()
+            {
+                OnSuccess = "accountoverview.onSuccess",
+                OnBegin = "accountoverview.onBegin"
+            }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">@Resources.Common.BasicInformation</h3>
+                    </div>
+
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-3 text-center">@Resources.Common.Name</div>
+                            <div class="col-sm-7 text-center">
+                                <div class="detail">
+                                    @Model.FirstName @Model.LastName, @(Resources.Common.ID)# @Model.CustomerID
+                                </div>
+
+                                <div class="form">
+                                    <div class="form-group">
+                                        <div class="row margin-10">
+                                            <div class="col-sm-6">
+                                                @Html.LabelFor(c => c.FirstName, Resources.Common.YourName)
+                                                @Html.TextBoxFor(c => c.FirstName, new { @class = "form-control", placeholder = Resources.Common.FirstName })
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label>&nbsp;</label>
+                                                @Html.TextBoxFor(c => c.LastName, new { @class = "form-control", placeholder = Resources.Common.LastName })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" name="UpdateName" class="btn btn-primary">@Resources.Common.SaveChanges</button>
+                                    <button type="button" name="cancel" class="btn btn-link">@Resources.Common.Cancel</button>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 text-right">
+                                @*<div class="editbutton">
+                                        <button type="button" name="edit" class="btn btn-link">@Resources.Common.Edit</button>
+                                    </div>*@
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-3 text-center">@Resources.Common.Email</div>
+                            <div class="col-sm-7 text-center">
+                                <div class="detail">
+                                    @Model.Email
+                                </div>
+
+                                <div class="form">
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(c => c.Email, new { @class = "form-control" })
+                                    </div>
+
+                                    <button type="submit" name="UpdateEmailAddress" class="btn btn-primary">@Resources.Common.SaveChanges</button>
+                                    <button type="button" name="cancel" class="btn btn-link">@Resources.Common.Cancel</button>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 text-right">
+                                <div class="editbutton">
+                                    <button type="button" name="edit" class="btn btn-link">@Resources.Common.Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-3 text-center">@Resources.Common.Username</div>
+                            <div class="col-sm-7 text-center">
+                                <div class="detail">
+                                    @Model.LoginName
+                                </div>
+
+                                <div class="form">
+                                    <div class="form-group">
+                                        @*@Html.TextBoxFor(c => c.LoginName, new { @class = "form-control" })*@
+                                        <input type="text" class="form-control" name="loginname" placeholder="@Model.LoginName" />
+                                    </div>
+
+                                    <button type="submit" name="UpdateLoginName" class="btn btn-primary">@Resources.Common.SaveChanges</button>
+                                    <button type="button" name="cancel" class="btn btn-link">@Resources.Common.Cancel</button>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 text-right">
+                                <div class="editbutton">
+                                    <button type="button" name="edit" class="btn btn-link">@Resources.Common.Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-3 text-center">@Resources.Common.Password</div>
+                            <div class="col-sm-7 text-center">
+                                <div class="detail">
+                                    ********
+                                </div>
+                                
+                                <div class="form">
+                                    <div class="form-group">
+                                        @Html.EditorFor(c => c.Password, new { placeholder = Resources.Common.ChoosePassword })                                       
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.PasswordFor(c => c.ConfirmPassword, new { @class = "form-control", placeholder = Resources.Common.ConfirmPassword })
+                                        @Html.ValidationMessageFor(c => c.ConfirmPassword)
+                                    </div>
+
+                                    <button type="submit" name="UpdatePassword" class="btn btn-primary">@Resources.Common.SaveChanges</button>
+                                    <button type="button" name="cancel" class="btn btn-link">@Resources.Common.Cancel</button>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 text-right">
+                                <div class="editbutton">
+                                    <button type="button" name="edit" class="btn btn-link">@Resources.Common.Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-3 text-center">@Resources.Common.Language</div>
+                            <div class="col-sm-7 text-center">
+                                <div class="detail">
+                                    @Identity.Customer.Language.GetLanguageDescription()
+                                </div>
+
+                                <div class="form">
+                                    <div class="form-group">
+                                        @Html.DropDownListFor(c => c.LanguageID, Model.Languages.Select(x => new SelectListItem()
+                                        {
+                                            Text = CommonResources.Languages(x.LanguageID),
+                                            Value = x.LanguageID.ToString()
+                                        }),
+                                        htmlAttributes: new { @class = "form-control" })
+                                    </div>
+
+                                    <button type="submit" name="UpdateLanguagePreference" class="btn btn-primary">@Resources.Common.SaveChanges</button>
+                                    <button type="button" name="cancel" class="btn btn-link">@Resources.Common.Cancel</button>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 text-right">
+                                <div class="editbutton">
+                                    <button type="button" name="edit" class="btn btn-link">@Resources.Common.Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">@Resources.Common.ContactInformation</h3>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-3 text-center">@Resources.Common.Addresses</div>
+                            <div class="col-sm-7 text-center">
+                                @foreach (var address in Model.Addresses)
+                                {
+                                    @Format.FlatAddress(address)
+                                    @Html.Raw((address.AddressType == AddressType.Main) ? " <i class='text-muted'>({0})</i>".FormatWith(Resources.Common.Primary) : string.Empty)
+                                    <br />
+                                }
+                            </div>
+                            <div class="col-sm-2 text-right">
+                                <a href="@Url.Action("AddressList")" class="btn btn-link">@Resources.Common.Edit</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-3 control-label text-center">@Resources.Common.NotificationStatus</div>
+                            <div class="col-sm-7 control-label text-center">
+                                <div class="detail">
+                                    @if (Model.IsOptedIn)
+                                    {
+                                        @Resources.Common.OptedInStatus
+
+                                    }
+                                    else
+                                    {
+                                        @Resources.Common.OptedOutStatus
+                                    }
+                                </div>
+
+                                <div class="form">
+                                    <div class="form-group">
+
+                                        @Html.CheckBoxFor(c => c.IsOptedIn, new { @name = "IsOptedIn" })
+                                        @Html.HiddenFor(c => c.Email, new { @name = "Email" })
+
+                                        <span class="control-label">@Resources.Common.ToUpdateStatus</span>
+                                    </div>
+
+                                    <button type="submit" name="UpdateNotifications" class="btn btn-primary">@Resources.Common.SaveChanges</button>
+                                    <button type="button" name="cancel" class="btn btn-link">@Resources.Common.Cancel</button>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 text-right">
+                                <div class="editbutton">
+                                    <button type="button" name="edit" class="btn btn-link">@Resources.Common.Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-3 text-center">@Resources.Common.PhoneNumbers</div>
+                            <div class="col-sm-7 text-center">
+                                <div class="detail">
+                                    @Resources.Common.Primary: <strong>@Model.PrimaryPhone</strong><br />
+                                    @Resources.Common.Secondary: <strong>@Model.SecondaryPhone</strong>
+                                </div>
+
+                                <div class="form">
+                                    <div class="form-group">
+                                        @Html.LabelFor(c => c.PrimaryPhone, new { @class = "control-label" })
+                                        @Html.TextBoxFor(c => c.PrimaryPhone, new { @class = "form-control", placeholder = Resources.Common.YourPrimaryPhoneNumber, @type="tel" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(c => c.SecondaryPhone, new { @class = "control-label" })
+                                        @Html.TextBoxFor(c => c.SecondaryPhone, new { @class = "form-control", placeholder = Resources.Common.YourSecondaryPhoneNumber, @type = "tel" })
+                                    </div>
+
+                                    <button type="submit" name="UpdatePhoneNumbers" class="btn btn-primary">@Resources.Common.SaveChanges</button>
+                                    <button type="button" name="cancel" class="btn btn-link">@Resources.Common.Cancel</button>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 text-right">
+                                <div class="editbutton">
+                                    <button type="button" name="edit" class="btn btn-link">@Resources.Common.Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                if (Identity.Customer.CustomerTypeID == CustomerTypes.SmartShopper)
+                {
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@Resources.Common.WebsiteInformation</h3>
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-3 text-center">@Resources.Common.Name <a data-toggle="tooltip" title="The Company or Display Name you want to you show on your Website"><i class="fa-question-circle"></i></a></div>
+                                <div class="col-sm-7 text-center">
+                                    <div class="detail">
+                                        @Model.CustomerSite.Company
+
+                                        @if (string.IsNullOrEmpty(Model.CustomerSite.Company))
+                                        {
+                                            <span class="alert alert-warning" style="padding: 5px 10px;">Your Company name is not set</span>
+                                        }
+                                    </div>
+
+                                    <div class="form">
+                                        <div class="form-group">
+                                            <div class="row margin-10">
+                                                <div class="col-sm-12">
+                                                    @Html.LabelFor(c => c.CustomerSite.Company, Resources.Common.Name)
+                                                    @Html.TextBoxFor(c => c.CustomerSite.Company, new { @class = "form-control", placeholder = Identity.Customer.Company })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" name="UpdateWebsiteCompany" class="btn btn-primary">@Resources.Common.SaveChanges</button>
+                                        <button type="button" name="cancel" class="btn btn-link">@Resources.Common.Cancel</button>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <div class="editbutton">
+                                        <button type="button" name="edit" class="btn btn-link">@Resources.Common.Edit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-3 text-center">@Resources.Common.Website</div>
+                                <div class="col-sm-7">
+                                    <div class="detail text-center">
+                                        @if (Model.CustomerSite.WebAlias.IsNullOrEmpty())
+                                        {
+                                            <div class="alert alert-primary no-margin" role="alert">
+                                                @Resources.Common.DontHavePersonalWeb
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <a href="http://www.mywinlife.com/@Model.CustomerSite.WebAlias" target="_blank"><span><span>http://www.mywinlife.com/</span>@Model.CustomerSite.WebAlias</span></a>
+                                        }
+                                    </div>
+
+                                    <div class="form">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon" style="border: 1px solid rgb(245, 245, 245); box-shadow: rgba(0, 0, 0, 0.0745098) 0 1px 1px 0 inset; color: rgb(153, 153, 153);   font-family: 'Open Sans', HelveticaNeue, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 13px; font-stretch: normal; font-style: normal; font-variant: normal;">www.mywinlife.com/</span>
+                                                <input name="webalias" type="text" placeholder="@Model.CustomerSite.WebAlias" class="form-control" />
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" name="UpdateWebAlias" class="btn btn-primary">@Resources.Common.SaveChanges</button>
+                                        <button type="button" name="cancel" class="btn btn-link">@Resources.Common.Cancel</button>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <div class="editbutton">
+                                        <button type="button" name="edit" class="btn btn-link">@Resources.Common.Edit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+
+    <script>
+        var accountoverview = (function () {
+
+            // Settings
+            var context = "#view-accountoverview",
+                $context = $(context);
+
+
+            // Event Handlers
+            function registerEventHandlers() {
+                $('[name="edit"]', $context).on('click', function () {
+                    actions.beginEdit($(this));
+                });
+                $('[name="cancel"]', $context).on('click', function () {
+                    actions.endEdit($(this));
+                });
+            }
+
+
+            // Actions
+            var actions = {
+                onBegin: function (xhr) {
+                    $('[type="submit"]').loadingbutton('start');
+                    var securityToken = $("[name='__RequestVerificationToken']").val();
+                    xhr.setRequestHeader("__RequestVerificationToken", securityToken);
+                },
+                onSuccess: function (response) {
+                    var $submitbutton = $('[name="{0}"]'.format(response.action), $context);
+                    var $root = helpers.getFormRoot($submitbutton);
+                    $('[type="submit"]').loadingbutton('stop');
+
+                    // Refresh url for Smart Shopper WebAlias update
+                    if (response.url != null) {
+                        window.location = response.url;
+                    }
+
+
+                    // Update the display
+                    if (response.success) {
+                        $root.find('.detail').html(response.html);
+                    }
+                    else {
+                        console.log(response.message);
+                    }
+
+                    // Close the form editor
+                    actions.endEdit($submitbutton);
+                },
+
+                beginEdit: function ($element) {
+                    var $root = helpers.getFormRoot($element);
+                    $root.addClass('edit');
+                },
+                endEdit: function ($element) {
+                    var $root = helpers.getFormRoot($element);
+                    $root.removeClass('edit');
+                }
+            };
+
+
+            // Helpers
+            var helpers = {
+                getFormRoot: function ($element) {
+                    return $element.parents('.panel-body');
+                }
+            };
+
+
+            // Initialization
+            function init() {
+                registerEventHandlers();
+            }
+            init();
+
+
+            // Exports
+            return {
+                onSuccess: actions.onSuccess,
+                onBegin: actions.onBegin
+            }
+
+        })();
+    </script>
+}

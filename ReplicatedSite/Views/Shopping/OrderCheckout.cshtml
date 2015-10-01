@@ -1,0 +1,68 @@
+﻿@model CheckoutViewModel
+
+@{
+    ViewBag.Title = Resources.Labels.ShippingAddress;
+}
+
+<div class="container-fluid">
+    @Html.Partial("Partials/Navigation/_CheckoutBreadcrumb")
+</div>
+<div id="view-checkout" class="container checkout view-checkout">
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="addressesHeading">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#Addresses" aria-expanded="true" aria-controls="Addresses">
+                            <div class="checkout-section active">
+                                <span>1</span> Billing Details
+                            </div>
+                        </a>
+                    </div>
+                    <div id="Addresses" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="addressesHeading">
+                        <div class="panel-body">
+                            @Html.Partial("DisplayTemplates/_Addresses")
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading disabled" role="tab" id="deliveryHeading">
+                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#Delivery" aria-expanded="false" aria-controls="Delivery">
+                            <div class="checkout-section">
+                                <span>2</span> Delivery
+                            </div>
+                        </a>
+                    </div>
+                    <div id="Delivery" class="panel-collapse collapse" role="tabpanel" aria-labelledby="deliveryHeading">
+                        <div class="panel-body">
+                            @Html.Partial("DisplayTemplates/_Delivery")
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="well well-transparent">
+                        <a href="checkout-payment-order-review.html" class="disabled"><div class="checkout-section"><span>3</span> Payment & Order Review</div></a>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            @Html.Partial("DisplayTemplates/_OrderSummary")
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section scripts
+{
+    <script>
+
+
+
+    </script>
+}

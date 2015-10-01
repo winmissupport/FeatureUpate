@@ -1,0 +1,877 @@
+﻿<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="lt-ie9"> <![endif]-->
+<!--[if IE 9]>         <html lang="en" class="ie9"> <![endif]-->
+<html lang="en">
+<head prefix="fb: http://ogp.me/ns/fb# og: http://ogp.me/ns#">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta name="mobileoptimized" content="0" />
+    <meta name="published" content="@MvcApplication.ApplicationStartDate" />
+    <meta name="description" content="WIN Worldwide (WIN) is a global family dedicated to empowering people to change lives around the world.">
+    <title>
+        @GlobalSettings.Company.Name
+        @if (ViewBag.Title != "Home")
+        {
+            var dash = "- ";
+
+            @dash @ViewBag.Title
+
+        }
+        @*else // Alan C 7/7/2015 Rearranged to remove error about multiple <title> tags
+            {
+                <title>@GlobalSettings.Company.Name</title>
+            }*@
+    </title>
+
+    <link rel="app" id="apppath" href="@Request.ApplicationPath" />
+    <link rel="app" id="appauthenticated" href="@Request.IsAuthenticated.ToString()" />
+    <link rel="app" id="appsessiontimeout" href="@Settings.SessionTimeout" />
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="~/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="57x57" href="~/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="60x60" href="~/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="~/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="~/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="~/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="~/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="~/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="~/apple-touch-icon-152x152.png" />
+    <!-- Styles -->
+    @Styles.Render("~/bundles/icons", "~/bundles/fonts", "~/bundles/styles")
+    <!-- Scripts -->
+    <script src="@RouteJs.RouteJsHandler.HandlerUrl"></script>
+    <script src="@Url.Action("culture", "app")"></script>
+    <script src="@ResourceJs.ResourceJsHandler.SourceUrl"></script>
+    @Scripts.Render("~/bundles/scripts")
+    <!-- RequireJS -->
+    <script src="~/Content/scripts/vendor/require.js" data-main="@Url.Content("~/Content/scripts/main.js")"></script>
+    <script>
+        require.config({
+            baseUrl: '@Url.Content("~/Content/scripts")',
+            @if(Request.IsLocal) { <text>urlArgs: "bust=" + (new Date()).getTime(),</text> }
+            paths: {
+                'addresses': 'modules/addresses',
+                'app': 'modules/app',
+                'ajax': 'modules/ajax',
+                'browser': 'modules/browser',
+                'calendars': 'modules/calendars',
+                'console': 'modules/console',
+                'containers': 'modules/containers',
+                'cookies': 'modules/cookies',
+                'encryptions': 'modules/encryptions',
+                'extensions': 'modules/extensions',
+                'forms': 'modules/forms',
+                'guids': 'modules/guids',
+                'kendogrids': 'modules/kendogrids',
+                'popups': 'modules/popups',
+                'pubsub': 'modules/pubsub',
+                'urls': 'modules/urls',
+                'widgets': 'modules/widgets',
+                'shopping': 'modules/shopping',
+                'backbone': 'vendor/backbone',
+                'handlebars': 'vendor/handlebars.extended',
+                'jquery': 'vendor/jquery',
+                'kendo': 'vendor/kendo/scripts/kendo.web.min',
+                'knockout': 'vendor/knockout',
+                'moment': 'vendor/moment/moment',
+                'underscore': 'vendor/underscore',
+                'enquire': 'vendor/enquire'
+                //,
+                //'accounting': 'vendor/accounting/accounting'
+            },
+            shim: {
+                'vendor/handlebars': {
+                    exports: 'Handlebars'
+                }
+            }
+        });
+    </script>
+    <!--[if lt IE 10]>
+        <script src="@Url.Content("~/Content/scripts/modules/console.js")"></script>
+    <![endif]-->
+    <!--[if lt IE 9]>
+        <script src="@Url.Content("~/Content/scripts/vendor/html5shiv.js")"></script>
+        <script src="@Url.Content("~/Content/scripts/vendor/respond.js")"></script>
+    <![endif]-->
+    @* ------------ Declare Sections that can be referenced on Views to Add tags specific to those views ------------ *@
+    @RenderSection("header", required: false)
+    @RenderSection("meta", required: false)
+</head>
+<body class="boxed">
+    @*JB 68507 7/28/2015 Replaced New Google Analytics Tracking Code*@
+    <!-- Google Tag Manager -->
+    <noscript>
+        <iframe src="//www.googletagmanager.com/ns.html?id=GTM-KKZ524"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+            '//www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-KKZ524');</script>
+    <!-- End Google Tag Manager -->
+    @if (GlobalSettings.Exigo.Api.UseSandboxGlobally && GlobalSettings.Exigo.Api.SandboxID != 0)
+    {
+        <div class="alert alert-info text-center">
+            <strong>Sandbox Mode</strong><br />
+            This site is currently using Sandbox @GlobalSettings.Exigo.Api.SandboxID.
+        </div>
+    }
+    <div id="wrapper">
+        <header class="hidden-print">
+            <nav id="top-bar">
+                @* Top Menu Bar *@
+                <div class="container">
+                    <div class="row margin-0">
+                        <div class="col-lg-9 col-md-9 col-sm-8 col-xs-11">
+                            <div class="left-side">
+                                <ul class="list-inline">
+                                    @{
+                                        var ownerName = (!string.IsNullOrEmpty(Identity.Owner.PublicName)) ? Identity.Owner.PublicName : Identity.Owner.DisplayName; // Alan C - Look for Company Field in Site Info - if null or empty, then show their display name - Alan C July 2, 2015
+                                    }
+                                    @if (Identity.Customer != null)
+                                    {
+
+
+                                        if (Identity.Customer.CustomerTypeID == CustomerTypes.SmartShopper) // If a Smart Shopper logged into site, display his/her greeting of "Hi, [First Name]" - Alan C July 2, 2015
+                                        {
+
+                                            <li class="pull-left">
+                                                <span class="text-uppercase text-strong">
+                                                    Hi, @Identity.Customer.FirstName!
+                                                </span>
+                                            </li>
+
+
+
+                                        }
+                                        else if (Identity.Customer.CustomerTypeID == CustomerTypes.RetailCustomer) // If a Retail Customer, show his/her site owner's Company Name - Alan C July 2, 2015
+                                        {
+                                            <li class="pull-left">
+                                                <span>@ownerName</span>
+                                            </li>
+                                        }
+
+                                    }
+                                    else // Otherwise, anonymouse customers visiting a Distributor's site or getting the Corporate site should see the Company Name for the site - Alan C July 7, 2015
+                                    {
+                                        <li class="pull-left">
+                                            <span class="owner-name">
+                                                @ownerName
+                                            </span>
+                                        </li>
+                                    }
+                                    <li class="hidden-xs">
+                                        @* Temporarily changed from 1 since they had me comment out the language options - Alan C 24 March *@
+                                        @if (GlobalSettings.Globalization.AvailableLanguages.Count > 0)
+                                        {
+                                            var selectedLanguage = GlobalUtilities.GetSelectedLanguage();
+                                            var language = GlobalSettings.Globalization.AvailableLanguages.Where(c => c.CultureCode == selectedLanguage).FirstOrDefault();
+                                            var languageID = language.LanguageID;
+                                            var languageImage = "";
+                                            var languageName = string.Empty;
+
+                                            switch (languageID)
+                                            {
+                                                case Languages.English:
+                                                    languageImage = "/Content/images/country-flags/16/US.png";
+                                                    languageName = "English";
+                                                    break;
+                                                case Languages.Spanish:
+                                                    languageImage = "/Content/images/country-flags/16/MX.png";
+                                                    languageName = "Spanish";
+                                                    break;
+                                                case Languages.Dutch:
+                                                    languageImage = "/Content/images/country-flags/16/NL.png";
+                                                    languageName = "Dutch";
+                                                    break;
+                                                case Languages.German:
+                                                    languageImage = "/Content/images/country-flags/16/DE.png";
+                                                    languageName = "German";
+                                                    break;
+                                                default:
+                                                    languageImage = "/Content/images/country-flags/16/US.png";
+                                                    languageName = "English";
+                                                    break;
+                                            }
+
+                                            @*<div class="dropdown active flag">
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img height="18" src="@languageImage" style="display: inline;" /> <span>@languageName</span> <i class="fa-caret-down"></i></a>
+                                                    <ul class="dropdown-menu">
+                                                        @foreach (var item in GlobalSettings.Globalization.AvailableLanguages)
+                                                        {
+                                                        var cultureCode = GlobalUtilities.GetCultureCode(item.LanguageID);
+                                                        <li style="cursor: pointer;"><a data-language="@cultureCode">@CommonResources.Languages(item.LanguageID)</a></li>
+                                                        }
+                                                    </ul>
+                                                </div>*@
+
+                                            <a data-toggle="modal" data-target="#language" data-backdrop="static">@*<i class="fa-language"></i>*@ Select Country/Language</a>
+                                        }
+                                    </li>
+                                    @if (Identity.Owner.WebAlias != GlobalSettings.ReplicatedSites.DefaultWebAlias)
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("index", "Enrollment" , new { webalias=Identity.Owner.WebAlias })">@*<i class="fa-thumbs-up"></i>*@ Join Now</a>
+                                        </li>
+                                    }
+                                    <li>
+                                        <a href="@Url.Action("index", "Shopping" , new { webalias=Identity.Owner.WebAlias })">@*<i class="fa-shopping-cart"></i>*@ Shop</a>
+                                    </li>
+                                </ul>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-3 col-md-3 col-sm-4">
+                            <div class="pull-right hidden-xs no-padding">
+                                @* Social Media *@
+                                <ul class="social-icons no-padding">
+                                    <li>
+                                        <a class="facebook" href="@GlobalSettings.Company.Facebook" target="_blank"><i class="icon-facebook"></i></a>
+                                    </li>
+                                    <li>
+                                        <a class="twitter" href="@GlobalSettings.Company.Twitter" target=" _blank"><i class="icon-twitter"></i></a>
+                                    </li>
+                                    <li>
+                                        <a class="youtube" href="@GlobalSettings.Company.YouTube" target="_blank"><i class="icon-youtube"></i></a>
+                                    </li>
+                                    <li>
+                                        <a class="gplus" href="@GlobalSettings.Company.GooglePlus" target="_blank"><i class="icon-gplus"></i></a>
+                                    </li>
+                                    <li>
+                                        <a class="pinterest" href="@GlobalSettings.Company.Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
+                                    </li>
+                                </ul>
+
+                                @*<div class="pull-right">
+                                        <a class="yourcart" href="@Url.Action("cart", "shopping")"><i class="fa-shopping-cart"></i> Your Cart</a>
+
+                                        <a href="@Url.Action("index","enrollment")" class="join-link"><span class="fa-user"></span> Join</a>
+                                    </div>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <div class="clearfix"></div>
+            @* Logo and Cart Buttons *@
+            <div class="logo-and-cart container">
+                <div class="row margin-0">
+                    <div class="col-md-5 col-sm-6 col-xs-12 logo-container">
+                        <div id="main-logo">
+                            <a href="@Url.Action("Index", "Home")"><img src="@Url.Content("~/Content/images/logos/logo.png")" alt="WIN Worldwide" class="img-responsive main-logo" /></a>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-md-offset-3 col-sm-6 col-xs-12">
+                        <div class="row margin-0 hidden-xs">
+                            <div class="col-sm-12">
+                                <div id="additional-menu">
+                                    <ul>
+                                        <li><a href="@Url.Action("cart", "shopping")">View Cart</a></li>
+                                        <li><a href="@Url.Action("checkout", "shopping")">Checkout</a></li>
+                                        @if (!Request.IsAuthenticated)
+                                        {
+                                            <li><a href="@Url.Action("Login", "Account")">My Account</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li><a href="@Url.Action("Index", "Account")">My Account</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row margin-0" id="cart">
+                            <div class="col-sm-12">
+                                <div id="shopping-cart-preview">
+                                    <div class="cart-btn">
+                                        <a href="@Url.Action("Cart", "Shopping")" class="button adc dropdown-toggle" data-toggle="dropdown"><span id="cart-total"><span>@((0.00).ToString("C"))</span></span></a>
+                                    </div>
+                                    <div id="cart-list" class="cart-list dropdown">
+                                        <img src="@Url.Content("~/content/images/circle-24.gif")" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*Nav*@
+            <nav class="navbar container main-nav">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <a class="navbar-toggle" data-toggle="collapse" data-target="#main-navigation" data-target-2="#site-content">
+                        <i class="fa-bars"></i> Menu
+                    </a>
+                    <div class="home hidden-xs">
+                        <a href="@Url.Action("index", "home")" class="current hidden-xs">
+                            <img src="~/Content/images/icons/home.png" />
+                        </a>
+                    </div>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="main-navigation">
+                    <ul class="nav navbar-nav">
+                        <li class="visible-xs home">
+                            <a href="@Url.Action("index", "home")" class="current">
+                                <img src="~/Content/images/icons/home.png" class="pull-left" />
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("aboutwin", "home")">About Us </a>
+                            @*<div class="mega">*@
+                            @*Commented out per client until site grows enough to need this - Alan C 11 March 2015*@
+                            @*@Html.Partial("NavigationPartials/_Corporate")*@
+                            @*</div>*@
+                        </li>
+                        <li>
+                            <a href="@Url.Action("index", "Enrollment")">Opportunity </a>
+                            @*<div class="mega">*@
+                            @*@Html.Partial("NavigationPartials/_TheOpportunity") Commented out per client until site grows enough to need this - Alan C 11 March 2015*@
+                            @*</div>*@
+                        </li>
+                        <li>
+                            @*<a href="@Url.Action("products", "Shopping")">Products </a>*@
+                            <a href="@Url.Action("index", "Shopping", new { webalias = Identity.Owner.WebAlias })">Products </a>
+                            @*<div class="mega">*@
+                            @*@Html.Partial("NavigationPartials/_TheProducts") Commented out per client until site grows enough to need this - Alan C 11 March 2015*@
+                            @*</div>*@
+                        </li>
+                        <li>
+                            <a href="@GlobalSettings.Company.Blog" target="_blank">Blog</a>
+                        </li>
+                        @if (Identity.Customer != null)
+                        {
+                            <li class="visible-xs">
+                                <a href="@Url.Action("Index", "Account", new { webalias = Identity.Owner.WebAlias })">My Account</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="visible-xs">
+                                <a href="@Url.Action("Login", "Account", new { webalias = Identity.Owner.WebAlias })">My Account</a>
+                            </li>
+                        }
+                        <li class="visible-xs">
+                            <a href="@Url.Action("Cart", "Shopping", new { webalias = Identity.Owner.WebAlias })">Shopping Cart</a>
+                        </li>
+                        <li class="visible-xs">
+                            <a href="@Url.Action("Cart", "Shopping", new { webalias = Identity.Owner.WebAlias })">Checkout</a>
+                        </li>
+                        <li class="visible-xs">
+                            <a data-toggle="modal" data-target="#language">Change Country/Language</a>
+                        </li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </nav>
+        </header>
+        @* Main Content Injected *@
+        @RenderBody()
+        @* Footer *@
+        <footer class="hidden-print">
+            <div id="footer">
+                <div class="space-20"></div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <img src="@Url.Content("~/Content/images/logos/logo-footer.png")" alt="" class="margin-top-10" />
+                            @*<p class="margin-top-15">WIN Worldwide</p>*@
+                        </div>
+                        <div class="col-sm-3">
+                            <!-- Headline -->
+                            <h3 class="headline footer">About WIN</h3>
+                            <span class="line"></span>
+                            <div class="clearfix"></div>
+                            <ul class="footer-links">
+                                <li><a href="@Url.Action("index", "shopping")">Shop</a></li>
+                                <li><a href="@Url.Action("AboutWIN", "home")">About Us</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-3">
+                            <!-- Headline -->
+                            <h3 class="headline footer">Customer Service</h3>
+                            <span class="line"></span>
+                            <div class="clearfix"></div>
+                            <ul class="footer-links">
+                                <li><a href="@Url.Action("FAQ", "Home")">FAQs</a></li>
+                                <li><a href="@Url.Action("PrivacyPolicy", "Home")">Privacy Policy</a></li>
+                                <li><a href="@Url.Action("Terms", "Home")">Terms & Conditions</a></li>
+                                <li><a href="@Url.Action("ReturnPolicy", "Home")">Return Policy</a></li>
+                                <li><a href="@Url.Action("ContactUs", "Home")">Contact Us</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-3">
+                            <!-- Headline -->
+                            <h3 class="headline footer">My Account</h3>
+                            <span class="line"></span>
+                            <div class="clearfix"></div>
+                            <ul class="footer-links">
+                                <li><a href="@Url.Action("index", "Account")">My Account</a></li>
+                                <li><a href="@Url.Action("autoorderpreferences", "AutoOrders")">Autoship Maintenance</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="footer-bottom">
+                    <div class="row margin-right-5 ">
+                        <div class="col-sm-7 footer-bottom-links">
+                            <div class="copyright">Copyright© @DateTime.Now.Year @GlobalSettings.Company.Name. All rights reserved</div>
+                        </div>
+                        <div class="col-sm-5 footer-bottom-links">
+                            <ul class="list-inline list-unstyled payment-icons">
+                                <li><img src="~/Content/images/payments/visa.png" alt="" style="max-height: 32px;" /></li>
+                                <li><img src="~/Content/images/payments/mastercard.png" alt="" style="max-height: 32px;" /></li>
+                                <li><img src="~/Content/images/payments/icon_AmericanExpress.png" alt="" style="max-height: 30px;" /></li>
+                                <li><img src="~/Content/images/payments/iDeal.png" alt="" style="max-height: 30px;" /></li>
+                                <li><div class="padding-left-5 color-white font-10">VAT #NL8109.46.737.B.01<span class="block">KVK #34176277</span></div></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="backtotop"><a href="javascript:;" data-role="scrolltop"></a></div>
+                </div>
+            </div>
+        </footer>
+    </div> @* End wrapper for layout *@
+    @* Modal for Quickshop Popup *@
+    <div id="quickshop-container">
+        @Html.Partial("../Shopping/Partials/Items/QuickShopModal")
+    </div>
+
+    @* Language Modal *@
+    <div class="modal fade" id="language" tabindex="-1" role="dialog" aria-labelledby="language" aria-hidden="true" data-backdrop="static" data-remote="false">
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!--2015-07-16 #68051 DV. <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+                    <h4 class="modal-title" id="myModalLabel">Select your country and language</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Select your country to see what WIN Worldwide products are available to you!</p>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="control-group">
+                                <label class="control-label" for="Country">Choose Country</label>
+                                <div class="controls">
+                                    @Html.DropDownList("lstCountry", Html.Countries(GlobalUtilities.GetSelectedCountryCode()),
+                                        new
+                                        {
+                                            @class = "form-control",
+                                            //@onchange = "changeCountry(this);"
+                                        })
+
+                                </div>
+                                @*/controls*@
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="control-group">
+                                <label class="control-label" for="Country">Choose your Language</label>
+                                <div class="controls">
+                                    @Html.DropDownList("lstLanguage", Html.Languages(GlobalUtilities.GetSelectedLanguageID()),
+                                        new
+                                        {
+                                            @class = "form-control"
+                                        })
+                                    <div class="alert alert-info">More Languages coming soon...</div>
+                                </div>
+                                @*/controls*@
+                            </div>
+                        </div>
+                        <br />
+                        <div class="col-sm-4">
+                            <a class="btn btn-primary" id="languageMarketSubmit">Submit</a>
+                        </div>
+                    </div>
+                    <div class="space-30"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Activate all tooltips with data-toggle='tooltip'
+
+        //$(document).ready(function () {
+        //    $('#lstCountry option[value="BE"]').remove();
+        //    $('#lstCountry option[value="GB"]').remove();
+        //    $('#lstCountry option[value="NL"]').remove();
+        //    $('#lstCountry option[value="DE"]').remove();
+        //    //changeCountry($("#lstCountry"));
+        //});
+
+
+        //var newGermanOption = "<option value='" + "de-DE" + "'>German</option>";
+        //$("#lstLanguage").append(newGermanOption);
+
+        //function changeCountry(ddlCountry) {
+        //    console.log('country', $(ddlCountry).val());
+        //    var countryval = $(ddlCountry).val();
+        //    var items = "";
+        //    if (countryval == "US") {
+        //        items = "<option value='" + "en-US" + "'>English</option>";
+        //    }
+        //    else if (countryval == "DE") {
+        //        items = "<option value='" + "de-DE" + "'>German</option>";
+        //    }
+        //    $("#lstLanguage").html("");
+        //    $("#lstLanguage").append(items);
+        //}
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+
+        });
+
+        require(["cookies", "pubsub", "ajax", "shopping"], function (cookies, pubsub, ajax, shopping) {
+            var $subcategoryLinks = $("[data-subcategory]"),
+                $parentcategory = $("[data-parentcategory]"),
+                quickshopUrl = "@Url.Action("quickshopmodal", "shopping")",
+                additemUrl = "@Url.Action("additemtocart", "shopping")",
+                currentpage = "@Request.Url.Segments.Last()",
+                cartUrl = "@Url.Action("cart", "shopping")",
+                getcartpreviewUrl = "@Url.Action("fetchcartpreview", "shopping")",
+                context = "#site-content",
+                $context = $(context);
+
+            shopping.bind('#view-item');
+
+            var itemTypes = {
+                order: "@ShoppingCartItemType.Order",
+                autoorder: "@ShoppingCartItemType.AutoOrder"
+            };
+
+            function registerEventHandlers() {
+                window.on('item.addtoorder', function (item) {
+                    $('[data-role="item.addtoorder"]').loadingbutton('start');
+                    ajax.json({
+                        url: additemUrl,
+                        data: {
+                            item: item
+                        },
+                        success: function (response) {
+
+                            if (response.success) {
+                                $('[data-role="item.addtoorder"]').loadingbutton('stop');
+                                toastr.success("<strong>{0}</strong> has been added to your order!".format(item.ItemDescription));
+
+                                var cartResponse = {
+                                    cart: response.cart,
+                                    total: response.total
+                                };
+
+                                window.trigger("render.cartpreview", cartResponse);
+                            }
+                        }
+                    });
+                });
+                window.on('item.addtoautoorder', function (item) {
+                    $('[data-role="item.addtoautoorder"]').loadingbutton('start');
+
+                    ajax.json({
+                        url: additemUrl,
+                        data: {
+                            item: item
+                        },
+                        success: function (response) {
+                            $('[data-role="item.addtoautoorder"]').loadingbutton('stop');
+                            if (response.success) {
+
+                                toastr.success("<strong>{0}</strong> has been added to your autoship!".format(item.ItemDescription));
+
+                                var cartResponse = {
+                                    cart: response.cart,
+                                    total: response.total
+                                };
+
+                                window.trigger("render.cartpreview", cartResponse);
+                            }
+                        }
+                    });
+                });
+
+                $("[data-nav-id='" + currentpage + "'] a").addClass("active");
+
+                $('#lstCountry').ready(function () {
+                    var selected = $("#lstLanguage option").val();
+                    if (selected != '@GlobalUtilities.GetSelectedCountryCode()') {
+                        selected = '@GlobalUtilities.GetSelectedCountryCode()';
+                    }
+
+                });
+
+                $('#languageMarketSubmit').on("click", function () {
+
+                    var lang = $('#lstLanguage option:selected').val();
+                    var country = $('#lstCountry option:selected').val();
+                    var setMarket = true;
+                    var options = {};
+
+                    options.expires = new Date('@DateTime.Now.AddYears(1).ToShortDateString()');
+                    options.path = "/";
+                    options.domain = false;
+                    options.secure = false;
+
+                    cookies.set('@GlobalSettings.Globalization.LanguageCookieName', lang, options);
+                    cookies.set('@GlobalSettings.Globalization.CountryCookieName', country, options);
+                    cookies.set('@GlobalSettings.Globalization.MarketSet', setMarket, options);
+
+
+                    ajax.json({
+                        url: "@Url.Action("resetmarket", "shopping")",
+                        data: { country: country },
+                        success: function () {
+                            window.location = window.location;
+                        }
+                    });
+
+                });
+
+                // Increment item quantity button
+                $('[data-role="incrementquantity"]', $context).on('click', function () {
+                    var $item = $(this),
+                        $itemParent = $item.parents('.item-container'),
+                        itemType = $itemParent.find('[name="Type"]').val(),
+                        itemCode = $itemParent.data('itemcode'),
+                        originalQuantity = parseInt($('.quantity-box', $itemParent).val()),
+                        newQuantity = originalQuantity + 1;
+
+                    $('.quantity-box', $itemParent).val(newQuantity);
+
+                    actions.updateCart(itemCode, itemType, originalQuantity);
+                });
+
+                // Decrement item quantity button
+                $('[data-role="decrementquantity"]', $context).on('click', function () {
+                    var $item = $(this),
+                        $itemParent = $item.parents('.item-container'),
+                        itemType = $itemParent.find('[name="Type"]').val(),
+                        itemCode = $itemParent.data('itemcode'),
+                        originalQuantity = parseInt($('.quantity-box', $itemParent).val()),
+                        newQuantity = (originalQuantity - 1 >= 0) ? originalQuantity - 1 : 1;
+
+                    $('.quantity-box', $itemParent).val(newQuantity);
+
+                    actions.updateCart(itemCode, itemType, originalQuantity);
+                });
+
+                $subcategoryLinks.on("click", function () {
+                    var $this = $(this);
+
+                    actions.toggleCategory($this);
+                });
+
+                window.on("update.cartpreview", function () {
+                    actions.getCartPreview();
+                });
+
+                window.on("render.cartpreview", function (response) {
+                    var cart = response.cart,
+                        total = response.total;
+
+                    console.log(response);
+
+                    actions.getCartPreview(cart, total);
+                });
+
+
+                $(".dropdown").hover(
+                function () {
+                    $('.dropdown-menu', this).stop(true, true).fadeIn("fast");
+                    $(this).toggleClass('open');
+                    $('b', this).toggleClass("caret caret-up");
+                },
+                function () {
+                    $('.dropdown-menu', this).stop(true, true).fadeOut("fast");
+                    $(this).toggleClass('open');
+                    $('b', this).toggleClass("caret caret-up");
+                });
+
+                //$('[data-role="GetSmartShopperPrice"]').is(':checked', function () {
+                //    $('.product-price-discount span').removeClass('activePrice', function () {
+                //        $(this).addClass('strikePrice');
+                //    });
+                //    $('.product-price-discount i').removeClass('strikePrice', function () {
+                //        $(this).addClass('activePrice');
+                //        $(this).show();
+                //    });
+                //});
+                function getCookie(name) {
+                    var dc = document.cookie;
+                    var prefix = name + "=";
+                    var begin = dc.indexOf("; " + prefix);
+                    if (begin == -1) {
+                        begin = dc.indexOf(prefix);
+                        if (begin != 0) return null;
+                    }
+                    else {
+                        begin += 2;
+                        var end = document.cookie.indexOf(";", begin);
+                        if (end == -1) {
+                            end = dc.length;
+                        }
+                    }
+                    return unescape(dc.substring(begin + prefix.length, end));
+                }
+
+
+                $('document').ready(function () {
+                    var HasSet = getCookie("HasSetCustomerMarket");
+                    console.log(HasSet);
+                    if (HasSet == null) {
+                        $('#language').modal('show');
+                    }
+
+                });
+            };
+            var actions = {
+                toggleCategory: function (control) {
+                    var $this = control,
+                        category = $this.data("subcategory");
+
+                    $subcategoryLinks.removeClass("active");
+                    $this.addClass("active");
+
+                    $(".subcategory-container").hide();
+                    $(".subcategory-container[data-category='" + category + "']").show();
+                },
+                getCartPreview: function (cart, total) {
+                    var $priceField = $("#cart-total"),
+                        $cartContainer = $("#cart-list");
+
+                    if (cart == null) {
+                        $.ajax({
+                            url: getcartpreviewUrl,
+                            cache: false,
+                            success: function (response) {
+                                $priceField.text(response.total);
+                                $cartContainer.html(response.cart);
+                                //console.log(response);
+
+                            }, error: function (xhr, status, error) {
+                                console.log(xhr);
+                            }
+                        });
+
+                    } else {
+                        $cartContainer.html(cart);
+                        $priceField.html(total);
+                    }
+                },
+                setCartQuantities: function (response) {
+                    var orderitems = response.orderitems;
+                    var autoorderitems = response.autoorderitems;
+
+                    //console.log('Order Items: ', orderitems);
+                    //console.log('Auto Order Items: ', autoorderitems);
+
+                    $('.quantity-box').each(function () {
+                        var $item = $(this),
+                        $itemParent = $item.parents('.item-container'),
+                        itemType = $itemParent.find('[name="Type"]').val(),
+                        itemCode = $itemParent.data('itemcode');
+
+                        if (itemType === orderType) {
+                            for (var i = 0; i < orderitems.length; i++) {
+                                var item = orderitems[i];
+                                console.log("here");
+                                if (itemCode == item.ItemCode) {
+                                    $item.val(item.Quantity);
+                                }
+                            }
+                        }
+                        else if (itemType === autoOrderType) {
+                            for (var i = 0; i < autoorderitems.length; i++) {
+                                var item = autoorderitems[i];
+                                if (itemCode === item.ItemCode) {
+                                    $item.val(item.Quantity);
+                                }
+                            }
+                        }
+                        else {
+                            console.log('Unrecognized Type.');
+                        }
+
+                    })
+                },
+                updateCart: function (itemcode, type, originalQuantity) {
+                    originalQuantity = parseInt(originalQuantity);
+
+                    var $container = $('[data-itemcode="' + itemcode + '"][data-itemtype="' + type + '"].item-container'),
+                        $item = null,
+                        quantity = 0;
+
+                    if ($container.length > 0) {
+                        $item = $container.serializeObject();
+                        quantity = parseInt($item.Quantity);
+                    }
+                    else {
+                        $item = $('[data-itemcode="' + itemcode + '"][data-itemtype="' + type + '"]tr').serializeObject();
+                        quantity = parseInt($item.Quantity);
+                    }
+
+                    //console.log("item: ", $item);
+
+                    if (originalQuantity === 0 && quantity > 0) { // Add new item
+                        console.log("add");
+                        actions.addItem($item);
+                    }
+                    else if (originalQuantity > 0 && quantity === 0) { // Remove exisitng item
+                        console.log("remove");
+                        actions.removeItem($item);
+                    }
+                    else if (originalQuantity > 0 && quantity > 0) { // Update exiting item quantity
+                        console.log("update");
+                        actions.updateItem($item);
+                    }
+                },
+
+            };
+
+            function _init() {
+                registerEventHandlers();
+
+                $subcategoryLinks.first().click();
+
+                actions.getCartPreview();
+            }
+            _init();
+        });
+
+        // Get the Smart Shopper WebAlias for the 3 For Free Share URL
+        (function (ajax) {
+
+            if ($('#siteUrl').text() == "") {
+                $.ajax({
+                    url: '@Url.Action("GetWebAlias", "Account")',
+                    success: function (response) {
+                        if (response.success) {
+                            if (response.webalias != null) {
+                                $('#siteUrl').text(response.webalias)
+                            }
+                            else {
+                                $('#siteUrl').text("[Add Your Webalias]")
+                            }
+                        }
+                    },
+                });
+            }
+
+        })();
+    </script>
+    <!-- Page Scripts -->
+    @RenderSection("scripts", required: false)
+    @Html.PartialScripts()
+    @Html.AntiForgeryToken()
+</body>
+</html>

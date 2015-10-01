@@ -1,0 +1,57 @@
+$bonzaitreenodeheight: 8px;
+
+.bonzaitree {
+	td { padding: 0; margin: 0; @include disable-highlighting(); }
+
+	.bonzaitree-node { border: 0; 
+        a { @include transition(all, linear, 0.5s); display: block; background-color: #333; width: $bonzaitreenodeheight; height: $bonzaitreenodeheight; border-radius: $bonzaitreenodeheight/2; margin-left: auto; margin-right: auto; 
+			&.open-node { background-color: #fff; border: 1px solid #ccc; }
+			&.level-0 { background-color: green; }
+			&.level-1 {  }
+			&.level-2 {  }
+			&.level-3 {  }
+			&.level-4 {  }
+			&.level-5 {  }
+			&.level-6 {  }
+			&.level-7 {  }
+			&.level-8 {  }
+			&.level-9 {  }
+
+			&.rank-0 {  }
+			&.rank-1 {  }
+			&.rank-2 {  }
+			&.rank-3 {  }
+			&.rank-4 {  }
+			&.rank-5 {  }
+			&.rank-6 {  }
+			&.rank-7 {  }
+			&.rank-8 {  }
+			&.rank-9 {  }
+			&.rank-10 {  }
+			&.rank-11 {  }
+			&.rank-12 {  }
+			&.rank-13 {  }
+			&.rank-14 {  }
+			&.rank-15 {  }
+		}
+
+		&.active {
+			a { background-color: red; }
+		}
+	}
+                     
+
+    .google-visualization-orgchart-noderow-small,
+    .google-visualization-orgchart-noderow-medium,
+    .google-visualization-orgchart-noderow-large { height: $bonzaitreenodeheight; line-height: $bonzaitreenodeheight; }
+
+    .google-visualization-orgchart-table * { padding: 0; }
+
+    .google-visualization-orgchart-linenode { border-color: #ccc; }
+    .google-visualization-orgchart-lineleft { }
+    .google-visualization-orgchart-linebottom { }
+
+    .google-visualization-orgchart-connrow-small,
+	.google-visualization-orgchart-connrow-medium,
+	.google-visualization-orgchart-connrow-large { height: $bonzaitreenodeheight/2; }
+}

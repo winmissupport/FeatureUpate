@@ -1,0 +1,125 @@
+﻿@model ItemDetailViewModel
+@{
+    ViewBag.Title = Model.Item.ItemDescription;
+    var Item = Model.Item;
+    
+    
+}
+
+
+
+@section meta{
+
+@* Render Meta Tags for Facebook and Google to pull details and image *@
+<meta property="og:title" content="@Model.Item.ItemDescription" />
+<meta property="og:site_name" content="@GlobalSettings.Company.Name" />
+<meta property="og:url" content="@Request.Url.AbsoluteUri" />
+<meta property="og:image" content="@Model.Item.SmallImageUrl" />
+<meta property="og:description" content="@Model.Item.ShortDetail1" />
+<meta property="og:type" content="article" />
+
+}
+
+@*Titlebar*@
+<div class="titlebar">
+    <section class="container">
+
+        <h2>Shop</h2>
+
+        <nav id="breadcrumbs">
+            <ul>
+                <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+                <li><a href="@Url.Action("Index", "Shopping")">Products</a></li>
+                <li><a href="@Url.Action("ItemDetail", "Shopping", new { itemcode = Model.Item.ItemCode })">@Model.Item.ItemDescription</a></li>
+            </ul>
+        </nav>
+    </section>
+</div>
+<div class="container view-item view-item-detail" data-widget="item" id="view-item">
+
+    @Html.Partial("Partials/Items/Details/SingleItem", Model)
+    @*Product Tabbed Details*@
+    <div class="margin-0">
+        <div class="item-tab-details">
+            <!-- Tabs Navigation -->
+            <ul class="tabs-nav">
+                <li class="active"><a href="#tab1">@Resources.Common.ItemDescription</a></li>
+                <li><a href="#tab2">@Resources.Common.SupplementFacts</a></li>
+                @*<li><a href="#tab3">Reviews<span class="tab-reviews">(3)</span></a></li>*@
+            </ul>
+
+            <!-- Tabs Content -->
+            <div class="tabs-container">
+                <div class="tab-content" id="tab1" data-detail="1">
+                    @if (!Model.Item.IsGroupMaster)
+                    {
+                        @Html.Raw(Model.Item.LongDetail1)
+                    }
+                    else
+                    {
+                        foreach (var item in Item.GroupMembers)
+                        {
+                            <div class="hide" data-member-details="@item.ItemCode">
+                                <div data-description="longdetail1">
+                                    @Html.Raw(item.Item.LongDetail1)
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+
+                <div class="tab-content" id="tab2" data-detail="2">
+                    @if (!Model.Item.IsGroupMaster)
+                    {
+                        @Html.Raw(Model.Item.LongDetail2)
+                    }
+                    else
+                    {
+                        foreach (var item in Item.GroupMembers)
+                        {
+                            <div class="hide" data-member-details="@item.ItemCode">
+                                <div data-description="longdetail2">
+                                    @Html.Raw(item.Item.LongDetail2)
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+
+
+            </div>
+
+            @*Related Product Template*@
+            @{
+                //var modalItem = new Item();
+                //var contextID = Guid.NewGuid();
+            }
+            @*<div class="margin-5">
+
+                    <h3 class="headline">@Resources.Common.RelatedProducts</h3>
+                    <span class="line margin-bottom-0"></span>
+                    <div class="products row">
+
+                        @if (Model.RelatedItems.Count() > 0)
+                        {
+                            foreach (var item in Model.RelatedItems)
+                            {
+                                modalItem.ItemCode = item.ItemCode;
+
+                                <div data-itemcode="@item.ItemCode" class="item-list-item col-sm-3">
+                                    @Html.Partial("Partials/Items/Cards/SingleItem_RelatedItemList", item)
+                                </div>
+                            }
+                            <div class="clearfix"></div>
+                        }
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div id="relatedItemQuickShopContainer"></div>
+                </div>*@
+        </div>
+    </div>
+
+    <hr />
+
+</div>

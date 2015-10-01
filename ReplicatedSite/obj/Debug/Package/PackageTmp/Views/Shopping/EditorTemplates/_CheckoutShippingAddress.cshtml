@@ -1,0 +1,170 @@
+﻿@model CheckoutViewModel
+@{
+    var contextID = Guid.NewGuid().ToString();
+
+    var defaultCountryCode = (Model.ShippingAddress.Country.IsNotNullOrEmpty()) ? Model.ShippingAddress.Country : GlobalSettings.Company.Address.Country;
+    var defaultRegionCode = (Model.ShippingAddress.State.IsNotNullOrEmpty()) ? Model.ShippingAddress.State : GlobalSettings.Company.Address.State;
+    var isVerifyable = ViewData["VerifyEnabled"] == null || Convert.ToBoolean(ViewData["VerifyEnabled"]) == true;
+}
+
+<div id="view-shippingaddress-@contextID">
+
+    <div class="row margin-5">
+        <div class="col-xs-6 half first">
+            <label for="@Html.NameFor(c => Model.ShippingAddress.FirstName)" class="control-label">@Resources.Common.FirstName: <abbr>*</abbr></label>
+            <div class="form-group">
+                @Html.EditorFor(c => Model.ShippingAddress.FirstName)
+            </div>
+        </div>
+        <div class="col-xs-6 half">
+            <label for="@Html.NameFor(c => Model.ShippingAddress.FirstName)" class="control-label">@Resources.Common.LastName: <abbr>*</abbr></label>
+            <div class="form-group">
+                @Html.EditorFor(c => Model.ShippingAddress.LastName)
+            </div>
+        </div>
+    </div>
+
+    @Html.HiddenFor(c => Model.ShippingAddress.AddressType, new { data_role = "AddressType" })
+
+    <div class="row margin-5">
+        <div class="form-group col-xs-11">
+            @Html.LabelFor(c => Model.ShippingAddress.Country, new { @class = "control-label full-width" })@*<abbr>*</abbr>*@
+            @Html.DropDownListFor(c => Model.ShippingAddress.Country,
+            selectList: Html.Countries(defaultCountryCode),
+            htmlAttributes: new
+            {
+                @class = "form-control btn-group btn-group-lg",
+                data_region_bind = "#" + Html.IdFor(c => Model.ShippingAddress.State) + "_" + contextID,
+                data_address_bind = "#" + Html.IdFor(c => Model.ShippingAddress.Address2) + "_" + contextID,
+                data_role = "Country"
+            })
+            @Html.ValidationMessageFor(c => Model.ShippingAddress.Country)
+        </div>
+    </div>
+    <div class="row margin-5">
+        <div class="space-5"></div>
+
+        <div class="form-group col-xs-11">
+            @Html.LabelFor(c => Model.ShippingAddress.Address1, new { @class = "control-label" })@*<abbr>*</abbr>*@
+            @Html.TextBoxFor(c => Model.ShippingAddress.Address1, new
+        {
+            htmlAttributes = new
+                {
+                    @class = "form-control",
+                    placeholder = "Street address",
+                    data_role = "Address1"
+                }
+        })
+            @Html.ValidationMessageFor(c => Model.ShippingAddress.Address1)
+
+            <div class="space-5"></div>
+            <div class="form-group col-xs-11" @if (defaultCountryCode == "US") { <text> style="display: none;" </text>       }>
+                @Html.TextBoxFor(c => Model.ShippingAddress.Address2, new
+            {
+                htmlAttributes = new
+                    {
+                        @class = "form-control",
+                        placeholder = "Apartment, suite, unit, building, floor, etModel.ShippingAddress.",
+                        id = Html.IdFor(c => Model.ShippingAddress.Address2) + "_" + contextID,
+                        data_role = "Address2"
+                    }
+            })
+                @Html.ValidationMessageFor(c => Model.ShippingAddress.Address2)
+            </div>
+        </div>
+        <div class="space-5"></div>
+
+
+        <div class="row margin-5">
+            <div class="col-xs-6 half first">
+                <div class="form-group">
+                    <label for="@Model.ShippingAddress.City" class="control-label">@Resources.Common.City*</label>
+                    @*@Html.LabelFor(c => Model.ShippingAddress.City, new { @class = "control-label visible-xs" })*@@*<abbr>*</abbr>*@
+                    @Html.TextBoxFor(c => Model.ShippingAddress.City, new
+
+               {
+                   htmlAttributes = new
+                       {
+                           @class = "form-control",
+                           placeholder = "City",
+                           data_role = "City"
+                       }
+               })
+                    @Html.ValidationMessageFor(c => Model.ShippingAddress.City)
+                </div>
+            </div>
+            <div class="col-xs-6 half">
+                <div class="form-group">
+                    <label for="@Model.ShippingAddress.Zip" class="control-label">@Resources.Common.ZipPostal*</label>
+                    @*@Html.LabelFor(c => Model.ShippingAddress.Zip, new { @class = "control-label visible-xs" })*@@*<abbr>*</abbr>*@
+                    @Html.TextBoxFor(c => Model.ShippingAddress.Zip, new
+                {
+                    htmlAttributes = new
+                        {
+                            @class = "form-control",
+                            placeholder = "Zip code",
+                            data_role = "Zip"
+                        }
+                })
+                    @Html.ValidationMessageFor(c => Model.ShippingAddress.Zip)
+                </div>
+            </div>
+        </div>
+        <div class="row margin-5">
+            <div class="col-xs-11 full-width">
+                <div class="form-group">
+                    <label for="@Model.ShippingAddress.State" class="control-label">@Resources.Common.StateProvince*</label>
+                    @*@Html.LabelFor(c => Model.ShippingAddress.State, new { @class = "control-label visible-xs" })*@@*<abbr>*</abbr>*@
+                    @Html.DropDownListFor(c => Model.ShippingAddress.State,
+                    selectList: Html.Regions(defaultCountryCode, defaultRegionCode),
+                    htmlAttributes: new
+                    {
+                        @class = "form-control",
+                        id = Html.IdFor(c => Model.ShippingAddress.State) + "_" + contextID,
+                        data_role = "State"
+                    })
+                    @Html.ValidationMessageFor(c => Model.ShippingAddress.State)
+                </div>
+            </div>
+        </div>
+        <div class="space-10"></div>
+        @if (isVerifyable)
+        {
+            <div class="row margin-5">
+                <div class="col-xs-11">
+                    <button type="button" class="btn btn-info" data-role="verify">@Resources.Common.VerifyAddress</button>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="row margin-5">
+        <div class="col-xs-6 half first">
+            <div class="form-group">
+                @Html.LabelFor(c => Model.ShippingAddress.Email, new { @class = "control-label" })@*<abbr>*</abbr>*@
+                @Html.EditorFor(c => Model.ShippingAddress.Email)
+            </div>
+        </div>
+        <div class="col-xs-6 half">
+            <div class="form-group">
+                @Html.LabelFor(c => Model.ShippingAddress.Phone, new { @class = "control-label" })@*<abbr>*</abbr>*@
+                @Html.EditorFor(c => Model.ShippingAddress.Phone)
+            </div>
+        </div>
+    </div>
+
+    @*<div class="half first"><label>Email Adress: <abbr>*</abbr></label><input type="text" placeholder="" value="" /></div>
+        <div class="half"><label>Phone: <abbr>*</abbr></label><input type="text" placeholder="" value="" /></div>*@
+
+
+    <div class="clearfix"></div>
+</div>
+
+@using (Html.BeginPartialScript())
+{
+    <script>
+        require(["modules/addresses"], function (address) {
+            address.bind('#view-address-@contextID');
+        });
+    </script>
+}

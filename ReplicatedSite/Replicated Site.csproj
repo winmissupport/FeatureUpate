@@ -1,0 +1,3202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E0E69EC8-7911-4A7B-9B29-2F802DCA8107}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ReplicatedSite</RootNamespace>
+    <AssemblyName>ReplicatedSite</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidationNA">
+      <HintPath>..\packages\FluentValidationNA.1.2.16\lib\net40\FluentValidationNA.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Data.Edm, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.Edm.5.6.4\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.OData.5.6.4\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.Services.5.6.4\lib\net40\Microsoft.Data.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.4\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ResourceJs, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Exigo.Web.ResourceJs.1.0.0\lib\net45\ResourceJs.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RouteJs, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RouteJs.Mvc5.1.1.9\lib\net45\RouteJs.dll</HintPath>
+    </Reference>
+    <Reference Include="RouteJs.Mvc5, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RouteJs.Mvc5.1.1.9\lib\net45\RouteJs.Mvc5.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Linq.Dynamic">
+      <HintPath>..\packages\System.Linq.Dynamic.Library.1.1.13\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Spatial, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Spatial.5.6.4\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Providers">
+      <HintPath>..\packages\Microsoft.AspNet.Providers.Core.2.0.0\lib\net40\System.Web.Providers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebActivatorEx.2.0.6\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Common\App_GlobalResources\Common.designer.cs">
+      <Link>App_GlobalResources\Common.designer.cs</Link>
+      <DependentUpon>Common.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\DisplayConfig.cs" />
+    <Compile Include="App_Start\ModelBinderConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AppController.cs" />
+    <Compile Include="Controllers\AutoOrdersController.cs" />
+    <Compile Include="Controllers\DevController.cs" />
+    <Compile Include="Controllers\DocumentationController.cs" />
+    <Compile Include="Controllers\EnrollmentController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ImagesController.cs" />
+    <Compile Include="Controllers\ProductInfoController.cs" />
+    <Compile Include="Controllers\ShoppingController.cs" />
+    <Compile Include="Factories\Enrollment\EnrollmentViewModelFactory.cs" />
+    <Compile Include="Factories\Shopping\ShoppingViewModelFactory.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Authentication\LoginResponse.cs" />
+    <Compile Include="Models\Email\Email.cs" />
+    <Compile Include="Models\Enrollment\EnrollmentPropertyBag.cs" />
+    <Compile Include="Models\Identity\CustomerIdentity.cs" />
+    <Compile Include="Models\Identity\Identity.cs" />
+    <Compile Include="Models\Identity\ReplicatedSiteIdentity.cs" />
+    <Compile Include="Models\Search\DistributorSearch.cs" />
+    <Compile Include="Models\Shopping\ShoppingCartCheckoutPropertyBag.cs" />
+    <Compile Include="Models\Shopping\ShoppingCartItemsPropertyBag.cs" />
+    <Compile Include="Providers\Enrollment\EnrollmentLogicProvider.cs" />
+    <Compile Include="Providers\Shopping\ShoppingCartLogicProvider.cs" />
+    <Compile Include="Services\IdentityService.cs" />
+    <Compile Include="Settings\Settings.cs" />
+    <Compile Include="Utilities\Globalization.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Account\AccountRegistrationViewModel.cs" />
+    <Compile Include="ViewModels\Account\AccountSummaryViewModel.cs" />
+    <Compile Include="ViewModels\Account\CustomerSiteViewModel.cs" />
+    <Compile Include="ViewModels\Authentication\ForgotPasswordViewModel.cs" />
+    <Compile Include="ViewModels\Authentication\LoginViewModel.cs" />
+    <Compile Include="ViewModels\Authentication\ResetPasswordViewModel.cs" />
+    <Compile Include="ViewModels\AutoOrders\AutoOrderAddEditCartViewModel.cs" />
+    <Compile Include="ViewModels\AutoOrders\AutoOrderCartReviewViewModel.cs" />
+    <Compile Include="ViewModels\AutoOrders\AutoOrderDateViewModel.cs" />
+    <Compile Include="ViewModels\AutoOrders\AutoOrderListViewModel.cs" />
+    <Compile Include="ViewModels\AutoOrders\AutoOrderPaymentMethodViewModel.cs" />
+    <Compile Include="ViewModels\AutoOrders\AutoOrderPaymentViewModel.cs" />
+    <Compile Include="ViewModels\AutoOrders\AutoOrderPreferencesViewModel.cs" />
+    <Compile Include="ViewModels\AutoOrders\AutoOrderShipMethodViewModel.cs" />
+    <Compile Include="ViewModels\AutoOrders\AutoOrderShippingAddressViewModel.cs" />
+    <Compile Include="ViewModels\Enrollment\EnrollmentCompleteViewModel.cs" />
+    <Compile Include="ViewModels\Enrollment\EnrollmentConfigurationViewModel.cs" />
+    <Compile Include="ViewModels\Enrollment\EnrollmentReviewViewModel.cs" />
+    <Compile Include="ViewModels\Enrollment\EnrollmentSummaryViewModel.cs" />
+    <Compile Include="ViewModels\Enrollment\Interfaces\IEnrollmentViewModel.cs" />
+    <Compile Include="ViewModels\Enrollment\PacksViewModel.cs" />
+    <Compile Include="ViewModels\Enrollment\ProductListViewModel.cs" />
+    <Compile Include="ViewModels\Enrollment\SelectCountryViewModel.cs" />
+    <Compile Include="ViewModels\Shopping\AutoOrderSettingsViewModel.cs">
+      <SubType>
+      </SubType>
+    </Compile>
+    <Compile Include="ViewModels\Shopping\CartViewModel.cs">
+      <SubType>
+      </SubType>
+    </Compile>
+    <Compile Include="ViewModels\Shopping\CategoryLandingViewModel.cs" />
+    <Compile Include="ViewModels\Shopping\CategoryViewModel.cs">
+      <SubType>
+      </SubType>
+    </Compile>
+    <Compile Include="ViewModels\Shopping\CheckoutViewModel.cs" />
+    <Compile Include="ViewModels\Shopping\Interfaces\IShoppingViewModel.cs" />
+    <Compile Include="ViewModels\Shopping\ItemDetailViewModel.cs">
+      <SubType>
+      </SubType>
+    </Compile>
+    <Compile Include="ViewModels\Shopping\ItemListViewModel.cs">
+      <SubType>
+      </SubType>
+    </Compile>
+    <Compile Include="ViewModels\Shopping\OrderCompleteViewModel.cs">
+      <SubType>
+      </SubType>
+    </Compile>
+    <Compile Include="ViewModels\Shopping\OrderReviewViewModel.cs">
+      <SubType>
+      </SubType>
+    </Compile>
+    <Compile Include="ViewModels\Shopping\PaymentMethodsViewModel.cs">
+      <SubType>
+      </SubType>
+    </Compile>
+    <Compile Include="ViewModels\Shopping\ShippingAddressesViewModel.cs">
+      <SubType>
+      </SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="..\Common\Content\favicons\apple-touch-icon-114x114.png">
+      <Link>apple-touch-icon-114x114.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\favicons\apple-touch-icon-120x120.png">
+      <Link>apple-touch-icon-120x120.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\favicons\apple-touch-icon-144x144.png">
+      <Link>apple-touch-icon-144x144.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\favicons\apple-touch-icon-152x152.png">
+      <Link>apple-touch-icon-152x152.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\favicons\apple-touch-icon-57x57.png">
+      <Link>apple-touch-icon-57x57.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\favicons\apple-touch-icon-72x72.png">
+      <Link>apple-touch-icon-72x72.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\favicons\apple-touch-icon-76x76.png">
+      <Link>apple-touch-icon-76x76.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\favicons\apple-touch-icon.png">
+      <Link>apple-touch-icon.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\favicons\favicon.ico">
+      <Link>favicon.ico</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\AD.png">
+      <Link>Content\images\country-flags\16\AD.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\AE.png">
+      <Link>Content\images\country-flags\16\AE.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\AF.png">
+      <Link>Content\images\country-flags\16\AF.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\AG.png">
+      <Link>Content\images\country-flags\16\AG.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\AI.png">
+      <Link>Content\images\country-flags\16\AI.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\AL.png">
+      <Link>Content\images\country-flags\16\AL.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\AM.png">
+      <Link>Content\images\country-flags\16\AM.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\AN.png">
+      <Link>Content\images\country-flags\16\AN.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\AO.png">
+      <Link>Content\images\country-flags\16\AO.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\AQ.png">
+      <Link>Content\images\country-flags\16\AQ.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\AR.png">
+      <Link>Content\images\country-flags\16\AR.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\AS.png">
+      <Link>Content\images\country-flags\16\AS.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\AT.png">
+      <Link>Content\images\country-flags\16\AT.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\AU.png">
+      <Link>Content\images\country-flags\16\AU.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\AW.png">
+      <Link>Content\images\country-flags\16\AW.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\AX.png">
+      <Link>Content\images\country-flags\16\AX.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\AZ.png">
+      <Link>Content\images\country-flags\16\AZ.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\BA.png">
+      <Link>Content\images\country-flags\16\BA.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\BB.png">
+      <Link>Content\images\country-flags\16\BB.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\BD.png">
+      <Link>Content\images\country-flags\16\BD.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\BE.png">
+      <Link>Content\images\country-flags\16\BE.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\BF.png">
+      <Link>Content\images\country-flags\16\BF.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\BG.png">
+      <Link>Content\images\country-flags\16\BG.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\BH.png">
+      <Link>Content\images\country-flags\16\BH.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\BI.png">
+      <Link>Content\images\country-flags\16\BI.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\BJ.png">
+      <Link>Content\images\country-flags\16\BJ.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\BL.png">
+      <Link>Content\images\country-flags\16\BL.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\BM.png">
+      <Link>Content\images\country-flags\16\BM.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\BN.png">
+      <Link>Content\images\country-flags\16\BN.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\BO.png">
+      <Link>Content\images\country-flags\16\BO.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\BR.png">
+      <Link>Content\images\country-flags\16\BR.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\BS.png">
+      <Link>Content\images\country-flags\16\BS.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\BT.png">
+      <Link>Content\images\country-flags\16\BT.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\BW.png">
+      <Link>Content\images\country-flags\16\BW.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\BY.png">
+      <Link>Content\images\country-flags\16\BY.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\BZ.png">
+      <Link>Content\images\country-flags\16\BZ.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\CA.png">
+      <Link>Content\images\country-flags\16\CA.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\CC.png">
+      <Link>Content\images\country-flags\16\CC.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\CD.png">
+      <Link>Content\images\country-flags\16\CD.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\CF.png">
+      <Link>Content\images\country-flags\16\CF.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\CG.png">
+      <Link>Content\images\country-flags\16\CG.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\CH.png">
+      <Link>Content\images\country-flags\16\CH.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\CI.png">
+      <Link>Content\images\country-flags\16\CI.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\CK.png">
+      <Link>Content\images\country-flags\16\CK.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\CL.png">
+      <Link>Content\images\country-flags\16\CL.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\CM.png">
+      <Link>Content\images\country-flags\16\CM.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\CN.png">
+      <Link>Content\images\country-flags\16\CN.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\CO.png">
+      <Link>Content\images\country-flags\16\CO.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\CR.png">
+      <Link>Content\images\country-flags\16\CR.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\CU.png">
+      <Link>Content\images\country-flags\16\CU.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\CV.png">
+      <Link>Content\images\country-flags\16\CV.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\CX.png">
+      <Link>Content\images\country-flags\16\CX.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\CY.png">
+      <Link>Content\images\country-flags\16\CY.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\CZ.png">
+      <Link>Content\images\country-flags\16\CZ.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\DE.png">
+      <Link>Content\images\country-flags\16\DE.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\DJ.png">
+      <Link>Content\images\country-flags\16\DJ.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\DK.png">
+      <Link>Content\images\country-flags\16\DK.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\DM.png">
+      <Link>Content\images\country-flags\16\DM.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\DO.png">
+      <Link>Content\images\country-flags\16\DO.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\DZ.png">
+      <Link>Content\images\country-flags\16\DZ.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\EC.png">
+      <Link>Content\images\country-flags\16\EC.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\EE.png">
+      <Link>Content\images\country-flags\16\EE.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\EG.png">
+      <Link>Content\images\country-flags\16\EG.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\EH.png">
+      <Link>Content\images\country-flags\16\EH.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\ER.png">
+      <Link>Content\images\country-flags\16\ER.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\ES.png">
+      <Link>Content\images\country-flags\16\ES.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\ET.png">
+      <Link>Content\images\country-flags\16\ET.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\EU.png">
+      <Link>Content\images\country-flags\16\EU.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\FI.png">
+      <Link>Content\images\country-flags\16\FI.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\FJ.png">
+      <Link>Content\images\country-flags\16\FJ.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\FK.png">
+      <Link>Content\images\country-flags\16\FK.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\FM.png">
+      <Link>Content\images\country-flags\16\FM.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\FO.png">
+      <Link>Content\images\country-flags\16\FO.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\FR.png">
+      <Link>Content\images\country-flags\16\FR.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\GA.png">
+      <Link>Content\images\country-flags\16\GA.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\GB.png">
+      <Link>Content\images\country-flags\16\GB.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\GD.png">
+      <Link>Content\images\country-flags\16\GD.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\GE.png">
+      <Link>Content\images\country-flags\16\GE.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\GG.png">
+      <Link>Content\images\country-flags\16\GG.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\GH.png">
+      <Link>Content\images\country-flags\16\GH.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\GI.png">
+      <Link>Content\images\country-flags\16\GI.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\GL.png">
+      <Link>Content\images\country-flags\16\GL.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\GM.png">
+      <Link>Content\images\country-flags\16\GM.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\GN.png">
+      <Link>Content\images\country-flags\16\GN.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\GQ.png">
+      <Link>Content\images\country-flags\16\GQ.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\GR.png">
+      <Link>Content\images\country-flags\16\GR.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\GS.png">
+      <Link>Content\images\country-flags\16\GS.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\GT.png">
+      <Link>Content\images\country-flags\16\GT.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\GU.png">
+      <Link>Content\images\country-flags\16\GU.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\GW.png">
+      <Link>Content\images\country-flags\16\GW.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\GY.png">
+      <Link>Content\images\country-flags\16\GY.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\HK.png">
+      <Link>Content\images\country-flags\16\HK.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\HN.png">
+      <Link>Content\images\country-flags\16\HN.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\HR.png">
+      <Link>Content\images\country-flags\16\HR.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\HT.png">
+      <Link>Content\images\country-flags\16\HT.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\HU.png">
+      <Link>Content\images\country-flags\16\HU.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\ID.png">
+      <Link>Content\images\country-flags\16\ID.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\IE.png">
+      <Link>Content\images\country-flags\16\IE.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\IL.png">
+      <Link>Content\images\country-flags\16\IL.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\IM.png">
+      <Link>Content\images\country-flags\16\IM.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\IN.png">
+      <Link>Content\images\country-flags\16\IN.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\IO.png">
+      <Link>Content\images\country-flags\16\IO.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\IQ.png">
+      <Link>Content\images\country-flags\16\IQ.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\IR.png">
+      <Link>Content\images\country-flags\16\IR.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\IS.png">
+      <Link>Content\images\country-flags\16\IS.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\IT.png">
+      <Link>Content\images\country-flags\16\IT.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\JE.png">
+      <Link>Content\images\country-flags\16\JE.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\JM.png">
+      <Link>Content\images\country-flags\16\JM.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\JO.png">
+      <Link>Content\images\country-flags\16\JO.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\JP.png">
+      <Link>Content\images\country-flags\16\JP.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\KE.png">
+      <Link>Content\images\country-flags\16\KE.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\KG.png">
+      <Link>Content\images\country-flags\16\KG.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\KH.png">
+      <Link>Content\images\country-flags\16\KH.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\KI.png">
+      <Link>Content\images\country-flags\16\KI.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\KM.png">
+      <Link>Content\images\country-flags\16\KM.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\KN.png">
+      <Link>Content\images\country-flags\16\KN.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\KP.png">
+      <Link>Content\images\country-flags\16\KP.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\KR.png">
+      <Link>Content\images\country-flags\16\KR.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\KU.png">
+      <Link>Content\images\country-flags\16\KU.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\KY.png">
+      <Link>Content\images\country-flags\16\KY.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\KZ.png">
+      <Link>Content\images\country-flags\16\KZ.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\LA.png">
+      <Link>Content\images\country-flags\16\LA.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\LB.png">
+      <Link>Content\images\country-flags\16\LB.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\LC.png">
+      <Link>Content\images\country-flags\16\LC.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\LI.png">
+      <Link>Content\images\country-flags\16\LI.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\LK.png">
+      <Link>Content\images\country-flags\16\LK.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\LR.png">
+      <Link>Content\images\country-flags\16\LR.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\LS.png">
+      <Link>Content\images\country-flags\16\LS.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\LT.png">
+      <Link>Content\images\country-flags\16\LT.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\LU.png">
+      <Link>Content\images\country-flags\16\LU.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\LV.png">
+      <Link>Content\images\country-flags\16\LV.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\LY.png">
+      <Link>Content\images\country-flags\16\LY.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\MA.png">
+      <Link>Content\images\country-flags\16\MA.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\MC.png">
+      <Link>Content\images\country-flags\16\MC.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\MD.png">
+      <Link>Content\images\country-flags\16\MD.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\ME.png">
+      <Link>Content\images\country-flags\16\ME.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\MG.png">
+      <Link>Content\images\country-flags\16\MG.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\MH.png">
+      <Link>Content\images\country-flags\16\MH.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\MK.png">
+      <Link>Content\images\country-flags\16\MK.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\ML.png">
+      <Link>Content\images\country-flags\16\ML.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\MM.png">
+      <Link>Content\images\country-flags\16\MM.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\MN.png">
+      <Link>Content\images\country-flags\16\MN.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\MO.png">
+      <Link>Content\images\country-flags\16\MO.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\MP.png">
+      <Link>Content\images\country-flags\16\MP.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\MR.png">
+      <Link>Content\images\country-flags\16\MR.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\MS.png">
+      <Link>Content\images\country-flags\16\MS.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\MT.png">
+      <Link>Content\images\country-flags\16\MT.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\MU.png">
+      <Link>Content\images\country-flags\16\MU.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\MV.png">
+      <Link>Content\images\country-flags\16\MV.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\MW.png">
+      <Link>Content\images\country-flags\16\MW.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\MX.png">
+      <Link>Content\images\country-flags\16\MX.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\MY.png">
+      <Link>Content\images\country-flags\16\MY.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\MZ.png">
+      <Link>Content\images\country-flags\16\MZ.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\NA.png">
+      <Link>Content\images\country-flags\16\NA.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\NC.png">
+      <Link>Content\images\country-flags\16\NC.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\NE.png">
+      <Link>Content\images\country-flags\16\NE.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\NF.png">
+      <Link>Content\images\country-flags\16\NF.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\NG.png">
+      <Link>Content\images\country-flags\16\NG.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\NI.png">
+      <Link>Content\images\country-flags\16\NI.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\NL.png">
+      <Link>Content\images\country-flags\16\NL.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\NO.png">
+      <Link>Content\images\country-flags\16\NO.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\NP.png">
+      <Link>Content\images\country-flags\16\NP.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\NR.png">
+      <Link>Content\images\country-flags\16\NR.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\NU.png">
+      <Link>Content\images\country-flags\16\NU.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\NZ.png">
+      <Link>Content\images\country-flags\16\NZ.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\OM.png">
+      <Link>Content\images\country-flags\16\OM.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\PA.png">
+      <Link>Content\images\country-flags\16\PA.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\PE.png">
+      <Link>Content\images\country-flags\16\PE.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\PG.png">
+      <Link>Content\images\country-flags\16\PG.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\PH.png">
+      <Link>Content\images\country-flags\16\PH.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\PK.png">
+      <Link>Content\images\country-flags\16\PK.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\PL.png">
+      <Link>Content\images\country-flags\16\PL.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\PN.png">
+      <Link>Content\images\country-flags\16\PN.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\PR.png">
+      <Link>Content\images\country-flags\16\PR.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\PS.png">
+      <Link>Content\images\country-flags\16\PS.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\PT.png">
+      <Link>Content\images\country-flags\16\PT.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\PW.png">
+      <Link>Content\images\country-flags\16\PW.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\PY.png">
+      <Link>Content\images\country-flags\16\PY.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\QA.png">
+      <Link>Content\images\country-flags\16\QA.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\RO.png">
+      <Link>Content\images\country-flags\16\RO.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\RS.png">
+      <Link>Content\images\country-flags\16\RS.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\RU.png">
+      <Link>Content\images\country-flags\16\RU.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\RW.png">
+      <Link>Content\images\country-flags\16\RW.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\SA.png">
+      <Link>Content\images\country-flags\16\SA.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\SB.png">
+      <Link>Content\images\country-flags\16\SB.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\SC.png">
+      <Link>Content\images\country-flags\16\SC.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\SD.png">
+      <Link>Content\images\country-flags\16\SD.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\SE.png">
+      <Link>Content\images\country-flags\16\SE.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\SG.png">
+      <Link>Content\images\country-flags\16\SG.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\SH.png">
+      <Link>Content\images\country-flags\16\SH.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\SI.png">
+      <Link>Content\images\country-flags\16\SI.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\SK.png">
+      <Link>Content\images\country-flags\16\SK.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\SL.png">
+      <Link>Content\images\country-flags\16\SL.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\SM.png">
+      <Link>Content\images\country-flags\16\SM.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\SN.png">
+      <Link>Content\images\country-flags\16\SN.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\SO.png">
+      <Link>Content\images\country-flags\16\SO.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\SR.png">
+      <Link>Content\images\country-flags\16\SR.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\SS.png">
+      <Link>Content\images\country-flags\16\SS.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\ST.png">
+      <Link>Content\images\country-flags\16\ST.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\SV.png">
+      <Link>Content\images\country-flags\16\SV.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\SW.png">
+      <Link>Content\images\country-flags\16\SW.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\SY.png">
+      <Link>Content\images\country-flags\16\SY.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\SZ.png">
+      <Link>Content\images\country-flags\16\SZ.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\TC.png">
+      <Link>Content\images\country-flags\16\TC.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\TD.png">
+      <Link>Content\images\country-flags\16\TD.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\TG.png">
+      <Link>Content\images\country-flags\16\TG.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\TH.png">
+      <Link>Content\images\country-flags\16\TH.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\TJ.png">
+      <Link>Content\images\country-flags\16\TJ.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\TM.png">
+      <Link>Content\images\country-flags\16\TM.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\TN.png">
+      <Link>Content\images\country-flags\16\TN.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\TO.png">
+      <Link>Content\images\country-flags\16\TO.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\TP.png">
+      <Link>Content\images\country-flags\16\TP.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\TR.png">
+      <Link>Content\images\country-flags\16\TR.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\TT.png">
+      <Link>Content\images\country-flags\16\TT.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\TV.png">
+      <Link>Content\images\country-flags\16\TV.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\TW.png">
+      <Link>Content\images\country-flags\16\TW.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\TZ.png">
+      <Link>Content\images\country-flags\16\TZ.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\UA.png">
+      <Link>Content\images\country-flags\16\UA.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\UG.png">
+      <Link>Content\images\country-flags\16\UG.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\UN.png">
+      <Link>Content\images\country-flags\16\UN.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\US.png">
+      <Link>Content\images\country-flags\16\US.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\UY.png">
+      <Link>Content\images\country-flags\16\UY.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\UZ.png">
+      <Link>Content\images\country-flags\16\UZ.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\VA.png">
+      <Link>Content\images\country-flags\16\VA.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\VC.png">
+      <Link>Content\images\country-flags\16\VC.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\VE.png">
+      <Link>Content\images\country-flags\16\VE.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\VG.png">
+      <Link>Content\images\country-flags\16\VG.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\VI.png">
+      <Link>Content\images\country-flags\16\VI.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\VN.png">
+      <Link>Content\images\country-flags\16\VN.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\VU.png">
+      <Link>Content\images\country-flags\16\VU.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\XK.png">
+      <Link>Content\images\country-flags\16\XK.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\XM.png">
+      <Link>Content\images\country-flags\16\XM.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\YE.png">
+      <Link>Content\images\country-flags\16\YE.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\YT.png">
+      <Link>Content\images\country-flags\16\YT.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\ZA.png">
+      <Link>Content\images\country-flags\16\ZA.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\ZM.png">
+      <Link>Content\images\country-flags\16\ZM.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\images\country-flags\16\ZW.png">
+      <Link>Content\images\country-flags\16\ZW.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\modules\addresses.js">
+      <Link>Content\scripts\modules\addresses.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\modules\ajax.js">
+      <Link>Content\scripts\modules\ajax.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\modules\browser.js">
+      <Link>Content\scripts\modules\browser.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\modules\calendars.js">
+      <Link>Content\scripts\modules\calendars.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\modules\console.js">
+      <Link>Content\scripts\modules\console.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\modules\containers.js">
+      <Link>Content\scripts\modules\containers.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\modules\cookies.js">
+      <Link>Content\scripts\modules\cookies.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\modules\encryptions.js">
+      <Link>Content\scripts\modules\encryptions.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\modules\extensions.js">
+      <Link>Content\scripts\modules\extensions.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\modules\forms.js">
+      <Link>Content\scripts\modules\forms.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\modules\guids.js">
+      <Link>Content\scripts\modules\guids.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\modules\idletimeout.js">
+      <Link>Content\scripts\modules\idletimeout.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\modules\kendogrids.js">
+      <Link>Content\scripts\modules\kendogrids.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\modules\popups.js">
+      <Link>Content\scripts\modules\popups.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\modules\urls.js">
+      <Link>Content\scripts\modules\urls.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\modules\widgets.js">
+      <Link>Content\scripts\modules\widgets.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\custom.js">
+      <Link>Content\scripts\template\custom.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\hoverIntent.js">
+      <Link>Content\scripts\template\hoverIntent.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\jquery-2.1.0.min.js">
+      <Link>Content\scripts\template\jquery-2.1.0.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\jquery.appear.js">
+      <Link>Content\scripts\template\jquery.appear.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\jquery.counterup.min.js">
+      <Link>Content\scripts\template\jquery.counterup.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\jquery.flexslider-min.js">
+      <Link>Content\scripts\template\jquery.flexslider-min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\jquery.gmaps.min.js">
+      <Link>Content\scripts\template\jquery.gmaps.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\jquery.isotope.min.js">
+      <Link>Content\scripts\template\jquery.isotope.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\jquery.jpanelmenu.js">
+      <Link>Content\scripts\template\jquery.jpanelmenu.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\jquery.magnific-popup.min.js">
+      <Link>Content\scripts\template\jquery.magnific-popup.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\jquery.pricefilter.js">
+      <Link>Content\scripts\template\jquery.pricefilter.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\jquery.pureparallax.js">
+      <Link>Content\scripts\template\jquery.pureparallax.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\jquery.royalslider.min.js">
+      <Link>Content\scripts\template\jquery.royalslider.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\jquery.selectric.min.js">
+      <Link>Content\scripts\template\jquery.selectric.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\jquery.themepunch.plugins.min.js">
+      <Link>Content\scripts\template\jquery.themepunch.plugins.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\jquery.themepunch.revolution.min.js">
+      <Link>Content\scripts\template\jquery.themepunch.revolution.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\jquery.themepunch.showbizpro.min.js">
+      <Link>Content\scripts\template\jquery.themepunch.showbizpro.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\jquery.tooltips.min.js">
+      <Link>Content\scripts\template\jquery.tooltips.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\jquery.uniform.min.js">
+      <Link>Content\scripts\template\jquery.uniform.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\modernizr.custom.js">
+      <Link>Content\scripts\template\modernizr.custom.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\puregrid.js">
+      <Link>Content\scripts\template\puregrid.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\SelectBox.js">
+      <Link>Content\scripts\template\SelectBox.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\stacktable.js">
+      <Link>Content\scripts\template\stacktable.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\superfish.js">
+      <Link>Content\scripts\template\superfish.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\switcher.js">
+      <Link>Content\scripts\template\switcher.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\template\waypoints.min.js">
+      <Link>Content\scripts\template\waypoints.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\antiscroll\antiscroll.css">
+      <Link>Content\scripts\vendor\antiscroll\antiscroll.css</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\antiscroll\antiscroll.js">
+      <Link>Content\scripts\vendor\antiscroll\antiscroll.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\backbone.js">
+      <Link>Content\scripts\vendor\backbone.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\bootstrap.js">
+      <Link>Content\scripts\vendor\bootstrap.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\enquire.js">
+      <Link>Content\scripts\vendor\enquire.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\excanvas.js">
+      <Link>Content\scripts\vendor\excanvas.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\handlebars.extended.js">
+      <Link>Content\scripts\vendor\handlebars.extended.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\handlebars.js">
+      <Link>Content\scripts\vendor\handlebars.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\hideShowPassword.js">
+      <Link>Content\scripts\vendor\hideShowPassword.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\html5shiv.js">
+      <Link>Content\scripts\vendor\html5shiv.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\jquery.effects.js">
+      <Link>Content\scripts\vendor\jquery.effects.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\jquery.extended.js">
+      <Link>Content\scripts\vendor\jquery.extended.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\jquery.js">
+      <Link>Content\scripts\vendor\jquery.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\jquery.mousewheel.js">
+      <Link>Content\scripts\vendor\jquery.mousewheel.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\jquery.passwordstrength\jquery.passwordstrength.css">
+      <Link>Content\scripts\vendor\jquery.passwordstrength\jquery.passwordstrength.css</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\jquery.passwordstrength\jquery.passwordstrength.js">
+      <Link>Content\scripts\vendor\jquery.passwordstrength\jquery.passwordstrength.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\jquery.unobtrusive-ajax.js">
+      <Link>Content\scripts\vendor\jquery.unobtrusive-ajax.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\jquery.validate.config.js">
+      <Link>Content\scripts\vendor\jquery.validate.config.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\jquery.validate.js">
+      <Link>Content\scripts\vendor\jquery.validate.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\jquery.validate.unobtrusive.custom.js">
+      <Link>Content\scripts\vendor\jquery.validate.unobtrusive.custom.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\jquery.validate.unobtrusive.js">
+      <Link>Content\scripts\vendor\jquery.validate.unobtrusive.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\json2.js">
+      <Link>Content\scripts\vendor\json2.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.af-ZA.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.af-ZA.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.af.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.af.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.am-ET.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.am-ET.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.am.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.am.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-AE.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-AE.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-BH.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-BH.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-DZ.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-DZ.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-EG.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-EG.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-IQ.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-IQ.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-JO.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-JO.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-KW.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-KW.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-LB.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-LB.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-LY.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-LY.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-MA.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-MA.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-OM.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-OM.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-QA.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-QA.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-SA.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-SA.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-SY.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-SY.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-TN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-TN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-YE.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar-YE.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ar.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.arn-CL.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.arn-CL.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.arn.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.arn.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.as-IN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.as-IN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.as.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.as.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.az-Cyrl-AZ.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.az-Cyrl-AZ.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.az-Cyrl.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.az-Cyrl.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.az-Latn-AZ.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.az-Latn-AZ.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.az-Latn.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.az-Latn.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.az.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.az.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ba-RU.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ba-RU.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ba.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ba.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.be-BY.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.be-BY.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.be.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.be.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.bg-BG.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.bg-BG.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.bg.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.bg.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.bn-BD.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.bn-BD.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.bn-IN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.bn-IN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.bn.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.bn.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.bo-CN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.bo-CN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.bo.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.bo.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.br-FR.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.br-FR.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.br.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.br.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.bs-Cyrl-BA.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.bs-Cyrl-BA.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.bs-Cyrl.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.bs-Cyrl.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.bs-Latn-BA.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.bs-Latn-BA.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.bs-Latn.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.bs-Latn.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.bs.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.bs.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ca-ES.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ca-ES.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ca.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ca.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.co-FR.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.co-FR.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.co.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.co.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.cs-CZ.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.cs-CZ.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.cs.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.cs.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.cy-GB.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.cy-GB.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.cy.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.cy.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.da-DK.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.da-DK.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.da.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.da.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.de-AT.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.de-AT.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.de-CH.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.de-CH.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.de-DE.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.de-DE.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.de-LI.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.de-LI.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.de-LU.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.de-LU.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.de.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.de.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.dsb-DE.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.dsb-DE.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.dsb.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.dsb.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.dv-MV.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.dv-MV.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.dv.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.dv.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.el-GR.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.el-GR.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.el.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.el.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-029.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-029.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-AU.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-AU.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-BZ.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-BZ.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-CA.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-CA.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-GB.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-GB.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-IE.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-IE.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-IN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-IN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-JM.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-JM.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-MY.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-MY.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-NZ.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-NZ.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-PH.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-PH.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-SG.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-SG.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-TT.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-TT.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-US.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-US.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-ZA.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-ZA.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-ZW.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en-ZW.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.en.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-AR.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-AR.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-BO.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-BO.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-CL.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-CL.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-CO.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-CO.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-CR.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-CR.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-DO.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-DO.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-EC.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-EC.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-ES.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-ES.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-GT.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-GT.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-HN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-HN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-MX.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-MX.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-NI.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-NI.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-PA.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-PA.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-PE.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-PE.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-PR.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-PR.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-PY.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-PY.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-SV.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-SV.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-US.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-US.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-UY.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-UY.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-VE.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es-VE.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.es.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.et-EE.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.et-EE.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.et.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.et.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.eu-ES.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.eu-ES.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.eu.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.eu.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fa-IR.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fa-IR.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fa.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fa.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fi-FI.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fi-FI.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fi.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fi.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fil-PH.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fil-PH.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fil.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fil.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fo-FO.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fo-FO.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fo.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fo.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fr-BE.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fr-BE.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fr-CA.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fr-CA.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fr-CH.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fr-CH.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fr-FR.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fr-FR.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fr-LU.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fr-LU.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fr-MC.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fr-MC.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fr.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fr.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fy-NL.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fy-NL.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fy.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.fy.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ga-IE.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ga-IE.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ga.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ga.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.gd-GB.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.gd-GB.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.gd.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.gd.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.gl-ES.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.gl-ES.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.gl.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.gl.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.gsw-FR.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.gsw-FR.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.gsw.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.gsw.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.gu-IN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.gu-IN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.gu.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.gu.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ha-Latn-NG.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ha-Latn-NG.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ha-Latn.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ha-Latn.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ha.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ha.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.he-IL.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.he-IL.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.he.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.he.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.hi-IN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.hi-IN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.hi.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.hi.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.hr-BA.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.hr-BA.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.hr-HR.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.hr-HR.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.hr.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.hr.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.hsb-DE.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.hsb-DE.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.hsb.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.hsb.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.hu-HU.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.hu-HU.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.hu.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.hu.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.hy-AM.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.hy-AM.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.hy.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.hy.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.id-ID.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.id-ID.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.id.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.id.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ig-NG.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ig-NG.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ig.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ig.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ii-CN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ii-CN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ii.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ii.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.is-IS.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.is-IS.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.is.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.is.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.it-CH.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.it-CH.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.it-IT.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.it-IT.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.it.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.it.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.iu-Cans-CA.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.iu-Cans-CA.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.iu-Cans.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.iu-Cans.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.iu-Latn-CA.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.iu-Latn-CA.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.iu-Latn.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.iu-Latn.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.iu.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.iu.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ja-JP.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ja-JP.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ja.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ja.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ka-GE.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ka-GE.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ka.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ka.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.kk-KZ.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.kk-KZ.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.kk.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.kk.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.kl-GL.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.kl-GL.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.kl.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.kl.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.km-KH.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.km-KH.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.km.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.km.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.kn-IN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.kn-IN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.kn.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.kn.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ko-KR.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ko-KR.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ko.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ko.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.kok-IN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.kok-IN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.kok.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.kok.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ky-KG.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ky-KG.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ky.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ky.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.lb-LU.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.lb-LU.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.lb.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.lb.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.lo-LA.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.lo-LA.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.lo.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.lo.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.lt-LT.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.lt-LT.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.lt.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.lt.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.lv-LV.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.lv-LV.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.lv.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.lv.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mi-NZ.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mi-NZ.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mi.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mi.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mk-MK.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mk-MK.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mk.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mk.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ml-IN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ml-IN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ml.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ml.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mn-Cyrl.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mn-Cyrl.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mn-MN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mn-MN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mn-Mong-CN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mn-Mong-CN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mn-Mong.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mn-Mong.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mn.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mn.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.moh-CA.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.moh-CA.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.moh.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.moh.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mr-IN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mr-IN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mr.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mr.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ms-BN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ms-BN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ms-MY.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ms-MY.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ms.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ms.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mt-MT.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mt-MT.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mt.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.mt.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.nb-NO.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.nb-NO.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.nb.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.nb.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ne-NP.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ne-NP.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ne.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ne.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.nl-BE.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.nl-BE.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.nl-NL.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.nl-NL.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.nl.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.nl.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.nn-NO.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.nn-NO.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.nn.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.nn.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.no.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.no.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.nso-ZA.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.nso-ZA.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.nso.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.nso.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.oc-FR.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.oc-FR.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.oc.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.oc.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.or-IN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.or-IN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.or.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.or.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.pa-IN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.pa-IN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.pa.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.pa.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.pl-PL.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.pl-PL.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.pl.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.pl.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.prs-AF.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.prs-AF.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.prs.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.prs.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ps-AF.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ps-AF.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ps.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ps.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.pt-BR.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.pt-BR.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.pt-PT.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.pt-PT.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.pt.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.pt.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.qut-GT.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.qut-GT.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.qut.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.qut.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.quz-BO.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.quz-BO.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.quz-EC.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.quz-EC.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.quz-PE.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.quz-PE.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.quz.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.quz.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.rm-CH.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.rm-CH.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.rm.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.rm.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ro-RO.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ro-RO.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ro.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ro.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ru-RU.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ru-RU.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ru-UA.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ru-UA.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ru.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ru.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.rw-RW.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.rw-RW.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.rw.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.rw.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sa-IN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sa-IN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sa.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sa.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sah-RU.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sah-RU.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sah.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sah.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.se-FI.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.se-FI.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.se-NO.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.se-NO.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.se-SE.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.se-SE.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.se.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.se.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.si-LK.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.si-LK.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.si.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.si.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sk-SK.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sk-SK.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sk.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sk.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sl-SI.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sl-SI.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sl.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sl.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sma-NO.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sma-NO.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sma-SE.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sma-SE.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sma.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sma.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.smj-NO.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.smj-NO.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.smj-SE.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.smj-SE.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.smj.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.smj.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.smn-FI.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.smn-FI.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.smn.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.smn.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sms-FI.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sms-FI.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sms.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sms.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sq-AL.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sq-AL.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sq.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sq.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sr-Cyrl-BA.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sr-Cyrl-BA.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sr-Cyrl-CS.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sr-Cyrl-CS.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sr-Cyrl-ME.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sr-Cyrl-ME.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sr-Cyrl-RS.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sr-Cyrl-RS.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sr-Cyrl.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sr-Cyrl.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sr-Latn-BA.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sr-Latn-BA.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sr-Latn-CS.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sr-Latn-CS.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sr-Latn-ME.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sr-Latn-ME.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sr-Latn-RS.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sr-Latn-RS.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sr-Latn.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sr-Latn.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sr.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sr.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sv-FI.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sv-FI.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sv-SE.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sv-SE.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sv.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sv.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sw-KE.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sw-KE.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sw.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.sw.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.syr-SY.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.syr-SY.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.syr.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.syr.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ta-IN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ta-IN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ta.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ta.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.te-IN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.te-IN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.te.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.te.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tg-Cyrl-TJ.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tg-Cyrl-TJ.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tg-Cyrl.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tg-Cyrl.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tg.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tg.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.th-TH.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.th-TH.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.th.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.th.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tk-TM.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tk-TM.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tk.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tk.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tn-ZA.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tn-ZA.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tn.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tn.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tr-TR.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tr-TR.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tr.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tr.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tt-RU.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tt-RU.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tt.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tt.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tzm-Latn-DZ.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tzm-Latn-DZ.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tzm-Latn.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tzm-Latn.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tzm.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.tzm.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ug-CN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ug-CN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ug.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ug.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.uk-UA.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.uk-UA.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.uk.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.uk.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ur-PK.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ur-PK.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ur.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.ur.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.uz-Cyrl-UZ.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.uz-Cyrl-UZ.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.uz-Cyrl.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.uz-Cyrl.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.uz-Latn-UZ.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.uz-Latn-UZ.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.uz-Latn.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.uz-Latn.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.uz.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.uz.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.vi-VN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.vi-VN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.vi.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.vi.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.wo-SN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.wo-SN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.wo.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.wo.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.xh-ZA.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.xh-ZA.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.xh.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.xh.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.yo-NG.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.yo-NG.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.yo.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.yo.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.zh-CHS.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.zh-CHS.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.zh-CHT.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.zh-CHT.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.zh-CN.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.zh-CN.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.zh-Hans.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.zh-Hans.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.zh-Hant.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.zh-Hant.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.zh-HK.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.zh-HK.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.zh-MO.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.zh-MO.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.zh-SG.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.zh-SG.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.zh-TW.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.zh-TW.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.zh.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.zh.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.zu-ZA.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.zu-ZA.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.zu.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\cultures\kendo.culture.zu.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\scripts\kendo.web.min.js">
+      <Link>Content\scripts\vendor\kendo\scripts\kendo.web.min.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\styles\Bootstrap\editor.png">
+      <Link>Content\scripts\vendor\kendo\styles\Bootstrap\editor.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\styles\Bootstrap\imagebrowser.png">
+      <Link>Content\scripts\vendor\kendo\styles\Bootstrap\imagebrowser.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\styles\Bootstrap\indeterminate.gif">
+      <Link>Content\scripts\vendor\kendo\styles\Bootstrap\indeterminate.gif</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\styles\Bootstrap\loading-image.gif">
+      <Link>Content\scripts\vendor\kendo\styles\Bootstrap\loading-image.gif</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\styles\Bootstrap\loading.gif">
+      <Link>Content\scripts\vendor\kendo\styles\Bootstrap\loading.gif</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\styles\Bootstrap\loading_2x.gif">
+      <Link>Content\scripts\vendor\kendo\styles\Bootstrap\loading_2x.gif</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\styles\Bootstrap\slider-h.gif">
+      <Link>Content\scripts\vendor\kendo\styles\Bootstrap\slider-h.gif</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\styles\Bootstrap\slider-v.gif">
+      <Link>Content\scripts\vendor\kendo\styles\Bootstrap\slider-v.gif</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\styles\Bootstrap\sprite.png">
+      <Link>Content\scripts\vendor\kendo\styles\Bootstrap\sprite.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\styles\Bootstrap\sprite_2x.png">
+      <Link>Content\scripts\vendor\kendo\styles\Bootstrap\sprite_2x.png</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\styles\kendo.bootstrap.min.css">
+      <Link>Content\scripts\vendor\kendo\styles\kendo.bootstrap.min.css</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\styles\kendo.common-bootstrap.min.css">
+      <Link>Content\scripts\vendor\kendo\styles\kendo.common-bootstrap.min.css</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\kendo\styles\kendo.rtl.min.css">
+      <Link>Content\scripts\vendor\kendo\styles\kendo.rtl.min.css</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\knockout.js">
+      <Link>Content\scripts\vendor\knockout.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\loadingbuttons\loadingbuttons.css">
+      <Link>Content\scripts\vendor\loadingbuttons\loadingbuttons.css</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\loadingbuttons\loadingbuttons.js">
+      <Link>Content\scripts\vendor\loadingbuttons\loadingbuttons.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\modernizr.js">
+      <Link>Content\scripts\vendor\modernizr.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\ar-ma.js">
+      <Link>Content\scripts\vendor\moment\lang\ar-ma.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\ar-sa.js">
+      <Link>Content\scripts\vendor\moment\lang\ar-sa.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\ar.js">
+      <Link>Content\scripts\vendor\moment\lang\ar.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\az.js">
+      <Link>Content\scripts\vendor\moment\lang\az.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\bg.js">
+      <Link>Content\scripts\vendor\moment\lang\bg.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\bn.js">
+      <Link>Content\scripts\vendor\moment\lang\bn.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\br.js">
+      <Link>Content\scripts\vendor\moment\lang\br.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\bs.js">
+      <Link>Content\scripts\vendor\moment\lang\bs.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\ca.js">
+      <Link>Content\scripts\vendor\moment\lang\ca.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\cs.js">
+      <Link>Content\scripts\vendor\moment\lang\cs.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\cv.js">
+      <Link>Content\scripts\vendor\moment\lang\cv.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\cy.js">
+      <Link>Content\scripts\vendor\moment\lang\cy.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\da.js">
+      <Link>Content\scripts\vendor\moment\lang\da.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\de-at.js">
+      <Link>Content\scripts\vendor\moment\lang\de-at.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\de.js">
+      <Link>Content\scripts\vendor\moment\lang\de.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\el.js">
+      <Link>Content\scripts\vendor\moment\lang\el.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\en-au.js">
+      <Link>Content\scripts\vendor\moment\lang\en-au.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\en-ca.js">
+      <Link>Content\scripts\vendor\moment\lang\en-ca.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\en-gb.js">
+      <Link>Content\scripts\vendor\moment\lang\en-gb.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\en-us.js">
+      <Link>Content\scripts\vendor\moment\lang\en-us.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\eo.js">
+      <Link>Content\scripts\vendor\moment\lang\eo.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\es-mx.js">
+      <Link>Content\scripts\vendor\moment\lang\es-mx.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\et.js">
+      <Link>Content\scripts\vendor\moment\lang\et.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\eu.js">
+      <Link>Content\scripts\vendor\moment\lang\eu.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\fa.js">
+      <Link>Content\scripts\vendor\moment\lang\fa.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\fi.js">
+      <Link>Content\scripts\vendor\moment\lang\fi.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\fo.js">
+      <Link>Content\scripts\vendor\moment\lang\fo.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\fr-ca.js">
+      <Link>Content\scripts\vendor\moment\lang\fr-ca.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\fr.js">
+      <Link>Content\scripts\vendor\moment\lang\fr.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\gl.js">
+      <Link>Content\scripts\vendor\moment\lang\gl.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\he.js">
+      <Link>Content\scripts\vendor\moment\lang\he.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\hi.js">
+      <Link>Content\scripts\vendor\moment\lang\hi.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\hr.js">
+      <Link>Content\scripts\vendor\moment\lang\hr.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\hu.js">
+      <Link>Content\scripts\vendor\moment\lang\hu.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\hy-am.js">
+      <Link>Content\scripts\vendor\moment\lang\hy-am.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\id.js">
+      <Link>Content\scripts\vendor\moment\lang\id.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\is.js">
+      <Link>Content\scripts\vendor\moment\lang\is.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\it.js">
+      <Link>Content\scripts\vendor\moment\lang\it.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\ja.js">
+      <Link>Content\scripts\vendor\moment\lang\ja.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\ka.js">
+      <Link>Content\scripts\vendor\moment\lang\ka.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\km.js">
+      <Link>Content\scripts\vendor\moment\lang\km.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\ko.js">
+      <Link>Content\scripts\vendor\moment\lang\ko.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\lb.js">
+      <Link>Content\scripts\vendor\moment\lang\lb.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\lt.js">
+      <Link>Content\scripts\vendor\moment\lang\lt.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\lv.js">
+      <Link>Content\scripts\vendor\moment\lang\lv.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\mk.js">
+      <Link>Content\scripts\vendor\moment\lang\mk.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\ml.js">
+      <Link>Content\scripts\vendor\moment\lang\ml.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\mr.js">
+      <Link>Content\scripts\vendor\moment\lang\mr.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\ms-my.js">
+      <Link>Content\scripts\vendor\moment\lang\ms-my.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\nb.js">
+      <Link>Content\scripts\vendor\moment\lang\nb.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\ne.js">
+      <Link>Content\scripts\vendor\moment\lang\ne.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\nl.js">
+      <Link>Content\scripts\vendor\moment\lang\nl.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\nn.js">
+      <Link>Content\scripts\vendor\moment\lang\nn.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\pl.js">
+      <Link>Content\scripts\vendor\moment\lang\pl.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\pt-br.js">
+      <Link>Content\scripts\vendor\moment\lang\pt-br.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\pt.js">
+      <Link>Content\scripts\vendor\moment\lang\pt.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\ro.js">
+      <Link>Content\scripts\vendor\moment\lang\ro.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\ru.js">
+      <Link>Content\scripts\vendor\moment\lang\ru.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\sk.js">
+      <Link>Content\scripts\vendor\moment\lang\sk.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\sl.js">
+      <Link>Content\scripts\vendor\moment\lang\sl.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\sq.js">
+      <Link>Content\scripts\vendor\moment\lang\sq.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\sr-cyrl.js">
+      <Link>Content\scripts\vendor\moment\lang\sr-cyrl.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\sr.js">
+      <Link>Content\scripts\vendor\moment\lang\sr.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\sv.js">
+      <Link>Content\scripts\vendor\moment\lang\sv.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\ta.js">
+      <Link>Content\scripts\vendor\moment\lang\ta.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\th.js">
+      <Link>Content\scripts\vendor\moment\lang\th.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\tl-ph.js">
+      <Link>Content\scripts\vendor\moment\lang\tl-ph.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\tr.js">
+      <Link>Content\scripts\vendor\moment\lang\tr.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\tzm-latn.js">
+      <Link>Content\scripts\vendor\moment\lang\tzm-latn.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\tzm.js">
+      <Link>Content\scripts\vendor\moment\lang\tzm.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\uk.js">
+      <Link>Content\scripts\vendor\moment\lang\uk.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\uz.js">
+      <Link>Content\scripts\vendor\moment\lang\uz.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\vi.js">
+      <Link>Content\scripts\vendor\moment\lang\vi.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\zh-cn.js">
+      <Link>Content\scripts\vendor\moment\lang\zh-cn.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\lang\zh-tw.js">
+      <Link>Content\scripts\vendor\moment\lang\zh-tw.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\moment\moment.js">
+      <Link>Content\scripts\vendor\moment\moment.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\require.js">
+      <Link>Content\scripts\vendor\require.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\respond.js">
+      <Link>Content\scripts\vendor\respond.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\toastr\toastr.css">
+      <Link>Content\scripts\vendor\toastr\toastr.css</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\toastr\toastr.js">
+      <Link>Content\scripts\vendor\toastr\toastr.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\scripts\vendor\underscore.js">
+      <Link>Content\scripts\vendor\underscore.js</Link>
+    </Content>
+    <Content Include="..\Common\Content\styles\client\base.css">
+      <Link>Content\styles\client\base.css</Link>
+    </Content>
+    <Content Include="..\Common\Content\styles\client\colors\blue.css">
+      <Link>Content\styles\client\colors\blue.css</Link>
+    </Content>
+    <Content Include="..\Common\Content\styles\client\colors\Success-Blue1.css">
+      <Link>Content\styles\client\colors\Success-Blue1.css</Link>
+    </Content>
+    <Content Include="..\Common\Content\styles\client\colors\Success-Blue2.css">
+      <Link>Content\styles\client\colors\Success-Blue2.css</Link>
+    </Content>
+    <Content Include="..\Common\Content\styles\client\colors\Success-Cran.css">
+      <Link>Content\styles\client\colors\Success-Cran.css</Link>
+    </Content>
+    <Content Include="..\Common\Content\styles\client\font-awesome.css">
+      <Link>Content\styles\client\font-awesome.css</Link>
+    </Content>
+    <Content Include="..\Common\Content\styles\client\responsive.css">
+      <Link>Content\styles\client\responsive.css</Link>
+    </Content>
+    <Content Include="..\Common\Content\styles\client\style.css">
+      <Link>Content\styles\client\style.css</Link>
+    </Content>
+    <Content Include="..\Common\Content\styles\client\switcher.css">
+      <Link>Content\styles\client\switcher.css</Link>
+    </Content>
+    <Content Include="..\Common\Content\styles\common.min.css">
+      <Link>Content\styles\common.min.css</Link>
+    </Content>
+    <Content Include="..\Common\Content\styles\fonts.min.css">
+      <Link>Content\styles\fonts.min.css</Link>
+    </Content>
+    <Content Include="..\Common\Content\styles\icons.min.css">
+      <Link>Content\styles\icons.min.css</Link>
+    </Content>
+    <Content Include="..\Common\Content\styles\icons.min.css">
+      <Link>Content\styles\icons.min.css</Link>
+      <DependentUpon>icons.css</DependentUpon>
+    </Content>
+    <Content Include="Content\images\about\about.jpg" />
+    <Content Include="Content\images\avatars\avatar-1.png" />
+    <Content Include="Content\images\avatars\avatar-2.png" />
+    <Content Include="Content\images\avatars\avatar-3.png" />
+    <Content Include="Content\images\avatars\avatar-4.png" />
+    <Content Include="Content\images\avatars\avatar-5.png" />
+    <Content Include="Content\images\bg\bedge_grunge.png" />
+    <Content Include="Content\images\bg\brushed_alu.png" />
+    <Content Include="Content\images\bg\crisp_paper_ruffles.png" />
+    <Content Include="Content\images\bg\diamond_upholstery.png" />
+    <Content Include="Content\images\bg\light_toast.png" />
+    <Content Include="Content\images\bg\linedpaper.png" />
+    <Content Include="Content\images\bg\navy_blue.png" />
+    <Content Include="Content\images\bg\noise_pattern_with_crosslines.png" />
+    <Content Include="Content\images\bg\purty_wood.png" />
+    <Content Include="Content\images\bg\retina_wood.png" />
+    <Content Include="Content\images\bg\sativa.png" />
+    <Content Include="Content\images\bg\shattered.png" />
+    <Content Include="Content\images\bg\squared_metal.png" />
+    <Content Include="Content\images\bg\stardust.png" />
+    <Content Include="Content\images\bg\subtle_stripes.png" />
+    <Content Include="Content\images\bg\textured_stripes.png" />
+    <Content Include="Content\images\bg\tileable_wood_texture.png" />
+    <Content Include="Content\images\bg\vichy.png" />
+    <Content Include="Content\images\bg\washi.png" />
+    <Content Include="Content\images\blog\from_the_blog_01-old.jpg" />
+    <Content Include="Content\images\blog\from_the_blog_01.jpg" />
+    <Content Include="Content\images\blog\from_the_blog_02-old.jpg" />
+    <Content Include="Content\images\blog\from_the_blog_02.jpg" />
+    <Content Include="Content\images\blog\from_the_blog_03-old.jpg" />
+    <Content Include="Content\images\blog\from_the_blog_03.jpg" />
+    <Content Include="Content\images\blog\from_the_blog_04-old.jpg" />
+    <Content Include="Content\images\blog\from_the_blog_04.jpg" />
+    <Content Include="Content\images\circle-24.gif" />
+    <Content Include="Content\images\circle-white-24.gif" />
+    <Content Include="Content\images\Close-icon.png" />
+    <Content Include="Content\images\enrollment\splash\Enrollment_Splash.jpg" />
+    <Content Include="Content\images\enrollment\splash\Enrollment_Welcome.jpg" />
+    <Content Include="Content\images\enrollment\splash\opportunity.jpg" />
+    <Content Include="Content\images\featuredMarketing\featured_img_1-old.jpg" />
+    <Content Include="Content\images\featuredMarketing\featured_img_1.jpg" />
+    <Content Include="Content\images\featuredMarketing\featured_img_2-old.jpg" />
+    <Content Include="Content\images\featuredMarketing\featured_img_2.jpg" />
+    <Content Include="Content\images\featuredMarketing\featured_img_3-old.jpg" />
+    <Content Include="Content\images\featuredMarketing\featured_img_3.jpg" />
+    <Content Include="Content\images\HomePageSlider\slider.jpg" />
+    <Content Include="Content\images\HomePageSlider\slider2.jpg" />
+    <Content Include="Content\images\HomePageSlider\slider3.jpg" />
+    <Content Include="Content\images\HomePageSlider\slider4.jpg" />
+    <Content Include="Content\images\icons\alert_boxes_close_ico.png" />
+    <Content Include="Content\images\icons\comments-divider.png" />
+    <Content Include="Content\images\icons\contact-loader.gif" />
+    <Content Include="Content\images\icons\down_arrow_select.png" />
+    <Content Include="Content\images\icons\home%402x.png" />
+    <Content Include="Content\images\icons\home.png" />
+    <Content Include="Content\images\icons\loader.gif" />
+    <Content Include="Content\images\icons\loading.png" />
+    <Content Include="Content\images\icons\switcher.png" />
+    <Content Include="Content\images\loading.gif" />
+    <Content Include="Content\images\loading\bar-sm.gif" />
+    <Content Include="Content\images\loading\circle-16.gif" />
+    <Content Include="Content\images\loading\circle-24.gif" />
+    <Content Include="Content\images\loading\circle-32.gif" />
+    <Content Include="Content\images\loading\circle-48.gif" />
+    <Content Include="Content\images\loading\circle-64.gif" />
+    <Content Include="Content\images\loading_clear.gif" />
+    <Content Include="Content\images\loading_white.gif" />
+    <Content Include="Content\images\logos\logo-01.png" />
+    <Content Include="Content\images\logos\logo-02.png" />
+    <Content Include="Content\images\logos\logo-03.png" />
+    <Content Include="Content\images\logos\logo-04.png" />
+    <Content Include="Content\images\logos\logo-05.png" />
+    <Content Include="Content\images\logos\logo-06.png" />
+    <Content Include="Content\images\logos\logo-07.png" />
+    <Content Include="Content\images\logos\logo-footer.png" />
+    <Content Include="Content\images\logos\logo-Success-Blue1.png" />
+    <Content Include="Content\images\logos\logo-Success-Blue2.png" />
+    <Content Include="Content\images\logos\logo-Success-Cran.jpg" />
+    <Content Include="Content\images\logos\logo-Success-Cran.png" />
+    <Content Include="Content\images\logos\logo.png" />
+    <Content Include="Content\images\missing-product-image.png" />
+    <Content Include="Content\images\payments\icon_AmericanExpress.png" />
+    <Content Include="Content\images\payments\iDeal.png" />
+    <Content Include="Content\images\payments\mastercard.png" />
+    <Content Include="Content\images\payments\visa.png" />
+    <Content Include="Content\images\placeholders\blog-01-big.jpg" />
+    <Content Include="Content\images\placeholders\blog-01.jpg" />
+    <Content Include="Content\images\placeholders\blog-02-big.jpg" />
+    <Content Include="Content\images\placeholders\blog-02.jpg" />
+    <Content Include="Content\images\placeholders\blog-02a-big.jpg" />
+    <Content Include="Content\images\placeholders\blog-02a.jpg" />
+    <Content Include="Content\images\placeholders\blog-03.jpg" />
+    <Content Include="Content\images\placeholders\blog-widget-01.png" />
+    <Content Include="Content\images\placeholders\blog-widget-02.png" />
+    <Content Include="Content\images\placeholders\blog-widget-03.png" />
+    <Content Include="Content\images\placeholders\blog-widget-04.png" />
+    <Content Include="Content\images\placeholders\blog-widget-05.png" />
+    <Content Include="Content\images\placeholders\blog-widget-06.png" />
+    <Content Include="Content\images\placeholders\caption-hover-effect_01.jpg" />
+    <Content Include="Content\images\placeholders\caption-hover-effect_02.jpg" />
+    <Content Include="Content\images\placeholders\caption-hover-effect_03.jpg" />
+    <Content Include="Content\images\placeholders\featured_img_1.jpg" />
+    <Content Include="Content\images\placeholders\featured_img_2.jpg" />
+    <Content Include="Content\images\placeholders\featured_img_3.jpg" />
+    <Content Include="Content\images\placeholders\from_the_blog_01.jpg" />
+    <Content Include="Content\images\placeholders\from_the_blog_02.jpg" />
+    <Content Include="Content\images\placeholders\from_the_blog_03.jpg" />
+    <Content Include="Content\images\placeholders\from_the_blog_04.jpg" />
+    <Content Include="Content\images\placeholders\happy-clients-01.jpg" />
+    <Content Include="Content\images\placeholders\happy-clients-02.jpg" />
+    <Content Include="Content\images\placeholders\happy-clients-03.jpg" />
+    <Content Include="Content\images\placeholders\lightbox-sample-01a.jpg" />
+    <Content Include="Content\images\placeholders\lightbox-sample-01b.jpg" />
+    <Content Include="Content\images\placeholders\lightbox-sample-02a.jpg" />
+    <Content Include="Content\images\placeholders\lightbox-sample-02b.jpg" />
+    <Content Include="Content\images\placeholders\lightbox-sample-03a.jpg" />
+    <Content Include="Content\images\placeholders\lightbox-sample-03b.jpg" />
+    <Content Include="Content\images\placeholders\lightbox-sample-04a.jpg" />
+    <Content Include="Content\images\placeholders\logo-05.png" />
+    <Content Include="Content\images\placeholders\logo-06.png" />
+    <Content Include="Content\images\placeholders\logo-07.png" />
+    <Content Include="Content\images\placeholders\menu-banner-01.jpg" />
+    <Content Include="Content\images\placeholders\menu-banner-02.jpg" />
+    <Content Include="Content\images\placeholders\parallax.jpg" />
+    <Content Include="Content\images\placeholders\parallax_02.jpg" />
+    <Content Include="Content\images\placeholders\parallax_03.jpg" />
+    <Content Include="Content\images\placeholders\product_category_01.jpg" />
+    <Content Include="Content\images\placeholders\product_category_02.jpg" />
+    <Content Include="Content\images\placeholders\product_category_03.jpg" />
+    <Content Include="Content\images\placeholders\product_category_04.jpg" />
+    <Content Include="Content\images\placeholders\product_category_05.jpg" />
+    <Content Include="Content\images\placeholders\product_category_06.jpg" />
+    <Content Include="Content\images\placeholders\product_item_01b.jpg" />
+    <Content Include="Content\images\placeholders\product_item_01c.jpg" />
+    <Content Include="Content\images\placeholders\product_item_02b.jpg" />
+    <Content Include="Content\images\placeholders\product_item_02c.jpg" />
+    <Content Include="Content\images\placeholders\product_item_03b.jpg" />
+    <Content Include="Content\images\placeholders\product_item_03c.jpg" />
+    <Content Include="Content\images\placeholders\product_item_04a-big.jpg" />
+    <Content Include="Content\images\placeholders\product_item_04b-big.jpg" />
+    <Content Include="Content\images\placeholders\product_item_04b.jpg" />
+    <Content Include="Content\images\placeholders\product_item_04c-big.jpg" />
+    <Content Include="Content\images\placeholders\product_item_04c.jpg" />
+    <Content Include="Content\images\placeholders\product_item_thumb_01a.png" />
+    <Content Include="Content\images\placeholders\product_item_thumb_01b.png" />
+    <Content Include="Content\images\placeholders\product_item_thumb_01c.png" />
+    <Content Include="Content\images\placeholders\product_item_thumb_02a.png" />
+    <Content Include="Content\images\placeholders\product_item_thumb_02b.png" />
+    <Content Include="Content\images\placeholders\product_item_thumb_02c.png" />
+    <Content Include="Content\images\placeholders\product_item_thumb_03a.png" />
+    <Content Include="Content\images\placeholders\product_item_thumb_03b.png" />
+    <Content Include="Content\images\placeholders\product_item_thumb_03c.png" />
+    <Content Include="Content\images\placeholders\product_item_thumb_04a.png" />
+    <Content Include="Content\images\placeholders\product_item_thumb_04b.png" />
+    <Content Include="Content\images\placeholders\product_item_thumb_04c.png" />
+    <Content Include="Content\images\placeholders\service.jpg" />
+    <Content Include="Content\images\placeholders\slider5.jpg" />
+    <Content Include="Content\images\placeholders\small_product_list_01.jpg" />
+    <Content Include="Content\images\placeholders\small_product_list_02.jpg" />
+    <Content Include="Content\images\placeholders\small_product_list_03.jpg" />
+    <Content Include="Content\images\placeholders\small_product_list_04.jpg" />
+    <Content Include="Content\images\placeholders\small_product_list_05.jpg" />
+    <Content Include="Content\images\placeholders\small_product_list_06.jpg" />
+    <Content Include="Content\images\placeholders\small_product_list_07.jpg" />
+    <Content Include="Content\images\placeholders\small_product_list_08.jpg" />
+    <Content Include="Content\images\placeholders\small_product_list_09.jpg" />
+    <Content Include="Content\images\placeholders\team-01.jpg" />
+    <Content Include="Content\images\placeholders\team-02.jpg" />
+    <Content Include="Content\images\placeholders\team-03.jpg" />
+    <Content Include="Content\images\placeholders\titlebar_bg_01.jpg" />
+    <Content Include="Content\images\placeholders\titlebar_bg_02.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-01.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-01a.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-02.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-02a.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-03.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-03a.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-03b.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-04.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-04a.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-05.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-05a.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-06.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-06a.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-06b.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-07.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-07a.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-08.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-08a.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-08b.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-09.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-09a.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-09b.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-10.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-10a.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-11.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-11a.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-12.jpg" />
+    <Content Include="Content\images\portfolio\portfolio-12a.jpg" />
+    <Content Include="Content\images\portfolio\single-project-half-01-big.jpg" />
+    <Content Include="Content\images\portfolio\single-project-half-01.jpg" />
+    <Content Include="Content\images\portfolio\single-project-half-02-big.jpg" />
+    <Content Include="Content\images\portfolio\single-project-half-02.jpg" />
+    <Content Include="Content\images\products.jpg" />
+    <Content Include="Content\images\shopping\productSplash\3forfree.jpg" />
+    <Content Include="Content\images\shopping\productSplash\lightbox-products-01a.jpg" />
+    <Content Include="Content\images\shopping\productSplash\lightbox-products-01b.jpg" />
+    <Content Include="Content\images\shopping\productSplash\lightbox-products-02a.jpg" />
+    <Content Include="Content\images\shopping\productSplash\lightbox-products-02b.jpg" />
+    <Content Include="Content\images\shopping\productSplash\lightbox-products-03a.jpg" />
+    <Content Include="Content\images\shopping\productSplash\lightbox-products-03b.jpg" />
+    <Content Include="Content\images\shopping\productSplash\lightbox-products-04a.jpg" />
+    <Content Include="Content\images\shopping\productSplash\lightbox-products-04b.jpg" />
+    <Content Include="Content\images\shopping\productSplash\lightbox-products-05a.jpg" />
+    <Content Include="Content\images\shopping\productSplash\lightbox-products-05b.jpg" />
+    <Content Include="Content\images\shopping\productSplash\lightbox-products-06a.jpg" />
+    <Content Include="Content\images\shopping\productSplash\lightbox-products-06b.jpg" />
+    <Content Include="Content\images\shopping\productSplash\lightbox-products-07a.jpg" />
+    <Content Include="Content\images\shopping\productSplash\lightbox-products-07b.jpg" />
+    <Content Include="Content\images\shopping\productSplash\lightbox-products-08a.jpg" />
+    <Content Include="Content\images\shopping\productSplash\lightbox-products-08b.jpg" />
+    <Content Include="Content\images\shopping\productSplash\products.jpg" />
+    <Content Include="Content\images\slider\menu-banner-01.jpg" />
+    <Content Include="Content\images\slider\menu-banner-02.jpg" />
+    <Content Include="Content\images\slider\parallax.jpg" />
+    <Content Include="Content\images\slider\parallax_02.jpg" />
+    <Content Include="Content\images\slider\parallax_03.jpg" />
+    <Content Include="Content\images\slider\service.jpg" />
+    <Content Include="Content\images\slider\slider.jpg" />
+    <Content Include="Content\images\slider\slider2.jpg" />
+    <Content Include="Content\images\slider\slider3.jpg" />
+    <Content Include="Content\images\slider\slider4.jpg" />
+    <Content Include="Content\images\slider\slider5.jpg" />
+    <Content Include="Content\images\slider\team-01.jpg" />
+    <Content Include="Content\images\slider\team-02.jpg" />
+    <Content Include="Content\images\slider\team-03.jpg" />
+    <Content Include="Content\images\slider\titlebar_bg_01.jpg" />
+    <Content Include="Content\images\slider\titlebar_bg_02.jpg" />
+    <Content Include="Content\images\parallax\parallax.jpg" />
+    <Content Include="Content\scripts\main.js" />
+    <Content Include="Content\scripts\models\DynamicKit.js" />
+    <Content Include="Content\scripts\models\DynamicKitCategory.js" />
+    <Content Include="Content\scripts\models\Item.js" />
+    <Content Include="Content\scripts\models\ItemGroup.js" />
+    <Content Include="Content\scripts\models\ItemGroupMember.js" />
+    <Content Include="Content\scripts\modules\app.js" />
+    <Content Include="Content\scripts\modules\pubsub.js" />
+    <Content Include="Content\scripts\modules\shopping.js" />
+    <Content Include="Content\scripts\vendor\accounting\accounting.js" />
+    <Content Include="Content\styles\colors\blue.css" />
+    <Content Include="Content\styles\colors\Success-Blue1.css" />
+    <Content Include="Content\styles\colors\Success-Blue2.css" />
+    <Content Include="Content\styles\colors\Success-Cran.css" />
+    <Content Include="Content\styles\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\styles\fonts\fontello.svg" />
+    <Content Include="Content\styles\site.css">
+      <DependentUpon>site.scss</DependentUpon>
+    </Content>
+    <Content Include="Content\styles\site.min.css">
+      <DependentUpon>site.css</DependentUpon>
+    </Content>
+    <Content Include="Global.asax" />
+    <Content Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_Code\Format.cshtml" />
+    <Content Include="Content\images\HomePageSlider\slider-old.jpg" />
+    <Content Include="Content\images\HomePageSlider\slider2-old.jpg" />
+    <Content Include="Content\images\HomePageSlider\slider3-old.jpg" />
+    <Content Include="Content\images\HomePageSlider\slider4-old.jpg" />
+    <Content Include="Content\images\HomePageSlider\slider5-old.jpg" />
+    <Content Include="Views\Shopping\Partials\Cart\_OrderSummary.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Account\AddressList.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\ManageAddress.cshtml" />
+    <Content Include="Views\Account\ManageBankAccount.cshtml" />
+    <Content Include="Views\Account\ManageCreditCard.cshtml" />
+    <Content Include="Views\Account\OrderInvoice.cshtml" />
+    <Content Include="Views\Account\OrderList.cshtml" />
+    <Content Include="Views\Account\Orders.cshtml" />
+    <Content Include="Views\Account\PaymentMethodList.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\_Layout.cshtml" />
+    <Content Include="Views\Dev\Design.cshtml" />
+    <Content Include="Views\Dev\Index.cshtml" />
+    <Content Include="Views\Documentation\Index.cshtml" />
+    <Content Include="Views\Enrollment\EditorTemplates\AccountType.cshtml" />
+    <Content Include="Views\Enrollment\EditorTemplates\Billing.cshtml" />
+    <Content Include="Views\Enrollment\EditorTemplates\CommissionSettings.cshtml" />
+    <Content Include="Views\Enrollment\EditorTemplates\HomeAddress.cshtml" />
+    <Content Include="Views\Enrollment\EditorTemplates\LoginInformation.cshtml" />
+    <Content Include="Views\Enrollment\EditorTemplates\PersonalInformation.cshtml" />
+    <Content Include="Views\Enrollment\EditorTemplates\ShippingInformation.cshtml" />
+    <Content Include="Views\Enrollment\EditorTemplates\TermsAndConditions.cshtml" />
+    <Content Include="Views\Enrollment\EnrolleeInfo.cshtml" />
+    <Content Include="Views\Enrollment\EnrollmentComplete.cshtml" />
+    <Content Include="Views\Enrollment\EnrollmentConfiguration.cshtml" />
+    <Content Include="Views\Enrollment\Index.cshtml" />
+    <Content Include="Views\Enrollment\ItemCategory.cshtml" />
+    <Content Include="Views\Enrollment\ProductList.cshtml" />
+    <Content Include="Views\Enrollment\Review.cshtml" />
+    <Content Include="Views\Enrollment\_EnrollmentSummary.cshtml" />
+    <Content Include="Views\Enrollment\_Item.cshtml" />
+    <Content Include="Views\Enrollment\_SummaryItem.cshtml" />
+    <Content Include="Views\Error\InvalidWebAlias.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Error\UnexpectedError.cshtml" />
+    <Content Include="Views\Error\WebAliasRequired.cshtml" />
+    <Content Include="Views\Home\AboutWin.cshtml" />
+    <Content Include="Views\Home\ContactUs.cshtml" />
+    <Content Include="Views\Home\FAQ.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Partials\_distributorSearchModal.cshtml" />
+    <Content Include="Views\Home\Partials\_featuredProductsList.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Address.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\OrderSummary.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\PaymentMethod.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\ShippingAddress.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AddressOnFile.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\BankAccount.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\BankAccountOnFile.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\BirthDate.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Boolean.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Checkbox.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\CreditCard.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\CreditCardOnFile.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Decimal.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\EmailAddress.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Gender.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Int32.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Languages.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\LoginName.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\NewPassword.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Password.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\PaymentMethodOnFile.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\PhoneNumber.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\RadioButton.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Search.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ShippingAddressOnFile.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\String.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\TaxID.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Time.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\_FormField.cshtml" />
+    <Content Include="Views\Shared\_DefaultLayout.cshtml" />
+    <Content Include="Views\Shared\_DistributorModal.cshtml" />
+    <Content Include="Views\Shared\_EnrollerModal.cshtml" />
+    <Content Include="Views\Shared\_ErrorLayout.cshtml" />
+    <Content Include="Views\Shared\_PrivacyPolicy.cshtml" />
+    <Content Include="Views\Shared\_TermsAndConditions.cshtml" />
+    <Content Include="Views\Shopping\AutoOrder.cshtml" />
+    <Content Include="Views\Shopping\Cart.cshtml" />
+    <Content Include="Views\Shopping\ItemDetail.cshtml" />
+    <Content Include="Views\Shopping\OrderComplete.cshtml" />
+    <Content Include="Views\Shopping\Partials\Cart\CartItem.cshtml" />
+    <Content Include="Views\Shopping\Partials\Cart\PaneledCart.cshtml" />
+    <Content Include="Views\Shopping\Partials\Items\Cards\SingleItem.cshtml" />
+    <Content Include="Views\Shopping\Partials\Items\Details\SingleItem.cshtml" />
+    <Content Include="Views\Shopping\Partials\Items\Details\_ItemTabDetails.cshtml" />
+    <Content Include="Views\Shopping\Partials\Items\QuickShopModal.cshtml" />
+    <Content Include="Views\Shopping\Partials\_RelatedItemList.cshtml" />
+    <Content Include="Views\Shopping\Partials\Navigation\_CategoryList.cshtml" />
+    <Content Include="Views\Shopping\Partials\Navigation\_ShoppingNavigation.cshtml" />
+    <Content Include="Views\Shopping\Review.cshtml" />
+    <Content Include="Views\Shopping\_CartPopup.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Filters\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="HtmlHelpers\" />
+    <Folder Include="Views\Home\EditorTemplates\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\styles\site.scss">
+      <Compile>True</Compile>
+      <Minify>False</Minify>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\_Common.csproj">
+      <Project>{c68927cc-5e81-45f4-a5bb-400a80574af1}</Project>
+      <Name>_Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\Common\Content\styles\mixins\_mixins.scss">
+      <Link>Content\styles\mixins\_mixins.scss</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\styles\views\_account.scss" />
+    <Content Include="Content\styles\views\_enrollment.scss" />
+    <Content Include="Content\styles\views\_images.scss" />
+    <Content Include="Content\styles\views\_items.scss" />
+    <Content Include="Content\styles\views\_navigation.scss" />
+    <Content Include="Content\styles\views\_orders.scss" />
+    <Content Include="Content\styles\views\_shopping.scss" />
+    <Content Include="Content\styles\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\styles\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\styles\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\styles\fonts\FontAwesome.otf" />
+    <Content Include="Content\styles\fonts\fontello.eot" />
+    <Content Include="Content\styles\fonts\fontello.ttf" />
+    <Content Include="Content\styles\fonts\fontello.woff" />
+    <Content Include="Content\styles\views\_general.scss" />
+    <Content Include="Content\styles\settings\_colors.scss" />
+    <Content Include="Content\styles\views\_autoorder.scss" />
+    <Content Include="Content\styles\views\_home.scss" />
+    <Content Include="Content\documents\PoliciesProcedures_DE.pdf" />
+    <Content Include="Content\styles\views\_contact.scss" />
+    <Content Include="Content\styles\color\_colors.scss" />
+    <Content Include="Content\styles\components\_accordions.scss" />
+    <Content Include="Content\styles\components\_bonzaitrees.scss" />
+    <Content Include="Content\styles\components\_cards.scss" />
+    <Content Include="Content\styles\components\_containers.scss" />
+    <Content Include="Content\styles\components\_definitionlists.scss" />
+    <Content Include="Content\styles\components\_dropdowns.scss" />
+    <Content Include="Content\styles\components\_elements.scss" />
+    <Content Include="Content\styles\components\_forms.scss" />
+    <Content Include="Content\styles\components\_generictree.scss" />
+    <Content Include="Content\styles\components\_images.scss" />
+    <Content Include="Content\styles\components\_legends.scss" />
+    <Content Include="Content\styles\components\_media.scss" />
+    <Content Include="Content\styles\components\_metrics.scss" />
+    <Content Include="Content\styles\components\_navbars.scss" />
+    <Content Include="Content\styles\components\_pagination.scss" />
+    <Content Include="Content\styles\components\_panels.scss" />
+    <Content Include="Content\styles\components\_popovers.scss" />
+    <Content Include="Content\styles\components\_progressbars.scss" />
+    <Content Include="Content\styles\components\_rows.scss" />
+    <Content Include="Content\styles\components\_site.scss" />
+    <Content Include="Content\styles\components\_tables.scss" />
+    <Content Include="Content\styles\components\_tabs.scss" />
+    <Content Include="Content\styles\components\_textdividers.scss" />
+    <Content Include="Content\styles\components\_utilities.scss" />
+    <Content Include="Content\styles\components\_wells.scss" />
+    <Content Include="Content\documents\PoliciesProcedures_NL.pdf" />
+    <Content Include="Content\documents\PoliciesProcedures_GB.pdf" />
+    <Content Include="Content\documents\PoliciesProcedures_US.pdf" />
+    <Content Include="Content\documents\PoliciesProcedures_BE.pdf" />
+    <Content Include="Content\styles\components\_modals.scss" />
+    <Content Include="Content\styles\site.css.map">
+      <DependentUpon>site.css</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\devwinworldwide %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\devwinworldwide - FTP %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\devwinworldwide - FTP %283%29.pubxml" />
+    <None Include="Properties\PublishProfiles\devwinworldwide - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\devwinworldwide - Web Deploy %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\devwinworldwide - Web Deploy %283%29.pubxml" />
+    <None Include="Properties\PublishProfiles\devwinworldwide - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\devwinworldwide.pubxml" />
+    <None Include="Properties\PublishProfiles\File Push.pubxml" />
+    <None Include="Properties\PublishProfiles\filefolder_replicated.pubxml" />
+    <None Include="Properties\PublishProfiles\winworldwide %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\winworldwide - FTP %284%29.pubxml" />
+    <None Include="Properties\PublishProfiles\winworldwide - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\winworldwide - Web Deploy %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\winworldwide - Web Deploy %284%29.pubxml" />
+    <None Include="Properties\PublishProfiles\winworldwide - Web Deploy.pubxml" />
+    <Content Include="Views\Enrollment\CountrySelection.cshtml" />
+    <Content Include="Views\Enrollment\PersonalInfo.cshtml" />
+    <Content Include="Views\Enrollment\Packs.cshtml" />
+    <Content Include="Views\Enrollment\EditorTemplates\Copy of Billing.cshtml" />
+    <Content Include="Views\Shopping\Partials\Items\Details\_ListedQuickShopItem.cshtml" />
+    <Content Include="Views\Shopping\Partials\Navigation\_CheckoutBreadcrumb.cshtml" />
+    <Content Include="Views\Shopping\EditorTemplates\_CheckoutShippingAddress.cshtml" />
+    <Content Include="Views\Home\Partials\_featuredMarketing.cshtml" />
+    <Content Include="Views\Home\Partials\_featuredStories.cshtml" />
+    <Content Include="Views\Home\Partials\HomePageSlider\_UnitedStatesSlider.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Address.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\AutoOrderPopupModal.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\AutoOrderModule_CartReview.cshtml" />
+    <Content Include="Views\AutoOrders\AutoOrderList.cshtml" />
+    <Content Include="Views\AutoOrders\AutoOrderPreferences.cshtml" />
+    <Content Include="Views\AutoOrders\DisplayTemplates\AutoOrderEditDate.cshtml" />
+    <Content Include="Views\AutoOrders\DisplayTemplates\AutoOrderEditOrder.cshtml" />
+    <Content Include="Views\AutoOrders\DisplayTemplates\AutoOrderEditPaymentMethod.cshtml" />
+    <Content Include="Views\AutoOrders\DisplayTemplates\AutoOrderRow.cshtml" />
+    <Content Include="Views\AutoOrders\DisplayTemplates\AutoOrderShipMethod.cshtml" />
+    <Content Include="Views\AutoOrders\DisplayTemplates\AutoOrderShippingAddress.cshtml" />
+    <Content Include="Views\AutoOrders\PaymentMethod.cshtml" />
+    <Content Include="Views\AutoOrders\ShippingAddress.cshtml" />
+    <Content Include="Views\Shopping\EditorTemplates\_CheckoutAddress.cshtml" />
+    <Content Include="Views\Shopping\EditorTemplates\_CheckoutBillingAddress.cshtml" />
+    <Content Include="Views\Shopping\Payment.cshtml" />
+    <Content Include="Views\Shopping\Shipping.cshtml" />
+    <Content Include="Views\Shopping\Delivery.cshtml" />
+    <Content Include="Views\Shopping\Billing.cshtml" />
+    <Content Include="Views\Shopping\_CheckoutLayout.cshtml" />
+    <Content Include="Views\Home\Partials\AboutPageBanner\_AboutPageHeader.cshtml" />
+    <Content Include="Views\Shopping\EditorTemplates\Billing.cshtml" />
+    <Content Include="Views\Home\Blog.cshtml" />
+    <Content Include="Views\Shopping\ItemList.cshtml" />
+    <Content Include="Views\Shopping\LandingPageContent\_LandingExampleGallery.cshtml" />
+    <Content Include="Views\Home\Partials\_parallaxBanner.cshtml" />
+    <Content Include="Views\Enrollment\TermsOfAgreement.cshtml" />
+    <Content Include="Views\Shopping\Partials\Items\Cards\SingleItem_NoPrice.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\AboutMe.cshtml" />
+    <Content Include="Views\Home\PrivacyPolicy.cshtml" />
+    <Content Include="Views\Home\Terms.cshtml" />
+    <Content Include="Views\Shopping\Products.cshtml" />
+    <Content Include="Views\Shopping\Cart - Copy.cshtml" />
+    <Content Include="Views\Home\ContactSuccess.cshtml" />
+    <Content Include="Views\Home\Partials\Contact\_contactResources.cshtml" />
+    <Content Include="Views\Shopping\Partials\Items\Cards\SingleItem_RelatedItemList.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\IdealSummary.cshtml" />
+    <Content Include="Views\Shopping\Partials\Cart\ShippingAddress.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ShippingAddress.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Shared\_PublicLayout.cshtml" />
+    <Content Include="Views\Shared\_MasterLayout.cshtml" />
+    <Content Include="Views\Home\ReturnPolicy.cshtml" />
+    <Content Include="Views\Shopping\OrderCompleteError.cshtml" />
+    <Content Include="Views\Shopping\Partials\Items\Cards\SingleItem_Home.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\winideal - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\winideal - Web Deploy.pubxml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\Common\App_GlobalResources\Common.resx">
+      <Link>App_GlobalResources\Common.resx</Link>
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Common.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="CopyLinkedContentFiles" BeforeTargets="Build">
+    <Copy SourceFiles="%(Content.Identity)" DestinationFiles="%(Content.Link)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Condition="'%(Content.Link)' != ''" />
+  </Target>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+</Project>

@@ -1,0 +1,161 @@
+﻿@model LoginViewModel
+@{
+    ViewBag.Title = "Sign In";
+    var returnUrl = (Request.QueryString["ReturnUrl"] != null) ? Request.QueryString["ReturnUrl"] : "";
+}
+
+<div id="view-sitelogin" class="container site-login">
+    <div class="space-15"></div>
+    <h2>@Resources.Common.SignIn</h2>
+    <div class="row">
+        <div class="col-md-5 col-sm-12">
+            <div class="space-15"></div>
+            <div class="alert alert-danger alert-dismissable" id="errors" style="display: none;">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4 class="title"></h4>
+                <div class="error"></div>
+            </div>
+
+            <div class="well account-form-container">
+                <form role="form" class="form-horizontal">
+                    <div class="form-group">
+                        @Html.LabelFor(c => c.LoginName, new { @class = "col-sm-3 control-label" })
+                        <div class="col-xs-9">
+                            @Html.EditorFor(c => c.LoginName)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(c => c.Password, new { @class = "col-sm-3 control-label" })
+                        <div class="col-xs-9">
+                            @Html.EditorFor(c => c.Password)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <button type="button" id="loginbutton" class="btn button">@Resources.Common.SignIn</button>
+                            <a href="@Url.Action("ForgotPassword")">@Resources.Common.ForgotPassword</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-7 col-sm-12">
+            <h3>@Resources.Common.DontHaveAccount</h3>
+            <p>@Resources.Common.PleaseRegister</p>
+            <p>
+                <a href="@Url.Action("register", "account", new { ReturnUrl = returnUrl })" class="btn button">@Resources.Common.CreateAccount</a>
+            </p>
+
+        </div>
+    </div>
+</div>
+<div class="space-100">
+</div>
+
+@section scripts
+{
+    <script>
+        require(["ajax", "cookies", "urls", "app"], function (ajax, cookies, url, app) {
+
+            // Settings
+            var context = '#view-sitelogin',
+                $context = $(context),
+                cookiename = '@GlobalSettings.ReplicatedSites.ReplicatedSiteLoginNameCookie',
+                landingUrl = '@Url.Action("index", "account")';
+
+
+            // Event Handlers
+            function registerEventHandlers() {
+                // Login Form
+                $('#loginbutton', $context).on('click', function (event) {
+                    event.preventDefault();
+                    actions.signin();
+                });
+                $('input', $context).on('keypress', function (event) {
+                    if (event.which == 13) {
+                        event.preventDefault();
+                        actions.signin();
+                    }
+                });
+            }
+
+
+            // Actions
+            var actions = {
+                clearCookies: function () {
+                    cookies.clear(cookiename);
+                },
+                loadCookies: function () {
+                    var savedLoginName = cookies.get(cookiename);
+                    if (savedLoginName) $('#LoginName').val(savedLoginName);
+                },
+                saveCookies: function () {
+                    // Get the expiration date of the cookie
+                    var expires = new Date();
+                    expires.setDate(expires.getDate() + 365);
+
+                    // Set the cookies
+                    cookies.set(cookiename, $('#LoginName').val(), {
+                        expires: expires
+                    });
+                },
+                signin: function () {
+
+                    // Validate the form
+                    if (!$('form').valid()) return false;
+
+
+                    // Submit the form
+                    ajax.json({
+                        url: window.location,
+                        data: $('form').serializeObject(),
+                        beforeSend: function () {
+                            toastr.clear();
+                            $('#loginbutton').loadingbutton('start');
+                        },
+                        success: function (response) {
+                            if (!response.Status) {
+                                actions.throwError("Login Failed", response.ErrorMessage);
+                                $('#loginbutton').loadingbutton('stop');
+                            }
+                            else {
+                                // Save the cookies
+                                actions.saveCookies();
+
+                                // Redirect
+                                window.location = (response.RedirectUrl) ? response.RedirectUrl : decodeURIComponent(url.current.queryKey.ReturnUrl || landingUrl);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(xhr);
+                            actions.throwError("Login failed", error);
+                            $('#loginbutton').loadingbutton('stop');
+                        }
+                    });
+                },
+                throwError: function (title, error) {
+                    toastr.error(error, title);
+                    $('#Password').focus();
+                }
+            };
+
+
+            // Initialization
+            function _init() {
+
+                // Register the event handlers
+                registerEventHandlers();
+
+                // Load the saved cookies into the form
+                actions.loadCookies();
+
+                // Focus on the right field
+                if ($('#LoginName').val() == '') $('#LoginName').focus();
+                else $('#Password').focus();
+            }
+            _init();
+
+        });
+    </script>
+}

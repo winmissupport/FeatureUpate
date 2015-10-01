@@ -1,0 +1,198 @@
+﻿@model EnrollmentConfigurationViewModel
+@{
+    ViewBag.Title = "Enrollment Configuration";
+}
+
+<div id="view-enrollment-configuration">
+    <div class="space-30"></div>
+    <div class="container">
+        <h2>@ViewBag.Title</h2>
+
+        <div class="space-20"></div>
+        <div class="col-sm-12">
+            @using (Html.BeginForm())
+            {
+                <input type="hidden" id="enrollment-type" name="SelectedEnrollmentType" />
+                <input type="hidden" id="market-country-code" name="MarketName" />
+
+
+            <!-- Choose Enroller -->
+                if (Identity.Owner.CustomerID == GlobalSettings.ReplicatedSites.DefaultAccountID)
+                {
+                    @*<h4><strong>Enter your Exigo Demo enroller ID number or username</strong></h4> Changed wording on 14 November for clairty - Alan C *@
+                    <h4><strong>@Resources.Common.IfReferred</strong></h4>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <a class="button" id="enroller-search" style="margin-right: 10px;">@Resources.Common.ChooseEnroller</a>
+                            
+                        </div>
+                        <div class="col-sm-3">
+                            <a data-role="corporatesignup" class="button">@Resources.Common.NotReferred</a>
+                        </div>
+                    </div>
+
+                    <div id="search-message" style="display: none;">
+                        <div class="space-20"></div>
+                        <div class="row margin-0">
+                            <div class="col-sm-6">
+                                <div class="alert alert-success">
+                                    <p class="message"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-20"></div>
+                }
+
+
+
+            <!-- Choose Market -->
+                <h4>@Resources.Common.SelectMarket</h4>
+    <section class="row variables">
+        <div class="col-sm-4">
+            @Html.DropDownListFor(c => c.MarketName,
+                        selectList: GlobalSettings.Markets.AvailableMarkets.Select(c => new SelectListItem
+                        {
+                            Text = c.Description,
+                            Value = c.Name.ToString()
+                        }).ToList(),
+                        htmlAttributes: new
+                        {
+                            @class = "form-control countryselect",
+                            data_role = "Country"
+                        })
+        </div>
+    </section>
+
+                <div class="space-30"></div>
+
+
+
+
+            <!-- Choose Enrollment Type -->
+                <h4>@Resources.Common.SelectEnrollmentType</h4>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div>
+                            <div>
+                                <h4 class="heading">@Resources.Common.BrandPartner</h4>
+                                <p class="benifits">{@Resources.Common.DistributorBenifits}</p>
+                                <button class="button" data-type="@EnrollmentType.Distributor" type="submit"><span>@Resources.Common.BrandPartnerEnrollment</span> <i class="fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div>
+                            <div>
+                                <h4 class="heading">@Resources.Common.SmartShopper</h4>
+                                <p class="benifits">{Preferred benifits}</p>
+                                <button class="button" data-type="@EnrollmentType.SmartShopper" type="submit"><span>@Resources.Common.SmartShopperEnrollment</span> <i class="fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+    <div class="space-30"></div>
+
+
+            <!-- Find Enroller Modal -->
+                <div class="modal fade" id="distributorSearchModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@Resources.Common.Close</span></button>
+                                <h4 class="modal-title">@Resources.Common.FindYourReferrer</h4>
+                            </div>
+                            <div class="modal-body">
+                                @Html.Partial("_EnrollerModal")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @Html.AntiForgeryToken()
+            }
+        </div>
+
+        
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        require(["ajax", "pubsub", "handlebars"], function (ajax) {
+
+            var $form = $('form');
+
+            // Settings
+            var settings = {
+
+            };
+
+            // State
+            var state = {
+
+            };
+
+            // Event Handlers
+            function registerEventHandlers() {
+                $('#enroller-search').on('click', function () {
+                    $('#distributorSearchModal').modal();
+                });
+
+                $('[data-role="Country"]').on('click', function () {
+                    $('#market-country-code').val($('[data-role="Country"]').val());
+                });
+
+                $('button[type="submit"]').on('click', function () {
+                    event.preventDefault();
+                    var typeID = $(this).data("type");
+                    $('#enrollment-type').val(typeID);
+
+                    $form.submit();
+                });
+
+                $('[data-role="corporatesignup"]').on('click', function () {
+                    window.trigger("enrollment.showenrollerinfo", "corporate");
+                });
+
+                // Pubsub events
+                window.on('enrollment.showenrollerinfo', function (enroller) {
+                    var message = "";
+
+                    if (enroller == "corporate") {
+                        message = "You have chosen to enroll without a distributor.";
+                    }
+                    else {
+                        message = "You have selected {0}, ID# {1} as your enroller.".format(enroller.FullName, enroller.CustomerID);
+                    }
+
+                    $('#distributorSearchModal').modal('hide');
+                    $('#search-message .message').html(message);
+                    $('#search-message').show();
+                });
+            }
+
+            // Actions
+            var actions = {
+
+            };
+
+            // Helpers
+            var helpers = {
+
+            };
+
+            // Initialization
+            function init() {
+                registerEventHandlers();
+
+
+                $('#market-country-code').val($('[data-role="Country"]').val());
+            }
+
+            init();
+        });
+    </script>
+}

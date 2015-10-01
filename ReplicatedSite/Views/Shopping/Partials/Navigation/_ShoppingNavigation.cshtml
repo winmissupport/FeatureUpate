@@ -1,0 +1,57 @@
+﻿<div id="shopping-nav">
+    @*Navbar*@
+
+    @*<div class="shop">
+            <div class="navbar navbar-shopping">
+                <div class="container">
+                    <div class="spacer hidden-sm hidden-xs pull-left"></div>
+                    <ul class="nav navbar-nav">
+                        <li class="navbar-link" data-nav-id="dailyritual"><a class="" href="@Url.Action("dailyritual", "shopping")">Product Category</a> </li>
+                        <li class="navbar-text hidden-sm hidden-xs"> | </li>
+                        <li class="navbar-link" data-nav-id="facialcare"><a class="" href="@Url.Action("facialcare", "shopping")">Facial Cleanser</a> </li>
+                        <li class="navbar-text hidden-sm hidden-xs"> | </li>
+                        <li class="navbar-link" data-nav-id="bodycare"><a class="" href="@Url.Action("bodycare", "shopping")">Body Care</a> </li>
+                        <li class="navbar-text hidden-sm hidden-xs"> | </li>
+                        <li class="navbar-link" data-nav-id="bestsellers"><a class="" href="@Url.Action("bestsellers", "shopping")">Best Sellers</a> </li>
+                        <li class="navbar-text hidden-sm hidden-xs"> | </li>
+                        <li class="navbar-link" data-nav-id="topgifts"><a class="" href="@Url.Action("topgifts", "shopping")">Gifts</a> </li>
+                        <li class="navbar-text hidden-sm hidden-xs"> | </li>
+                        <li class="navbar-link" data-nav-id="sets"><a class="" href="@Url.Action("sets", "shopping")">Sets</a> </li>
+                        <li class="navbar-text hidden-sm hidden-xs"> | </li>
+                        <li class="navbar-link" data-nav-id="sets"><a class="" href="@Url.Action("sets", "shopping")">More Sets</a> </li>
+                    </ul>
+                </div>
+            </div>
+        </div>*@
+
+    @*Pills*@
+    <div class="shop-pills">
+        <ul class="nav nav-pills nav-justified">
+            <li class="navbar-link" data-nav-id="dailyritual"><a class="" href="@Url.Action("dailyritual", "shopping")">Product Category</a> </li>
+
+            <li class="navbar-link" data-nav-id="facialcare"><a class="" href="@Url.Action("facialcare", "shopping")">Facial Cleanser</a> </li>
+
+            <li class="navbar-link" data-nav-id="bodycare"><a class="" href="@Url.Action("bodycare", "shopping")">Body Care</a> </li>
+
+            <li class="navbar-link" data-nav-id="bestsellers"><a class="" href="@Url.Action("bestsellers", "shopping")">Best Sellers</a> </li>
+
+            <li class="navbar-link" data-nav-id="topgifts"><a class="" href="@Url.Action("topgifts", "shopping")">Gifts</a> </li>
+
+            <li class="navbar-link" data-nav-id="sets"><a class="" href="@Url.Action("sets", "shopping")">Sets</a> </li>
+
+            <li class="navbar-link" data-nav-id="sets"><a class="" href="@Url.Action("sets", "shopping")">More Sets</a> </li>
+
+        </ul>
+    </div>
+
+    <div class="space-30"></div>
+</div>
+
+
+<script>
+    (function () {
+        var currentpage = "@Request.Url.Segments.Last()";
+
+        $("[data-nav-id='" + currentpage + "'] a").addClass("active");
+    })();
+</script>

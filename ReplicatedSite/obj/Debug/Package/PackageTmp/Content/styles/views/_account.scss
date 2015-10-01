@@ -1,0 +1,78 @@
+@import "../settings/_colors";
+@import "../mixins/_mixins";
+
+
+
+#view-account {
+    .orderlist {
+        .order-widget {
+            margin-bottom: 15px;
+        }
+    }
+
+    .breadcrumb {
+        margin-left: -10px;
+    }
+
+    .list-group {
+        .list-group-item {
+            &:hover {
+                background-color: #f5f5f5;
+            }
+
+            a {
+                color: #606060;
+
+                &:hover {
+                    color: $blue;
+                }
+            }
+        }
+    }
+}
+
+#view-accountoverview {
+    .detail {
+        display: block;
+    }
+
+    .form {
+        display: none;
+    }
+
+    .editbutton {
+        display: block;
+    }
+
+    .panel-body.edit {
+
+        .detail {
+            display: none;
+        }
+
+        .form {
+            display: block;
+        }
+
+        .editbutton {
+            display: none;
+        }
+    }
+    
+
+}
+
+.autoordereditorder-container {
+    /*background-color: #fefefe;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    width: 600px;
+    margin: 20px auto;
+    padding: 20px;*/
+}
+
+.pop {
+        .popover { width:200px; }
+    }

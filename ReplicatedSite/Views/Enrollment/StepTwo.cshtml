@@ -1,0 +1,252 @@
+﻿@model EnrollmentPropertyBag
+@{
+    ViewBag.Title = "Welcome";
+}
+
+<div id="view-enrollment">
+    @using (Html.BeginForm())
+    {
+        <div class="container" id="personal-info-container">
+            <div class="space-40"></div>
+            <h2>Primary Applicant</h2>
+            <div class="space-20"></div>
+            <hr />
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="firstName" class="col-sm-2 control-label">First Name:</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(c => c.Customer.FirstName, new { @class = "form-control" })
+                                <span class="required-icon">*</span>
+                                <br />
+                                @Html.ValidationMessageFor(c => c.Customer.FirstName)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="middleName" class="col-sm-2 control-label">Middle Initial:</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(c => c.Customer.MiddleName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(c => c.Customer.MiddleName)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName" class="col-sm-2 control-label">Last Name:</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(c => c.Customer.LastName, new { @class = "form-control" })
+                                <span class="required-icon">*</span>
+                                <br />
+                                @Html.ValidationMessageFor(c => c.Customer.LastName)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pubName" class="col-sm-2 control-label">Publish By Name:</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(c => c.Customer.PublicName, new { @class = "form-control" })
+                                <span class="required-icon">*</span>
+                                <br />
+                                @Html.ValidationMessageFor(c => c.Customer.PublicName)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ssn" class="col-sm-2 control-label">SSN:</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(c => c.Customer.TaxID, new { @class = "form-control" })
+                                <span class="required-icon">*</span>
+                                <br />
+                                @Html.ValidationMessageFor(c => c.Customer.TaxID)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ssn" class="col-sm-2 control-label">Birth Date:</label>
+                            <div class="col-sm-10">
+                                <div id="birth-date-container">
+                                    @Html.DropDownList("Customer.BirthMonth", Html.BirthMonths(), new { @class = "form-control lstMonth" })
+
+                                    @Html.DropDownList("Customer.BirthDay", Html.Days(), new { @class = "form-control lstDay" })
+
+                                    @Html.DropDownList("Customer.BirthYear", Html.Years(DateTime.Now.AddYears(-18).Year), new { @class = "form-control lstYear" })
+                                    <span class="required-icon">*</span>
+
+                                    <input type="hidden" name="Customer.BirthDate" id="hdnBirthDate" />
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <small>Applicant must be 18 years or older</small>
+                </div>
+            </div>
+            <div class="space-40"></div>
+            <h2>Mailing Address</h2>
+            <div class="space-20"></div>
+            <hr />
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="address" class="col-sm-2 control-label">Address:</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(c => c.ShippingAddress.Address1, new { @class = "form-control" })
+                                <span class="required-icon">*</span>
+                                <br />
+                                @Html.ValidationMessageFor(c => c.ShippingAddress.Address1)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lineTwo" class="col-sm-2 control-label">(line 2):</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(c => c.ShippingAddress.Address2, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(c => c.ShippingAddress.Address2)
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="city" class="col-sm-2 control-label">City:</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(c => c.ShippingAddress.City, new { @class = "form-control" })
+                                <span class="required-icon">*</span>
+                                <br />
+                                @Html.ValidationMessageFor(c => c.ShippingAddress.City)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="state" class="col-sm-2 control-label">State:</label>
+                            <div class="col-sm-10">
+                                @Html.DropDownListFor(s => s.ShippingAddress.State, Html.Regions(Model.ShippingAddress.Country, Model.ShippingAddress.State),
+                                new
+                                {
+                                    @class = "form-control"
+                                })
+                                <span class="required-icon">*</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="PostalCode" class="col-sm-2 control-label">Postal Code:</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(c => c.ShippingAddress.Zip, new { @class = "form-control" })
+                                <span class="required-icon">*</span>
+                                <br />
+                                @Html.ValidationMessageFor(c => c.ShippingAddress.Zip)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="country" class="col-sm-2 control-label">Country:</label>
+                            <div class="col-sm-10">
+                                @Html.Countries(Model.ShippingAddress.Country).FirstOrDefault().Text
+
+                                <input type="hidden" value="@Model.ShippingAddress.Country" name="@Html.NameFor(c => c.ShippingAddress.Country)" />
+
+                                <a href="@Url.Action("stepone", "enrollment")">(Change)</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-40"></div>
+            <h2>Contact Information</h2>
+            <div class="space-20"></div>
+            <hr />
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="address" class="col-sm-3 control-label">Evening Phone:</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(c => c.Customer.PrimaryPhone, new { @class = "form-control" })
+                                <span class="required-icon">*</span>
+                                <br />
+                                @Html.ValidationMessageFor(c => c.Customer.PrimaryPhone)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lineTwo" class="col-sm-3 control-label">Day Phone:</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(c => c.Customer.SecondaryPhone, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(c => c.Customer.SecondaryPhone)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="city" class="col-sm-3 control-label">Cell Phone:</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(c => c.Customer.MobilePhone, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(c => c.Customer.MobilePhone)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="fax" class="col-sm-3 control-label">Fax:</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(c => c.Customer.Fax, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(c => c.Customer.Fax)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="col-sm-3 control-label">Email:</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(c => c.Customer.Email, new { @class = "form-control" })
+                                <span class="required-icon">*</span>
+                                <br />
+                                @Html.ValidationMessageFor(c => c.Customer.Email)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" checked="checked"> Yes, I would like to receive Corporate emails.
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" checked="checked"> Yes, I would like to receive emails from my Sponsor.
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-20"></div>
+                <a class="btn btn-primary btn-wide" data-role="submit"> Submit</a>
+            </div>
+        </div>
+
+        <div class="space-50"></div>
+        @Html.AntiForgeryToken()
+    }
+</div>
+
+
+<script>
+    (function () {
+        $('[data-role="submit"]').on("click", function () {
+            var birthDay = $(".lstDay").val(),
+             birthMonth = $(".lstMonth").val(),
+             birthYear = $(".lstYear").val();
+
+            var birthDate = new Date(birthYear, birthMonth, birthDay, 0, 0, 0, 0);
+
+            if (validateBirthDate(birthDate)) {
+                $("#hdnBirthDate").val(birthDate);
+
+                $(this).parents("form").submit();
+            } else {
+                toastr.error("You must be older than 18 to enroll");
+            }
+        });
+
+        function validateBirthDate(birthDate) {
+
+            var tempDate = new Date(birthDate.getFullYear() + 18, birthDate.getMonth(), birthDate.getDate());
+            return (tempDate <= new Date());
+        }
+    })();
+</script>

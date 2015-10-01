@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = Resources.Common.Home;
+    var _modalItem = new Item();
+    ViewBag.Meta = Resources.Common.HomeIndexViewBagMeta;
+}
+
+
+@* Carousel / Banner *@
+
+@* Temp Style: NOTE: This needs to be revisited. Lets review how this is constructed when we get a chance. *@
+<style>
+    .item-list-item { margin: 0 60px 0 0; }
+</style>
+<div id="view-home">
+    <div class="fullwidth-element hidden-xs" style="position: relative;">
+        <div class="tp-banner-container">
+            <div class="tp-banner">
+                @*@if (Identity.Customer == null || Identity.Customer.Market.Name == MarketName.UnitedStates)
+                {
+                    @Html.Partial("Partials/HomePageSlider/_UnitedStatesSlider");
+                }*@ @* Alan C - 7/7/2015 - This was originally to show only the banner for the current market but is not yet being used, so commented out to ensure it is not being hidden from Dutch customers *@
+
+                @Html.Partial("Partials/HomePageSlider/_UnitedStatesSlider")
+            </div>
+        </div>
+    </div>
+
+    @* Features *@
+    <div class="container featured-marketing-section">
+        <div class="row">
+
+            @Html.Partial("Partials/_featuredMarketing")
+
+        </div>
+    </div>
+    <div class="container featured-products-section">
+        @*Headline*@
+        <h3 class="headline">Featured @Resources.Common.Products</h3>
+
+        <span class="line margin-bottom-0"></span>
+        <div class="space-30"></div>
+
+        @*Featured Products*@
+        <div id="new-arrivals" class="showbiz-container" style="position: relative; z-index: 9;">
+
+            @*Navigation*@
+            <div class="showbiz-navigation">
+                <div id="showbiz_left_1" class="sb-navigation-left pull-left"><i class="fa fa-angle-left"></i></div>
+                <div id="showbiz_right_1" class="sb-navigation-right pull-right"><i class="fa fa-angle-right"></i></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="space-10"></div>
+
+            @*Products*@
+            @Html.Partial("Partials/_featuredProductsList")
+        </div>
+    </div>
+
+    @* Latest Articles *@
+    <div class="container featured-stories-section">
+        @Html.Partial("Partials/_featuredStories")
+    </div>
+</div>

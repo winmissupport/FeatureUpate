@@ -1,0 +1,206 @@
+﻿@model CheckoutViewModel
+
+@{
+    Layout = "~/Views/Shopping/_CheckoutLayout.cshtml";
+    ViewBag.Title = "Order Review";
+    var controller = ViewContext.RouteData.Values["controller"].ToString();
+
+    var orderItems = Model.Items.Where(c => c.Type == ShoppingCartItemType.Order);
+    var hasOrder = orderItems.Count() > 0;
+
+    var autoOrderItems = Model.Items.Where(c => c.Type == ShoppingCartItemType.AutoOrder);
+    var hasAutoOrder = autoOrderItems.Count() > 0;
+}
+
+<div id="view-order-review" class="checkout view-checkout margin-15">
+    <div class="panel-group" role="tablist">
+        @*@if (Model.Items.Where(c => c.Type == ShoppingCartItemType.AutoOrder).Count() > 0)
+        {
+            <div class="panel">
+                <div class="panel-heading" role="tab" id="autoOrderHeading">
+                    <a href="@Url.Action("AutoOrder", "Shopping")">
+                        <div class="checkout-section">
+                            <span><i class="fa-refresh"></i></span>@Resources.Common.AutoOrderSettings
+                            <strong><i class="fa fa-edit"></i>@Resources.Common.Edit</strong>
+                        </div>
+                    </a>
+                </div>
+                <div class="panel-body">
+                    <h5>@Resources.Common.AutoOrderStartDate</h5>
+                    @Model.PropertyBag.AutoOrderStartDate
+                </div>
+            </div>
+        }*@
+
+        <div class="panel">
+            <div class="panel-heading" role="tab" id="addressesHeading">
+                <a href="@Url.Action("Shipping", "Shopping")">
+                    <div class="checkout-section">
+                        <span>1</span> @Resources.Common.ShippingDetails
+                        <strong><i class="fa fa-edit"></i>@Resources.Common.Edit</strong>
+                    </div>
+                </a>
+            </div>
+            <div class="panel-body">
+                <h5>@Resources.Common.ShippingAddress</h5>
+                
+                    @if (Model.PropertyBag.ShippingAddress != null)
+                    {
+                        @Html.DisplayFor(c => Model.PropertyBag.ShippingAddress)
+                    }
+                
+            </div>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-body">
+            <a href="@Url.Action("billing", "shopping")">
+                <div class="checkout-section"><span>2</span> @Resources.Common.BillingDetails <strong><i class="fa fa-edit"></i>@Resources.Common.Edit</strong></div>
+            </a>
+            <h5>@Resources.Common.BillingAddress</h5>
+            
+                @if (Model.PropertyBag.BillingAddress != null)
+                {
+                  @Html.DisplayFor(c => Model.PropertyBag.BillingName)
+                  @Html.DisplayFor(c => Model.PropertyBag.BillingAddress)
+                }
+                else
+                {
+                    <strong>@Resources.Common.SameAsShippingAddress</strong>
+                }
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-body">
+            <a href="@Url.Action("delivery", "shopping")">
+                <div class="checkout-section">
+                    <span>3</span> @Resources.Common.Delivery
+                    <strong><i class="fa fa-edit"></i>@Resources.Common.Edit</strong>
+                </div>
+            </a>
+            <div class="checkout-delivery">
+                <div class="col-xs-6">
+                    <h5>@Resources.Common.SelectedShippingMethod</h5>
+                    <div class="space-15"></div>
+                    <div id="shipmethods">
+                        @if (Model.PropertyBag.ShipMethodID != null)
+                        {
+                            var shipMethod = new ShipMethod();
+                            shipMethod = Model.ShipMethods.Where(c => c.ShipMethodID == Model.PropertyBag.ShipMethodID).Select(c => (ShipMethod)c).FirstOrDefault();
+
+                            <strong>
+                                @shipMethod.ShipMethodDescription <span class="text-muted">@shipMethod.Price.ToString("C")</span>
+                            </strong>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-body">
+            <a href="@Url.Action("checkout", "shopping")">
+                <div class="checkout-section active"><span>4</span> @Resources.Common.PaymentOrderReview</div>
+            </a>
+
+            @Html.Partial("Payment", Model.PaymentMethodModel)
+
+            @if (Model.PropertyBag.GetSmartShopperPrice)
+            {
+                <div class="space-30"></div>
+
+                <h5 style="text-transform:none;">Please review and scroll through to the end of the Smart Shopper Terms of Agreement before clicking you agree.</h5>
+                <hr />
+                <div id="smart-shopper-terms">
+                    <div style="height: 150px; overflow-y: auto; margin: 0 0 30px 0; border: 1px solid #999; padding: 5px; background: #efefef; border-radius:3px;" class="text-left" id="terms-box">
+                        @Html.Raw(Resources.Common.SmartShopperTerms)
+                    </div>
+
+                    <div class="checkbox">
+                        <label data-toggle="tooltip" data-placement="top" title="@Resources.Common.TermsCheckBoxTooltip">
+                            <input type="checkbox" id="chkTermsAgree" required disabled="disabled" />
+                            I have read and agree to the Smart Shopper Agreement Terms and Conditions
+                        </label>
+                    </div>
+                </div>
+                <a data-role="checkout" class="continue button btn color disabled">@Resources.Common.Continue</a>
+            }
+            else
+            {
+                <a data-role="checkout" class="continue button btn color">@Resources.Common.Continue</a>
+            }
+        </div>
+
+    </div>
+</div>
+<script>
+    require(["ajax", "pubsub"], function (ajax) {
+        var submitUrl = "@Url.Action("submitcheckout")";
+        checkoutUrl = "@Url.Action("ordercomplete", new { token = "token" })",
+        paymentSelected = false,
+        formSubmitted = false;
+
+        $('#terms-box').bind('scroll', function () {
+            if ($(this).scrollTop() + $(this).innerHeight() >= this.scrollHeight) {
+                $('#chkTermsAgree').prop("disabled", false);
+            }
+        });
+
+        window.on("checkout.paymentselected", function () {
+            $('[data-role="checkout"]').removeClass("disabled");
+            paymentSelected = true;
+
+            $("#chkTermsAgree").on("change", function () {
+                var isChecked = $(this).is(":checked");
+
+                if (isChecked) {
+                    $('[data-role="checkout"]').removeClass("disabled");
+                } else {
+                    $('[data-role="checkout"]').addClass("disabled");
+                }
+            }).change();
+
+            $('[data-role="checkout"]').on("click", function () {
+                var $this = $(this);
+                
+                if (!paymentSelected) {
+                    toastr.error("Please select a payment method before proceeding");
+                }
+
+                if (!formSubmitted) {
+                    formSubmitted = true;
+
+                    $this.loadingbutton("start");
+
+                    ajax.json({
+                        url: submitUrl,
+                        success: function (response) {
+                            if (response.success) {
+
+                                if (response.redirectForm != null) {
+                                    $("body").append(response.redirectForm);
+                                } else {
+
+                                    window.location = checkoutUrl.replace("token", response.token);
+                                }
+                            } else {
+                                toastr.error(response.message);
+                                $this.loadingbutton("stop");
+                                formSubmitted = false;
+                            }
+                        },
+                        error: function (xhr, error, status) {
+                            console.log("server error", xhr.responseText);
+                            formSubmitted = false;
+                            toastr.error(xhr.responseText);
+                            $this.loadingbutton("stop");
+                        },
+                        complete: function () {
+                            $this.loadingbutton("stop");
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>

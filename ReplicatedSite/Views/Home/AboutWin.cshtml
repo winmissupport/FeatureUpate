@@ -1,0 +1,78 @@
+﻿@model List<Country>
+@{
+    ViewBag.Title = "About Us";
+    ViewBag.Meta = "WIN Worldwide (WIN) is a wellness company with a business opportunity that allows people to take control of their lives utilizing a social networking business model, sharing products that people need and want.";
+}
+
+
+<div class="view-about">
+    @*Titlebar
+        ==================================================*@
+    <section class="titlebar">
+        <div class="container">
+            <h2>@Resources.Common.AboutUs</h2>
+
+            <nav id="breadcrumbs">
+                <ul>
+                    <li><a href="@Url.Action("Index", "Home")">@Resources.Common.Home</a></li>
+                    <li>@Resources.Common.AboutUs</li>
+                </ul>
+            </nav>
+        </div>
+        
+    </section>
+    <div class="container">
+        
+
+        @* Start Carousel Banner Partial *@
+
+        @Html.Partial("Partials/AboutPageBanner/_AboutPageHeader")
+
+        @* End Carousel Banner Partial *@
+        <div class="row">
+            <div class="col-sm-12">
+                @* Headline *@
+                <h3 class="headline">@Resources.Common.TheNewWin</h3>
+                <hr />
+
+                <p>@Html.Raw(Resources.Common.AboutWin01)</p>
+
+                @*<blockquote>"WIN offers an amazing opportunity with results-oriented products to help you build your own successful, worldwide business without the overhead and headaches of traditional business models. You can truly do this business anytime, anywhere and with anybody."</blockquote> Commented out by client in html page provided - Alan C 9 March 2015 *@
+
+                <blockquote style="border-left: 4px solid #0071CE; padding-left: 10px;">@Html.Raw(Resources.Common.AboutWin02)</blockquote>
+                <div class="space-15"></div>
+                <p>@Resources.Common.AboutWin03</p>
+                <p>
+                    @Resources.Common.ANewEnergy
+                    <div style="padding-left:10%;">
+                        <ul class="list-4 color">
+                            <li>@Resources.Common.ImmediateIncome</li>
+                            <li>@Resources.Common.FreeProducts</li>
+                            <li>@Resources.Common.LuxuryCar</li>
+                            <li>@Resources.Common.More</li>
+                        </ul>
+                    </div>
+                </p>
+
+                <p>@Html.Raw(Resources.Common.BePart)</p>
+                <p>@Resources.Common.BelInspCha</p>
+
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 class="headline">Giving Back</h3><span class="line margin-bottom-30"></span><div class="clearfix"></div>
+
+                <p>Every member of the WIN team is committed to making a lasting contribution to the communities in which we live and work. Our founders, Cathy and Ralph Oats, came from humble beginnings and share a passion to give back since they were once dependent upon the kindness of others. Employees at all levels donate their time and energies to several  worthwhile causes. We hope to look back one day and realize our neighborhoods are a better place because we made a difference. </p><br>
+
+                <h3 class="headline">Leadership Team</h3><span class="line margin-bottom-30"></span><div class="clearfix"></div>
+
+                <p>The WIN leadership team understands the importance of entrepreneurship and helping people create their own path to success. Each one possesses the ingenuity and drive that are vital to grow a billion-dollar company with ambitions to take our products and business model around the world.</p>
+                <p>Our strategy as a leading wellness company is based on vision, experience and talent. We are committed to helping others take control of their lives and realize their full potential.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="space-50"></div>

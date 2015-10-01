@@ -1,0 +1,146 @@
+﻿@model Item
+
+<div class="item-tab-details">
+    <!-- Tabs Navigation -->
+    <ul class="tabs-nav">
+        <li class="active"><a href="#tab1">@Resources.Common.ItemDescription</a></li>
+        <li><a href="#tab2">@Resources.Common.SupplementFacts</a></li>
+        @*<li><a href="#tab3">Reviews<span class="tab-reviews">(3)</span></a></li>*@
+    </ul>
+
+    <!-- Tabs Content -->
+    <div class="tabs-container">
+
+        <div class="tab-content" id="tab1">
+            @Html.Raw(Model.LongDetail1)
+        </div>
+
+        <div class="tab-content" id="tab2">
+
+            @Html.Raw(Model.LongDetail2)
+
+            @*<div width="100%" style="padding:10px; border:solid #777 3px; border-radius:10px;">
+                <table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; border-right:hidden; border-left:hidden; border-top:hidden;">
+                    <tr>
+                        <td colspan="2">
+                            <font size="+3" style="font-weight:700;">Supplement Facts</font><br>
+                            Serving Size: 1 softgel |
+                            Servings Per Container: 60
+                        </td>
+                    </tr>
+                    <tr style="border-top:solid #777 10px;">
+                        <td style="padding:3px 0px 3px 0px;"><strong>Amount per serving</strong></td>
+                        <td style="padding:3px 0px 3px 0px;" width="25%"><div align="right"><strong>% Daily Value</strong></div></td>
+                    </tr>
+                    <tr style="border-top:solid #777 3px; border-bottom:solid #777 10px;">
+                        <td style="padding:3px 0px 3px 0px;"><strong>Ubiquinol</strong> (Kaneka QH™ reduced form of CoQ10) 50mg</td>
+                        <td style="padding:3px 0px 3px 0px;"><div align="right">†</div></td>
+                    </tr>
+                </table>
+                † Daily Value not established.
+                <br>
+                <br><strong>OTHER INGREDIENTS:</strong> Softgel Capsule (gelatin, glycerin, water, natural caramel color), d-Limonene, Caprylic Acid, Capric Acid and Alpha Lipoic Acid. Contains NO soy, milk, egg, crustacean shellfish (lobster, crab, shrimp), wheat, yeast, gluten or corn. Contains NO sugar and NO artificial sweeteners, flavors or preservatives.
+                <br>
+                <br><strong>SUGGESTED USE:</strong> Take 2 capsules per day with a meal. Some people may realize additional benefits with a higher dosage.
+                <br>
+                <br><strong>WARNING:</strong> Keep out of reach of children. If you have a bad reaction to the product, discontinue use immediately. When using nutritional supplements, inform your physician if you are undergoing treatment for a medical condition or if you are pregnant or lactating. Store tightly closed in a cool, dry place.
+                <br>
+                <br><em>Kaneka QH™ is a trademark of Kaneka Corporation.</em>
+            </div>*@
+
+        </div>
+
+        <div class="tab-content" id="tab3">
+
+            @*Reviews*@
+            <section class="comments">
+
+                <ul>
+                    <li>
+                        <div class="avatar"><img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" /></div>
+                        <div class="comment-content">
+                            <div class="arrow-comment"></div>
+                            <div class="comment-by">
+                                <strong>John Doe</strong><span class="date">February 1, 2015</span>
+                                <div class="rating five-stars"><div class="star-rating"></div><div class="star-bg"></div></div>
+                            </div>
+                            <p>Product review text.</p>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="avatar"><img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" /></div>
+                        <div class="comment-content">
+                            <div class="arrow-comment"></div>
+                            <div class="comment-by">
+                                <strong>John Doe</strong><span class="date">February 1, 2015</span>
+                                <div class="rating three-stars"><div class="star-rating"></div><div class="star-bg"></div></div>
+                            </div>
+                            <p>Product review text.</p>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="avatar"><img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" /></div>
+                        <div class="comment-content">
+                            <div class="arrow-comment"></div>
+                            <div class="comment-by">
+                                <strong>John Doe</strong><span class="date">February 1, 2015</span>
+                                <div class="rating four-stars"><div class="star-rating"></div><div class="star-bg"></div></div>
+                            </div>
+                            <p>Product review text.</p>
+                        </div>
+
+                    </li>
+                </ul>
+
+                <a href="#small-dialog" class="popup-with-zoom-anim button color">Add Review</a>
+
+                <div id="small-dialog" class="zoom-anim-dialog mfp-hide">
+                    <h3 class="headline">Add Review</h3><span class="line margin-bottom-25"></span><div class="clearfix"></div>
+
+                    <!-- Form -->
+                    <form id="add-comment" class="add-comment">
+                        <fieldset>
+
+                            <div>
+                                <label>@Resources.Common.Name:</label>
+                                <input type="text" value="" />
+                            </div>
+
+                            <div>
+                                <label>@Resources.Common.Rating:</label>
+                                <span class="rate">
+                                    <span class="star"></span>
+                                    <span class="star"></span>
+                                    <span class="star"></span>
+                                    <span class="star"></span>
+                                    <span class="star"></span>
+                                </span>
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="margin-top-20">
+                                <label>@Resources.Common.Email: <span>*</span></label>
+                                <input type="text" value="" />
+                            </div>
+
+                            <div>
+                                <label>@Resources.Common.Review: <span>*</span></label>
+                                <textarea cols="40" rows="3"></textarea>
+                            </div>
+
+                        </fieldset>
+
+                        <a href="#" class="button color">@Resources.Common.SubmitReview</a>
+                        <div class="clearfix"></div>
+
+                    </form>
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+</div>

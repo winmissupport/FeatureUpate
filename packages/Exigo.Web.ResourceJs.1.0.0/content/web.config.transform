@@ -1,0 +1,8 @@
+<configuration>	
+	<system.webServer>
+		<handlers>
+			<remove name="ResourceJs" />
+			<add name="ResourceJs" verb="GET" path="resourcejs.axd" type="ResourceJs.ResourceJsHandler, ResourceJs" />
+		</handlers>
+	</system.webServer>
+</configuration>

@@ -1,0 +1,282 @@
+﻿@model ReplicatedSite.ViewModels.AutoOrderAddEditCartViewModel
+
+<div class="autoordereditorder-container">
+    <!-- Modal -->
+    <div class="modal fade" id="editAutoOrderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">@Resources.Common.EditAddToOrder</h4>
+                </div>
+                <div class="modal-body">
+
+
+                    <ul id="cart-tabs" class="nav nav-tabs" role="tablist">
+                        <li class="active"><a href="#autoOrder-cart" aria-controls="cart" role="tab" data-toggle="tab">@Resources.Common.YourCartUppercase</a></li>
+                        <li><a href="#autoOrder-addtocart" aria-controls="addtocart" role="tab" data-toggle="tab">@Resources.Common.AddItemUppercase</a></li>
+                    </ul>
+
+
+                    <div class="tab-content autoOrder-editorder-container">
+                        <div class="tab-pane active" id="autoOrder-cart">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="extra-padding-horizontal">
+                                        <div class="space-10"></div>
+                                        @*<div class="alert alert-danger alert-dismissable" id="cartalert">
+                                                <button type="button" class="close" data-role="hide-alert" aria-hidden="true">&times;</button>
+                                                <h4 class="alert alert-error-header">@Resources.Common.SorryErrorText</h4>
+                                                <h4 class="alert alert-success-header">@Resources.Common.AutoOrderItemsUpdated</h4>
+                                                <p class="alert alert-message-body"></p>
+                                            </div>*@
+                                    </div>
+
+                                    <header>
+                                        @*<span class="autoOrder-cart-name">@Resources.Common.ItemsUppercase</span> <span class="autoOrder-cart-value" data-role="itemtotal">@Model.AutoOrder.Details.Sum(c => c.Quantity).ToString("0")</span>*@
+                                        <span class="autoOrder-cart-name">@Resources.Common.OrderUppercase</span> <span class="autoOrder-cart-value">#@Model.AutoOrder.AutoOrderID</span>
+
+                                    </header>
+
+
+                                    <table class="autoOrder-cart-table table">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 75px;">@Resources.Common.QTY</th>
+                                                <th style="width: 75px;" colspan="2">@Resources.Common.ProductUppercase</th>
+                                                <th>@Resources.Common.UnitPriceUppercase</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="order-items">
+                                            @foreach (var product in Model.AutoOrder.Details)
+                                            {
+                                                <tr>
+                                                    <td data-item="Product|@product.ItemCode">
+                                                        <input type="hidden" name="ItemCode" value="@product.ItemCode" />
+                                                        <input type="hidden" name="SmallImageUrl" value="@product.ImageUrl" />
+                                                        <input type="hidden" name="ItemDescription" value="@product.ItemDescription" />
+                                                        <input type="hidden" name="Price" value="@product.PriceEach" />
+
+                                                        <input type="number" name="Quantity" class="txtQty form-control input-sm" min="0" value="@product.Quantity.ToString("N0")" />
+                                                    </td>
+                                                    <td>
+                                                        <img src="@product.ImageUrl" alt="" style="width:50px;" />
+                                                    </td>
+                                                    <td>
+                                                        <p><a href="javascript:;">@product.ItemDescription</a></p>
+                                                        <p>@(Resources.Common.UPCNumber)@product.ItemCode</p>
+                                                    </td>
+                                                    <td class="autoOrder-cart-price">@product.PriceEach.ToString("C")</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                    <script type="text/x-handlebars-template" id="order-items-template" data-target="#order-items">
+                                        <tr>
+                                            <td data-item="Product|{{ItemCode}}">
+                                                <input type="hidden" name="ItemCode" value="{{ItemCode}}" />
+                                                <input type="hidden" name="SmallImageUrl" value="{{SmallImageUrl}}" />
+                                                <input type="hidden" name="ItemDescription" value="{{ItemDescription}}" />
+                                                <input type="hidden" name="Price" value="{{Price}}" />
+
+                                                <input type="number" name="Quantity" class="txtQty form-control input-sm" min="0" value="1" />
+                                            </td>
+                                            <td>
+                                                <img src="{{SmallImageUrl}}" style="width:50px;" />
+                                            </td>
+                                            <td>
+                                                <p><a href="javascript:;">{{ItemDescription}}</a></p>
+                                                <p>@Resources.Common.UPCNumber{{ItemCode}}</p>
+                                            </td>
+                                            <td class="autoOrder-cart-price">{{money Price}}</td>
+                                        </tr>
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="autoOrder-addtocart">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <header>
+                                        <span>@Resources.Common.AddItemsText</span>
+                                    </header>
+                                    <div id="additional-items-container">
+                                        <table class="autoOrder-addtocart-table table">
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="4"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @*@{var lastCategoryRendered = string.Empty;}*@
+                                                @foreach (var product in Model.ProductsList)
+                                                {
+
+                                                    <tr>
+                                                        <td data-item="Product|@product.ItemCode">
+                                                            <input type="hidden" name="ItemCode" value="@product.ItemCode" />
+                                                            <input type="hidden" name="SmallImageUrl" value="@product.SmallImageUrl" />
+                                                            <input type="hidden" name="ItemDescription" value="@product.ItemDescription" />
+                                                            <input type="hidden" name="Price" value="@product.Price" />
+
+                                                            <button type="button" class="btn btn-primary add-to-cart" title=@Resources.Common.ClickToAdd><i class="fa-plus"></i></button>
+                                                        </td>
+                                                        <td>
+                                                            <img style="width:50px;" src="@product.SmallImageUrl" alt="" />
+                                                        </td>
+                                                        <td>
+                                                            <p><a href="javascript:;">@product.ItemDescription</a></p>
+                                                            <p>@Resources.Common.UPCPound@product.ItemCode</p>
+                                                        </td>
+                                                        <td class="autoOrder-cart-price">@product.Price.ToString("C")</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="autoOrder-cart-buttons">
+                                    <a class="btn btn-danger btn-cancel autoOrder-link" data-dismiss="modal"><span><i class="fa-times-circle"></i> @Resources.Common.CancelUppercase </span></a>
+                                    <a class="btn btn-success" id="btnSave"><span><i class="fa-save"></i> @Resources.Common.SaveUppercase </span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    (function () {
+        var autoOrderItems = @Html.Raw(Json.Encode(Model.AutoOrder.Details));
+
+        require(["pubsub", "ajax", "enquire", "handlebars"], function (pubsub, ajax, enquire) {
+            var state = {
+                itemcount: 0,
+                itemcollection: autoOrderItems
+            }
+
+            var settings = {
+                $orderitems: $("#order-items"),
+                $itemcount: $('[data-role="itemtotal"]'),
+                greencheck: "<i class='fa-check check-icon'></i>"
+            }
+
+
+            function registerEventHandlers() {
+
+                $('.add-to-cart').on('click', function () {
+                    actions.additem(this);
+                    actions.updateitemcount();
+                });
+
+                // Bind Quantity input box interactions
+                settings.$orderitems.on({
+                    'change keyup': function (e) {
+
+                        if ($(e.target).is('[name="Quantity"]')) {
+                            actions.updateitemcount();
+                        }
+                    }, 'focusout': function (e) {
+
+                        if ($(e.target).is('[name="Quantity"]')) {
+                            if ($(e.target).val() == "") {
+                                $(e.target).val("0");
+                                actions.updateitemcount();
+                            }
+                        }
+                    }
+                });
+
+                // Bind Save button
+                $("#btnSave").on("click", function () {
+                    actions.saveautoorder();
+                });
+            }
+
+            var actions = {
+                additem: function (control) {
+                    var $this = $(control),
+                        $item = $this.parent("[data-item]");
+
+                    var itemdata = $item.serializeObject();
+
+                    var source = $("#order-items-template").html();
+                    var template = Handlebars.compile(source);
+                    var itemhtml = template(itemdata);
+
+                    settings.$orderitems.append(itemhtml);
+
+                    $this.replaceWith(settings.greencheck);
+                },
+                updateitemcount: function () {
+                    var list = [];
+                    var count = 0;
+
+                    for (var i = 0; i < settings.$orderitems.children("tr").length; i++) {
+                        var item = $(settings.$orderitems.children("tr")[i]).find("[data-item]").serializeObject();
+
+                        count = count + parseInt(item.Quantity);
+                        list.push(item);
+                    }
+
+                    state.itemcollection = list;
+
+                    settings.$itemcount.html(count);
+                },
+                saveautoorder: function () {
+                    var products = state.itemcollection;
+                    var autoorderid = '@Model.AutoOrder.AutoOrderID';
+
+                    var model = {
+                        autoOrderID: autoorderid,
+                        products: state.itemcollection
+                    };
+
+
+                    ajax.json({
+                        url: "@Url.Action("UpdateAutoOrderItems", "AutoOrders")",
+                        type: "POST",
+                        data: {
+                            autoorderid: model.autoOrderID,
+                            products: model.products
+                        },
+                        success: function (response) {
+                            console.log("success", response);
+                            window.trigger("cartalert", response);
+                            $("[data-dismiss='modal']", '#editAutoOrderModal').click();
+                            location.reload();
+                        },
+                        error: function (xhr, status, data) {
+                            console.log("fail");
+
+                            window.trigger("cartalert", xhr.responseText);
+                        }
+                    });
+                }
+            };
+
+            var helpers = {
+
+            };
+
+            function _init() {
+                registerEventHandlers();
+
+            }
+
+            _init();
+        })();
+    })();
+</script>

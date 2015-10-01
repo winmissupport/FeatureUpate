@@ -1,0 +1,172 @@
+﻿@model CheckoutViewModel
+@{
+    ViewBag.Title = Resources.Labels.ShippingAddress;
+    var contextID = Guid.NewGuid().ToString();
+
+    var ShippingAddress = new ShippingAddress();
+    ShippingAddress.AddressType = AddressType.New;
+
+
+    var defaultCountryCode = (ShippingAddress.Country.IsNotNullOrEmpty()) ? ShippingAddress.Country : GlobalSettings.Company.Address.Country;
+    var defaultRegionCode = (ShippingAddress.State.IsNotNullOrEmpty()) ? ShippingAddress.State : GlobalSettings.Company.Address.State;
+    var isVerifyable = ViewData["VerifyEnabled"] == null || Convert.ToBoolean(ViewData["VerifyEnabled"]) == true;
+}
+
+<div id="view-ordershipping" class="container checkout-shipping">
+    <div class="checkout-section active"><span>1</span> Billing Details</div>
+    <div class="row">
+        <div class="checkout-content col-xs-6">
+            @if (Model.Addresses != null && Model.Addresses.Count() > 0)
+            {
+                <h3>@Resources.Labels.SelectShippingAddress</h3>
+
+                <div class="row">
+                    @foreach (var address in Model.Addresses)
+                    {
+                        <div class="col-sm-4">
+                            @Html.DisplayFor(c => address)
+
+                            <div class="space-15"></div>
+                            @using (Html.BeginForm(new { novalidate = "novalidate" }))
+                            {
+                                using (Html.BeginHtmlFieldPrefixScope("Address"))
+                                {
+                                    @Html.Partial("~/Views/Shared/EditorTemplates/ShippingAddressOnFile.cshtml", address)
+                                }
+
+
+                                @Html.AntiForgeryToken()
+
+                                <button type="submit" class="btn">@Resources.Labels.ShipToThisAddress</button>
+                            }
+                        </div>
+                    }
+                </div>
+                <div class="space-50"></div>
+                <hr />
+                <div class="space-30"></div>
+            }
+
+
+            <h3>@Resources.Labels.AddNewAddress</h3>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    @using (Html.BeginForm())
+                    {
+                        var Address = new ShippingAddress();
+                        Address.AddressType = AddressType.New;
+
+                        @Html.EditorForModel("_CheckoutShippingAddress", Address)
+
+                        <div class="form-group">
+                            <button type="submit" class="btn">@Resources.Labels.ShipToThisAddress</button>
+                        </div>
+
+
+                        @Html.AntiForgeryToken()
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+
+        <div class="col-sm-6">
+
+            <!-- Billing Details Content -->
+
+            <div class="checkout-content">
+
+                <div class="checkbox billingsameasshipping">
+                    <label for="BillingSameAsShipping">
+                        <input type="checkbox" name="BillingSameAsShipping" value="true" checked /> 
+                        <input type="hidden" value="false" name="BillingSameAsShipping" />
+                        @Resources.Labels.BillingAddressSameAsShipping
+                    </label>
+                </div>
+
+                @*@Html.EditorFor(c => Model.BillingAddress)*@
+
+
+            </div>
+            <div class="clearfix"></div>
+
+            <a href="checkout-delivery.html" class="continue button color">Continue</a>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+@section scripts
+{
+    <script>
+        required(["ajax", "pubsub"], function (ajax, pubusb) {
+
+            // Settings
+            var context = "#view-ordershipping",
+                $context = $(context),
+                errorMessage = "@Request.QueryString["error"]";
+
+
+            // Event Handlers
+            function registerEventHandlers() {
+                $('[data-toggle]', $context).on('click', function () {
+                    var $target = $($(this).data('toggle'));
+                    $target.slideToggle('fast');
+                });
+
+                $('input:checkbox[name="BillingSameAsShipping"]').on('change', function () {
+                    var $this = $(this),
+                        $target = $this.parents('.billingsameasshipping').siblings('.view-address'),
+                        checked = $this.is(':checked')
+
+                    if (checked) {
+                        $target.slideUp('fast');
+                    }
+                    else {
+                        $target.slideDown('fast');
+                    }
+                });
+
+                $('input:checkbox[name="BillingSameAsShipping"]').each(function () {
+                    $(this).triggerHandler('change');
+                });
+            }
+
+
+            // Actions
+            var actions = {
+            };
+
+
+            // Helpers
+            var helpers = {
+                handleErrors: function () {
+                    if (errorMessage != null && errorMessage.length > 0) {
+                        toastr.error(errorMessage, "Error");
+                    }
+                }
+            };
+
+
+            // Initialization
+            function init() {
+                registerEventHandlers();
+
+                helpers.handleErrors();
+            }
+            init();
+
+        })();
+    </script>
+}

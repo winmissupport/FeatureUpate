@@ -1,0 +1,52 @@
+﻿@model ExigoService.AutoOrder
+
+
+@using (Ajax.BeginForm("updateautoordershippingaddress", "autoorders", new AjaxOptions
+{
+    OnSuccess = "onUpdateShippingAddressSuccess",
+    OnBegin = "onUpdateBegin" // Set the verification token for the header
+}))
+{
+    <div class="top-bar-blue no-padding no-margin-top">
+        <div class="row-24 row-head">
+            <div class="col-xs-24">
+                <h3>@Resources.Common.EditShippingAddress</h3>
+                <span class="autoorder-cart-name">@Resources.Common.OrderUppercase</span>
+                <span class="autoorder-cart-value">#@Model.AutoOrderID</span>
+                <input type="hidden" name="autoorderid" value="@Model.AutoOrderID">
+            </div>
+
+        </div>
+        <div class="row row-body">
+            <div class="alert alert-danger alert-dismissable" id="shippingaddressalert">
+                <button type="button" class="close" data-role="hide-alert" aria-hidden="true">&times;</button>
+                <h4 class="alert alert-error-header">@Resources.Common.SorryErrorText</h4>
+                <h4 class="alert alert-success-header">@Resources.Common.ShippingAddressUpdated</h4>
+                <p class="alert alert-message-body"></p>
+            </div>
+            <div class="col-xs-12">
+                @Html.EditorFor(a => a.Recipient)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="autoorder-cart-buttons">
+                <a class="btn btn-danger btn-cancel autoorder-link"><span><i class="fa-times-circle"></i> @Resources.Common.CancelUppercase </span></a>
+                <button type="submit" class="btn btn-success autoorder-link"><span><i class="fa-save"></i> @Resources.Common.SaveUppercase </span></button>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    function onUpdateShippingAddressSuccess(response) {
+        window.trigger("shippingaddressalert", response);
+    }
+    // Set the verification token for the header
+    function onUpdateBegin(xhr) {
+        $('[type="submit"]').loadingbutton('start');
+        var securityToken = $("[name='__RequestVerificationToken']").val();
+        xhr.setRequestHeader("__RequestVerificationToken", securityToken);
+    }
+</script>

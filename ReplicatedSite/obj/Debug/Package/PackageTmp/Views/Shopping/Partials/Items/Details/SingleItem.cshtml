@@ -1,0 +1,443 @@
+﻿@model ItemDetailViewModel
+@{
+    ViewBag.Title = Model.Item.ItemDescription;
+    var Item = Model.Item;
+    var url = Request.Url.AbsoluteUri.Replace("http://", "");
+    var hashTag = "@WINWorlwide";
+    var isQuickShop = (!Request.Url.AbsoluteUri.Contains("product/")).ToString().ToLower();
+    var returnUrl = Url.Encode(Request.Url.AbsoluteUri);
+}
+
+@section meta{
+
+    @* Render Meta Tags for Facebook and Google to pull details and image *@
+    @*<meta property="og:title" content="@Model.Item.ItemDescription" />
+    <meta property="og:site_name" content="@GlobalSettings.Company.Name" />
+    <meta property="og:url" content="@url" />
+    <meta property="og:image" content="@Model.Item.SmallImageUrl" />
+    <meta property="og:description" content="Happy Happy Happy" />
+    <meta property="og:type" content="article" />*@
+
+}
+
+<div id="product-detail">
+    <div class="row">
+        <div id="left-side" class="col-md-6 col-sm-5">
+
+
+            <img src="@Model.Item.LargeImageUrl" alt="" class="img-responsive" id="imgLarge" />
+            <div class="clearfix"></div>
+        </div>
+        <div id="right-side" class="col-md-6 col-sm-7" data-widget="item">
+
+            @*Product Headline*@
+            <section class="title">
+                <h2 style="font-weight: 600;">@Model.Item.ItemDescription </h2>
+
+            </section>
+
+            <hr />
+            @*Text Parapgraph*@
+
+            <section>
+                <div class="sapce-10"></div>
+                <div id="short-detail-container">
+                        @if (!Model.Item.IsGroupMaster)
+                        {
+                            @Html.Raw(Model.Item.ShortDetail1)
+                        }
+                        else
+                        {
+                            foreach (var item in Item.GroupMembers)
+                            {
+                                <div class="hide" data-member-details="@item.ItemCode">
+                                    <div data-description="shortdetail">
+                                        @Html.Raw(Model.Item.ShortDetail1)
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                        @*Share Buttons*@
+                        <div>
+                            <hr />
+
+                            @* Developer Note: Most of the Share Button issues have been fixed, including the issue with them not working for NL custoemrs. However, in US facebook grabs only the picture for Cool Mint even if the product is Mixed Berry and in Netehrlands Facebook only grabs Mixed Berry Image. Leaving it be for the moment since this is a minor issue. *@
+
+                            <ul class="share-options">
+                                <li class="share-facebook">
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u=@url"onclick="javascript:window.open(this.href,
+  '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" data-toggle="tooltip" data-placement="top" meta property="og:url" content="@url" data-title="Share on Facebook" class="top tooltip-blue">
+                                        <i class="fa-facebook"></i>
+                                    </a>
+                                </li>
+                                <li class="share-twitter">
+                                    <a href="https://twitter.com/share?url=@returnUrl&text=Check out @Model.Item.ItemDescription from @hashTag!" onclick="javascript:window.open(this.href,
+  '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" data-toggle="tooltip" data-placement="top" data-title="Tweet This" class="top tooltip-blue"><i class="fa-twitter"></i></a>
+                                </li>
+                                <li class="share-gplus">
+                                        <a href="https://plus.google.com/share?url=@returnUrl" onclick="javascript:window.open(this.href,
+  '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" data-toggle="tooltip" data-placement="top" data-title="Share on Google Plus" class="top tooltip-blue"><i class="fa-google-plus"></i></a>
+                                    
+                                </li>
+                                <li class="share-pinit">
+                                    <a href="https://pinterest.com/pin/create/button/?url=@returnUrl@Model.Item.ItemCode&media=@Model.Item.SmallImageUrl&description=Look%20what%20I%20found%20at%20WIN%20Worldwide%20-@Model.Item.ItemDescription" onclick="javascript:window.open(this.href,
+  '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" data-toggle="tooltip" data-placement="top" data-title="Pin It" class="top tooltip-blue"><i class="fa-pinterest"></i></a>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="clearfix"></div>
+                
+                </div>
+                <div class="space-15"></div>
+
+
+            </section>
+
+            <div style="margin-top: 20px;">
+                <hr />
+            </div>
+
+            <div id="control-container" data-role="shop-controls">
+                @*Variables*@
+                @if (Item.IsGroupMaster)
+                {
+                    <section class="variables row margin-1 select-product">
+                        <div class="col-sm-6 col-xs-12">
+
+                            <label>Choose Option</label>
+                            <select id="size" data-role="member-dropdown">
+                                @foreach (var item in Item.GroupMembers)
+                                {
+                                    <option value="@item.ItemCode" data-large-img="@item.Item.LargeImageUrl" data-member-price="@item.Item.Price.ToString("C")" data-member-discounted-price="@item.Item.OtherPrice1.ToString("C")" data-small-img="@item.Item.SmallImageUrl">@item.MemberDescription</option>
+                                }
+                            </select>
+
+                        </div>
+                        <div class="clearfix"></div>
+                    </section>
+                    <hr />
+                }
+
+                @* Quantity and Add to Cart Buttons *@
+                <section class="linking margin-1">
+                    <input type="hidden" name="ItemCode" value="@Model.Item.ItemCode" />
+                    <input type="hidden" name="Type" value="@Model.Item.Type" />
+                    <input type="hidden" name="ParentItemCode" value="@Model.Item.ParentItemCode" />
+                    <input type="hidden" name="ItemDescription" value="@Model.Item.ItemDescription" />
+
+                    @{var ischecked = "checked";}
+
+
+                    @if (Model.Item.AllowOnAutoOrder)
+                    {
+                        //var price = (Model.Item.PriceTypeID == PriceTypes.Wholesale) ? Model.Item.Price : Model.Item.OtherPrice1;
+
+                        if (Identity.Customer == null)
+                        {
+                            <h3 class="product-price-discount">
+                                <span class="activePrice" data-price-type="retail" style="font-size: 24px; margin: 5px 0 0 0; font-weight: 500;">@Model.Item.Price.ToString("C")</span>
+                                <span class="strikePrice" data-price-type="discount" style="font-size: 24px; margin: 5px 0 0 0; font-weight: 500;">@Model.Item.OtherPrice1.ToString("C")</span>
+                            </h3>
+                        }
+                        else if (!Model.HasAutoOrder && Identity.Customer.CustomerTypeID == CustomerTypes.RetailCustomer)
+                        {
+                            <h3 class="product-price-discount">
+                                <span class="activePrice" data-price-type="retail" style="font-size: 24px; margin: 5px 0 0 0; font-weight: 500;">@Model.Item.Price.ToString("C")</span>
+                                <span class="strikePrice" data-price-type="discount" style="font-size: 24px; margin: 5px 0 0 0; font-weight: 500;">@Model.Item.OtherPrice1.ToString("C")</span>
+                            </h3>
+                        }
+                        else
+                        {
+                            <h3 class="product-price-discount">
+                                <span style="font-size: 24px; margin: 5px 0 0 0; font-weight: 500; background-color: none;">@Model.Item.Price.ToString("C")</span>
+                            </h3>
+                        }
+                    }
+                    else
+                    {
+                        var price = (Model.Item.PriceTypeID == PriceTypes.Wholesale) ? Model.Item.Price : Model.Item.OtherPrice1;
+
+                        <h3 class="product-price-discount">
+                            <span data-price-type="discount" style="font-size: 24px; margin: 5px 0 0 0; font-weight: 500; background-color: none;">@price.ToString("C")</span>
+                        </h3>
+                    }
+
+                    <div class="input-group margin-0">
+                        @if (Model.Item.AllowOnAutoOrder)
+                        {
+                            if (Identity.Customer == null)
+                            {
+
+                                <label class="control-label">
+                                    <input type="checkbox" @ischecked class="GetSmartShopperPrice tooltip-blue" data-role="GetSmartShopperPrice" data-toggle="tooltip" data-placement="top" title="@Resources.Common.ToggleCheckbox" data-container="#product-detail" />
+
+                                    <a class="top tooltip-blue" style="color: #808080;" data-toggle="tooltip" data-placement="top" data-container="#product-detail" title="@Resources.Common.EnrollInAMonthly">@Resources.Common.BecomeASmartShopper</a>
+
+                                </label>
+                            }
+                            else if (Identity.Customer.CustomerTypeID == CustomerTypes.RetailCustomer && !Model.HasAutoOrder)
+                            {
+                                <label class="control-label">
+                                    <input type="checkbox" @ischecked class="GetSmartShopperPrice tooltip-blue" data-role="GetSmartShopperPrice" data-toggle="tooltip" data-placement="top" title="@Resources.Common.ToggleCheckbox" data-container="#product-detail" />
+
+                                    <a class="top tooltip-blue" data-toggle="tooltip" data-placement="top" data-container="#product-detail" style="color: #808080;" title="@Resources.Common.EnrollInAMonthly">@Resources.Common.SaveTimeAndMoney</a>
+                                </label>
+                            }
+                        }
+
+                    </div>
+
+
+                    <div class="row margin-0">
+                        <div class="col-lg-4 col-md-5 col-sm-6 col-xs-6 margin-0">
+                            @*@Html.LabelFor(c => Model.Item.Quantity, new { @class = "text-center" })*@
+                            <div class="space-15"></div>
+                            <button class="qtyminus"><i class="fa-minus"></i></button>
+                            <input type="text" name="Quantity" value="@Model.Item.Quantity" class="form-control product-quantity qty" style="height: 40px; width: 40px; background-color: #f5f5f5; border-radius: 0;" />
+                            <button class="qtyplus"><i class="fa-plus"></i></button>
+
+                        </div>
+                        <div class="col-lg-4 col-md-7 col-sm-6 col-xs-6 margin-0 text-center">
+                            <div class="space-15"></div>
+                            <div id="item-addtocart">
+                                <a class="btn btn-primary" data-role="item.addtoorder" data-type="order" id="add-to-order-btn"><i class="fa-shopping-cart"></i> @Resources.Common.AddToCart</a>
+
+                                @if (Identity.Customer == null || Identity.Customer.CustomerTypeID != CustomerTypes.SmartShopper)
+                                {
+                                    if (!Model.HasAutoOrder)
+                                    {
+                                        if (Item.AllowOnAutoOrder)
+                                        {
+                                            <a class="btn btn-primary" data-role="item.addtoautoorder" data-type="autoorder"><i class="fa-shopping-cart"></i> @Resources.Common.AddToAutoOrder</a>
+                                        }
+                                    }
+                                }
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row margin-5">
+                        <div class="col-sm-9 col-sm-offset-3">
+                            @if (Identity.Customer != null)
+                            {
+                                if (Model.HasAutoOrder)
+                                {
+                                    <label class="control-label"><strong>If you would like to change the items on your auto-ship or create a new one, please go to <a href="@Url.Action("AutoOrderPreferences", "AutoOrders")">Auto-Ship Maintenance</a></strong>.</label>
+                                }
+                            }
+
+
+
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </section>
+
+                <hr />
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    ul.share-options > li {
+        min-height: 35px;
+        min-width: 35px;
+        max-height: 40px;
+        max-width: 40px;
+        margin: 1px;
+    }
+
+        ul.share-options > li:first-child {
+            margin-right: 4px;
+        }
+</style>
+
+<script>
+    // Activate tooltips with data-toggle='tooltip'
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+
+    require(["extensions"], function (extensions) {
+        var isGroupMaster = @Item.IsGroupMaster.ToString().ToLower(),
+            isQuickShop = @isQuickShop;
+
+        function onItemChange(control) {
+            var $selectedOption = $(control).find("option:selected");
+            var $descriptionCollection = $("[data-member-details='{0}']".format($selectedOption.val()));
+
+            var item = {
+                itemcode: $selectedOption.val(),
+                smallImage: $selectedOption.data("small-img"),
+                largeImage: $selectedOption.data("large-img"),
+                price: $selectedOption.data("member-price"),
+                discountedPrice: $selectedOption.data("member-discounted-price")
+            };
+
+
+            // Replace the image for the image gallery
+            $('#imgLarge').prop("src", item.largeImage);
+
+            // Set our item code value and price upon change
+            $('[name="ItemCode"]').val(item.itemcode);
+            $("[data-price-type='retail']").html(item.price);
+            $("[data-price-type='discount']").html(item.discountedPrice);
+            $("[data-member-details]").hide();
+            $descriptionCollection.removeClass("hide").show();
+        }
+
+        if(isGroupMaster) {
+            var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? true : false;
+
+            if(!isMobile) {
+                $(".variables select").each(function() {
+                    if(!isMobile) {
+                        var sb = new SelectBox({
+                            selectbox: $(this),
+                            changeCallback: function(val) {
+                                onItemChange(".variables select");
+                            }
+                        });
+                        void(sb);
+                    }
+                });
+            } else {
+                $(".variables select").on("change", function() {
+                    onItemChange(this);
+                });
+
+                $(".variables select").css({'display':'block'});
+            }
+
+            onItemChange(".variables select");
+        }
+
+        $('[data-role="GetSmartShopperPrice"]').on("change", function() {
+            togglePriceDisplay();
+        });
+
+        function bindShareButtons () {
+            // Share Buttons
+            //----------------------------------------//
+
+            var $Filter = $('.share-buttons');
+            var FilterTimeOut;
+            $Filter.find('ul li:first').addClass('active');
+            $Filter.find('ul li:not(.active)').hide();
+            $Filter.hover(function(){
+                clearTimeout(FilterTimeOut);
+                if( $(window).width() < 959 )
+                {
+                    return;
+                }
+                FilterTimeOut=setTimeout(function(){
+                    $Filter.find('ul li:not(.active)').stop(true, true).animate({width: 'show' }, 250, 'swing');
+                    $Filter.find('ul li:first-child a').addClass('share-hovered');
+                }, 100);
+
+            },function(){
+                if( $(window).width() < 960 )
+                {
+                    return;
+                }
+                clearTimeout(FilterTimeOut);
+                FilterTimeOut=setTimeout(function(){
+                    $Filter.find('ul li:not(.active)').stop(true, true).animate({width: 'hide'}, 250, 'swing');
+                    $Filter.find('ul li:first-child a').removeClass('share-hovered');
+
+                }, 250);
+            });
+            $(window).resize(function() {
+                if( $(window).width() < 960 )
+                {
+                    $Filter.find('ul li:not(.active)').show();
+                }
+                else
+                {
+                    $Filter.find('ul li:not(.active)').hide();
+                }
+            });
+            $(window).resize();
+        }
+
+        function bindImageSlider () {
+            //if($('#product-slider').royalSlider !== null)
+            //    $('#product-slider').royalSlider("destroy");
+
+            $('#product-slider').royalSlider({
+
+                autoScaleSlider: true,
+                autoScaleSliderWidth: 560,
+                autoHeight: true,
+
+                loop: false,
+                slidesSpacing: 0,
+
+                imageScaleMode: 'none',
+                imageAlignCenter:false,
+
+                navigateByClick: false,
+                numImagesToPreload:2,
+
+                /* Arrow Navigation */
+                arrowsNav:true,
+                arrowsNavAutoHide: false,
+                arrowsNavHideOnTouch: true,
+                keyboardNavEnabled: true,
+                fadeinLoadedSlide: true,
+
+                /* Thumbnail Navigation */
+                //controlNavigation: 'thumbnails',
+                //thumbs: {
+                //    orientation: 'horizontal',
+                //    firstMargin: false,
+                //    appendSpan: true,
+                //    autoCenter: false,
+                //    spacing: 10,
+                //    paddingTop: 10,
+                //}
+
+            });
+        }
+
+        function handleControls () {
+            if(isQuickShop) {
+                var $shopControls = $('[data-role="shop-controls"]');
+                $("#product-detail").append($shopControls);
+            }
+        }
+
+        function togglePriceDisplay() {
+            if($('[data-role="GetSmartShopperPrice"]').length > 0) {
+                var isChecked = $('[data-role="GetSmartShopperPrice"]').is(":checked");
+
+                if(isChecked) {
+                    $('[data-price-type="retail"]').removeClass("activePrice").addClass("strikePrice");
+                    $('[data-price-type="discount"]').removeClass("strikePrice").addClass("activePrice");
+                    $('[data-role="item.addtoorder"]').hide();
+                    $('[data-role="item.addtoautoorder"]').show();
+                } else {
+                    $('[data-price-type="retail"]').addClass("activePrice").removeClass("strikePrice");
+                    $('[data-price-type="discount"]').addClass("strikePrice").removeClass("activePrice");
+                    $('[data-role="item.addtoorder"]').show();
+                    $('[data-role="item.addtoautoorder"]').hide();
+                }
+            }
+        }
+
+        function _init(){
+            //bindImageSlider();
+            handleControls();
+
+            bindShareButtons();
+
+            togglePriceDisplay();
+        }
+        _init();
+
+    });
+</script>

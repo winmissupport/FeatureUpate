@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="devwinworldwide" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\DEV\\WINReplicated\\Replicated-WIN-ONLY\\ReplicatedSite\\obj\\Debug\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\DEV\\WINReplicated\\Replicated-WIN-ONLY\\ReplicatedSite\\obj\\Debug\\Package\\PackageTmp$" />
+  </parameter>
+</parameters>

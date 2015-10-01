@@ -1,0 +1,11 @@
+﻿@{
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+@section header { @RenderSection("header", required: false) }
+@section scripts { @RenderSection("scripts", required: false) }
+@section meta { @RenderSection("meta", required: false) }
+
+
+<main id="site-content">
+    @RenderBody()
+</main>

@@ -1,0 +1,25 @@
+﻿@model List<Country>
+@{
+    ViewBag.Title = "About";
+}
+
+<div class="view-about container">
+    <div class="space-30"></div>
+    <div class="row">
+        <h2 class="text-center text-uppercase">@Resources.Common.About @GlobalSettings.Company.Name</h2>
+        <div class="space-20"></div>
+        @Resources.Common.AboutWinCopy
+    </div>
+    <div class="row">
+        <h2 class="text-uppercase text-center">@Resources.Common.OurFounders</h2>
+        <div class="space-20"></div>
+        <p>@Resources.Common.OurFoundersCopy</p>
+    </div>
+    <div class="row">
+        <h2 class="text-uppercase text-center">@Resources.Common.LiveWell</h2>
+        <div class="space-20"></div>
+        <p>@Resources.Common.LiveWellCopy</p>
+    </div>
+</div>
+
+<div class="space-50"></div>
